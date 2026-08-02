@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babamın Garajı | Klasik Otomobil Koleksiyonu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .garage-gradient { background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #0f172a 100%); }
+        .card-glass { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="garage-gradient text-gray-100 min-h-screen">
+
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-gray-900/80 sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center">
+            <div class="text-center sm:text-left mb-4 sm:mb-0">
+                <span class="text-amber-500 font-semibold tracking-widest text-xs uppercase">Özel Koleksiyon</span>
+                <h1 class="text-3xl font-bold font-serif text-white tracking-wide">Babamın Garajı</h1>
+            </div>
+            <div class="text-xs text-gray-400 bg-gray-800/80 px-4 py-2 rounded-full border border-gray-700">
+                15 Efsanevi Klasik Otomobil
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="text-2xl sm:text-3xl font-bold font-serif mb-4">Zamansız Tasarımlar, Efsanevi Motorlar</h2>
+            <p class="text-gray-400 text-sm sm:text-base">Otomotiv tarihine damga vurmuş, garajın en özel klasiklerini keşfedin.</p>
+        </div>
+
+        <!-- Car Grid -->
+        <div id="car-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- JavaScript ile doldurulacak -->
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="car-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="card-glass rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative border border-gray-700 shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-800/80 p-2 rounded-full transition">
+                ✕
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-20 py-8 text-center text-xs text-gray-500">
+        <p>Babamın Garajı &copy; 2026 | Tüm efsaneler tek bir çatı altında.</p>
+    </footer>
+
+    <script>
+        const cars = [
+            {
+                name: "BMW 2002",
+                year: "1968",
+                category: "Alman Efsanesi",
+                color: "from-blue-900 to-indigo-950",
+                engine: "2.0L 4-Silindir",
+                power: "120 HP",
+                torque: "167 Nm",
+                speed: "185 km/s",
+                accel: "9.5 sn",
+                weight: "990 kg",
+                produced: "86,184 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "BMW'nin iflasın eşiğinden dönmesini sağlayan 'Neue Klasse' ailesinin en sportif üyesidir. Kompakt yapısı ve keskin yol tutuşu ile modern spor sedanların atası kabul edilir.",
+                didYouKnow: "Turbo versiyonu (2002 Turbo), Avrupa'da seri üretilen ilk turboşarjlı binek otomobildir."
+            },
+            {
+                name: "Mercedes 300 SL Gullwing",
+                year: "1954",
+                category: "Yarış Efsanesi",
+                color: "from-slate-700 to-slate-900",
+                engine: "3.0L Sıralı-6",
+                power: "215 HP",
+                torque: "294 Nm",
+                speed: "260 km/s",
+                accel: "7.0 sn",
+                weight: "1,295 kg",
+                produced: "1,400 adet",
+                layout: "Önden Motor (Yatar), Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Yukarı doğru açılan martı kanat kapılarıyla ünlenen bu model, doğrudan W194 yarış otomobilinden türetilmiştir. Döneminin en hızlı seri üretim spor otomobiliydi.",
+                didYouKnow: "Kapıların tasarımı, otomobilin uzay kafes şasisinin çok yüksek olmasından ötürü klasik kapılara izin vermemesiyle zorunluluktan doğmuştur."
+            },
+            {
+                name: "Porsche 911 (930 Turbo)",
+                year: "1975",
+                category: "Spor Otomobil",
+                color: "from-amber-800 to-amber-950",
+                engine: "3.0L Turbo Boksör-6",
+                power: "260 HP",
+                torque: "343 Nm",
+                speed: "250 km/s",
+                accel: "5.2 sn",
+                weight: "1,190 kg",
+                produced: "2,819 adet",
+                layout: "Arkadan Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Otomobil dünyasında 'Dul Bırakan' (Widowmaker) lakabıyla bilinen 930 Turbo, arkaya konumlandırılmış motoru ve ani devreye giren turbolarıyla ustalık gerektiren bir pist canavarıydı.",
+                didYouKnow: "Geniş çamurlukları ve devasa arka 'balina kuyruğu' spoyleri ile 70'li yılların ikonik pop kültür simgelerinden biri haline gelmiştir."
+            },
+            {
+                name: "Ford Mustang Shelby GT500",
+                year: "1967",
+                category: "Amerikan Kası",
+                color: "from-blue-800 to-blue-950",
+                engine: "7.0L V8 (Police Interceptor)",
+                power: "355 HP",
+                torque: "569 Nm",
+                speed: "220 km/s",
+                accel: "6.5 sn",
+                weight: "1,480 kg",
+                produced: "2,048 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Carroll Shelby'nin ellerinde şekillenen bu safkan Amerikan, 'Eleanor' lakaplı film yıldızı kimliğiyle de hafızalara kazınmıştır. V8 kükremesiyle caddelerin hakimiydi.",
+                didYouKnow: "Kaput ve gövde panellerinde ilk kez fiberglas malzeme yoğun olarak kullanılarak ağırlık avantajı sağlanmıştır."
+            },
+            {
+                name: "Jaguar E-Type",
+                year: "1961",
+                category: "İngiliz Zarifliği",
+                color: "from-emerald-900 to-emerald-950",
+                engine: "3.8L Sıralı-6",
+                power: "265 HP",
+                torque: "353 Nm",
+                speed: "241 km/s",
+                accel: "7.0 sn",
+                weight: "1,315 kg",
+                produced: "7,828 adet (Series 1 Coupe)",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Enzo Ferrari'nin bile 'dünyanın en güzel arabası' olarak nitelendirdiği E-Type, aerodinamik hatları ve uçak mühendisliğinden ilham alan yapısıyla bir sanat eseridir.",
+                didYouKnow: "New York Modern Sanat Müzesi'nin (MoMA) kalıcı tasarım koleksiyonunda yer alan nadir otomobillerden biridir."
+            },
+            {
+                name: "Chevrolet Camaro SS",
+                year: "1969",
+                category: "Pony Car",
+                color: "from-red-900 to-red-950",
+                engine: "6.5L V8 (Big Block)",
+                power: "375 HP",
+                torque: "563 Nm",
+                speed: "215 km/s",
+                accel: "5.8 sn",
+                weight: "1,520 kg",
+                produced: "34,932 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Ford Mustang'e rakip olarak doğan Camaro'nun en olgun ve agresif kaslı dönemidir. 'Super Sport' paketiyle cadde yarışlarının efsanesi haline gelmiştir.",
+                didYouKnow: "1969 modeli, gövde panellerindeki radikal yenilikler ve ikonik V şekilli ön panjuru nedeniyle koleksiyonerler arasında serinin en çok aranan modelidir."
+            },
+            {
+                name: "Aston Martin DB5",
+                year: "1964",
+                category: "Grand Tourer",
+                color: "from-slate-800 to-zinc-900",
+                engine: "4.0L Sıralı-6",
+                power: "282 HP",
+                torque: "390 Nm",
+                speed: "233 km/s",
+                accel: "8.0 sn",
+                weight: "1,465 kg",
+                produced: "1,021 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "5 İleri ZF Manuel",
+                story: "James Bond serisinin vazgeçilmez simgesi olan DB5, Touring of Milan tarafından tasarlanan Süperleggera alüminyum gövde teknolojisiyle üretilmiştir.",
+                didYouKnow: "Otomobil, 1964 yapımı 'Goldfinger' filmiyle popüler kültürün en tanınan ajan aracı unvanını almıştır."
+            },
+            {
+                name: "Ferrari 250 GTO",
+                year: "1962",
+                category: "Yarış Efsanesi",
+                color: "from-red-700 to-rose-900",
+                engine: "3.0L V12 (Tipo 168)",
+                power: "300 HP",
+                torque: "294 Nm",
+                speed: "280 km/s",
+                accel: "6.1 sn",
+                weight: "880 kg",
+                produced: "36 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "5 İleri Manuel",
+                story: "FIA'nın GT sınıfı homologasyonu için sadece 36 adet üretilen bu başyapıt, hem pistlerdeki başarıları hem de açık artırmalardaki rekor fiyatlarıyla otomobil tarihinin zirvesidir.",
+                didYouKnow: "Her bir 250 GTO alıcısı bizzat Enzo Ferrari tarafından mülakata alınarak onaylanmıştır."
+            },
+            {
+                name: "Volkswagen Beetle",
+                year: "1967",
+                category: "Halk Otosu",
+                color: "from-amber-600 to-amber-800",
+                engine: "1.5L Boksör-4",
+                power: "53 HP",
+                torque: "106 Nm",
+                speed: "130 km/s",
+                accel: "20.0 sn",
+                weight: "860 kg",
+                produced: "21.5 Milyon (Toplam)",
+                layout: "Arkadan Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Dünyanın en çok üretilen ve en uzun süre bantta kalan tek platformlu otomobillerinden biridir. Sevimli tasarımıyla her kültürde 'Tosbağa' veya 'Kaplumbağa' olarak sevilmiştir.",
+                didYouKnow: "Üretimi boyunca temel mekanik yapısı neredeyse hiç değişmemiş, milyonlarca insana otomobil sevgisi aşılamıştır."
+            },
+            {
+                name: "Dodge Charger R/T",
+                year: "1969",
+                category: "Muscle Car",
+                color: "from-orange-700 to-amber-900",
+                engine: "7.2L V8 (440 Magnum)",
+                power: "375 HP",
+                torque: "651 Nm",
+                speed: "225 km/s",
+                accel: "6.3 sn",
+                weight: "1,750 kg",
+                produced: "20,057 adet (R/T)",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel / 3 İleri Otomatik",
+                story: "Gizli farları, bel kıvrımı ve devasa motoruyla tam bir otoyol canavarıdır. 'Road/Track' (R/T) donanımıyla hem drag pistlerinde hem de sokaklarda efsaneleşmiştir.",
+                didYouKnow: "The Dukes of Hazzard dizisindeki 'General Lee' karakteriyle milyonların hayranlığını kazanmıştır."
+            },
+            {
+                name: "BMW 3.0 CSL",
+                year: "1972",
+                category: "Motorsporları İkonu",
+                color: "from-blue-700 to-sky-900",
+                engine: "3.0L Sıralı-6",
+                power: "206 HP",
+                torque: "286 Nm",
+                speed: "220 km/s",
+                accel: "7.4 sn",
+                weight: "1,165 kg",
+                produced: "1,265 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Hafifletilmiş gövde panelleri ve aerodinamik ekleri nedeniyle hayranları ona 'Batmobil' lakabını takmıştır. BMW M departmanının temellerini atan efsanedir.",
+                didYouKnow: "Kaputun üzerindeki aerodinamik kanatçıklar ve dev arka kanat, yasal olarak Almanya'da otoyol kullanımına ilk başta yasaklanmış, sonradan serbest bırakılmıştır."
+            },
+            {
+                name: "Alfa Romeo Spider",
+                year: "1966",
+                category: "İtalyan Roadster",
+                color: "from-red-800 to-red-950",
+                engine: "1.6L Çift Kamlı 4-Silindir",
+                power: "109 HP",
+                torque: "142 Nm",
+                speed: "180 km/s",
+                accel: "10.2 sn",
+                weight: "1,040 kg",
+                produced: "6,324 adet (Duetto)",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "5 İleri Manuel",
+                story: "Pininfarina imzalı 'Duetto' gövdesiyle rüzgarı hissetmek isteyenler için tasarlanmıştır. Canlı motor sesi ve klasik İtalyan sürüş karakteriyle zamansız bir klasiktir.",
+                didYouKnow: "Dustin Hoffman'ın başrolünde oynadığı ünlü 'The Graduate' (Mezun) filminde büyük bir popülarite kazanmıştır."
+            },
+            {
+                name: "Toyota 2000GT",
+                year: "1967",
+                category: "Japon İlk Göz Ağrısı",
+                color: "from-white to-slate-300",
+                engine: "2.0L Yamaha Geliştirmeli Sıralı-6",
+                power: "150 HP",
+                torque: "175 Nm",
+                speed: "220 km/s",
+                accel: "8.6 sn",
+                weight: "1,120 kg",
+                produced: "351 adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "5 İleri Manuel",
+                story: "Japon otomotiv endüstrisinin sadece pratik araçlar değil, dünya çapında safkan süper sporlar üretebileceğini kanıtlayan ilk ve en nadide modeldir.",
+                didYouKnow: "James Bond'un 'You Only Live Twice' filmindeki kabin tavanına sığmadığı için özel olarak üstü açık (cabriolet) versiyonu üretilmiştir."
+            },
+            {
+                name: "Mercedes-Benz W123",
+                year: "1980",
+                category: "Dayanıklılık Abidesi",
+                color: "from-stone-700 to-zinc-800",
+                engine: "2.4L Dizel (240D)",
+                power: "72 HP",
+                torque: "137 Nm",
+                speed: "138 km/s",
+                accel: "22.0 sn",
+                weight: "1,430 kg",
+                produced: "2.7 Milyon adet",
+                layout: "Önden Motor, Arkadan İtiş",
+                transmission: "4 İleri Manuel",
+                story: "Dünyanın en sağlam ve yıkılmaz otomobili olarak bilinir. Taksi filolarından makam araçlarına kadar her alanda güvenin simgesi olmuştur.",
+                didYouKnow: "Bazı modelleri milyon kilometreyi devirmiş olmasına rağmen hiçbir motor bakımı görmeden çalışmaya devam etmesiyle ün salmıştır."
+            },
+            {
+                name: "Lamborghini Miura",
+                year: "1966",
+                category: "Süper Spor İkonu",
+                color: "from-amber-500 to-yellow-700",
+                engine: "3.9L Ortadan Konumlandırılmış V12",
+                power: "350 HP",
+                torque: "368 Nm",
+                speed: "275 km/s",
+                accel: "6.7 sn",
+                weight: "1,292 kg",
+                produced: "764 adet",
+                layout: "Ortadan Motor, Arkadan İtiş",
+                transmission: "5 İleri Manuel",
+                story: "Bugün bildiğimiz ortadan motorlu modern süper spor otomobil konseptini başlatan devrim niteliğinde bir şaheserdir. Bertone tasarımı çizgileri büyüleyicidir.",
+                didYouKnow: "Motorun kabinin hemen arkasında, enlemesine yerleştirilmesi dönemi için benzersiz bir mühendislik meydan okumasıydı."
+            }
+        ];
+
+        function renderCars() {
+            const grid = document.getElementById('car-grid');
+            grid.innerHTML = cars.map((car, index) => `
+                <div class="card-glass rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition duration-300 flex flex-col justify-between">
+                    <div class="h-48 bg-gradient-to-br ${car.color} p-6 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -right-6 -bottom-6 text-white/10 font-bold font-serif text-8xl pointer-events-none">${car.year}</div>
+                        <div>
+                            <span class="text-xs uppercase tracking-widest text-amber-400 font-semibold bg-black/30 px-3 py-1 rounded-full">${car.category}</span>
+                            <h3 class="text-2xl font-bold font-serif text-white mt-3">${car.name}</h3>
+                        </div>
+                        <span class="text-gray-300 text-sm font-medium">${car.year}</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <p class="text-gray-300 text-sm mb-6 line-clamp-2">${car.story}</p>
+                        <button onclick="openModal(${index})" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold py-2.5 px-4 rounded-xl transition shadow-lg shadow-amber-500/20 text-sm">
+                            Garaj Detayını İncele
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(index) {
+            const car = cars[index];
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="mb-6">
+                    <span class="text-xs uppercase tracking-widest text-amber-400 font-semibold">${car.category} • ${car.year}</span>
+                    <h2 class="text-3xl font-bold font-serif text-white mt-1">${car.name}</h2>
+                </div>
+                <p class="text-gray-300 text-sm sm:text-base mb-6 leading-relaxed">${car.story}</p>
+                
+                <h4 class="text-sm font-semibold text-amber-500 uppercase tracking-wider mb-3">Teknik Özellikler</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6 text-sm">
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Motor</span><strong>${car.engine}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Güç</span><strong>${car.power}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Tork</span><strong>${car.torque}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Maks. Hız</span><strong>${car.speed}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">0-100 km/s</span><strong>${car.accel}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Ağırlık</span><strong>${car.weight}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Üretim Adedi</span><strong>${car.produced}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Düzen</span><strong>${car.layout}</strong></div>
+                    <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700/50"><span class="block text-xs text-gray-400">Şanzıman</span><strong>${car.transmission}</strong></div>
+                </div>
+
+                <div class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl">
+                    <h5 class="text-xs uppercase tracking-wider text-amber-400 font-semibold mb-1">Biliyor muydunuz?</h5>
+                    <p class="text-sm text-gray-300">${car.didYouKnow}</p>
+                </div>
+            `;
+            document.getElementById('car-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('car-modal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('car-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        renderCars();
+    </script>
+</body>
+</html>
