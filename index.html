@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Babamın Garajı | VIP Klasik Koleksiyonu</title>
+    <title>Babamın Garajı | Dinamik Otomobil Ansiklopedisi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,168 +11,150 @@
         .font-serif { font-family: 'Playfair Display', serif; }
         .garage-gradient { background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #0f172a 100%); }
         .card-glass { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 4px; }
     </style>
 </head>
-<body class="garage-gradient text-gray-100 min-h-screen">
+<body class="garage-gradient text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header & Arama -->
-    <header class="border-b border-gray-800 bg-gray-900/80 sticky top-0 z-40 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <!-- Header & Dinamik API Arama -->
+    <header class="border-b border-gray-800 bg-gray-900/90 sticky top-0 z-40 backdrop-blur-md shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="text-center sm:text-left">
-                <span class="text-amber-500 font-semibold tracking-widest text-xs uppercase">VIP Koleksiyon</span>
-                <h1 class="text-2xl sm:text-3xl font-bold font-serif text-white tracking-wide">Babamın Garajı</h1>
+                <span class="text-amber-500 font-semibold tracking-widest text-xs uppercase">Canlı API Bağlantısı</span>
+                <h1 class="text-3xl font-bold font-serif text-white tracking-wide">Babamın Garajı</h1>
             </div>
-            <!-- Arama Çubuğu -->
-            <div class="w-full sm:w-72">
-                <input type="text" id="searchInput" placeholder="Garajda ara (Örn: Mustang, 1968)..." 
-                       class="w-full bg-gray-800 border border-gray-700 text-sm rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500 transition"
-                       onkeyup="filterCars()">
+            
+            <!-- Arama Motoru -->
+            <div class="w-full sm:w-96 relative">
+                <form onsubmit="event.preventDefault(); searchCarAPI();" class="flex">
+                    <input type="text" id="searchInput" placeholder="Garaja araç getir (Örn: Murat 124, Mustang)..." 
+                           class="w-full bg-gray-800 border border-gray-700 text-sm rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition">
+                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-6 py-3 rounded-r-xl transition">
+                        Ara
+                    </button>
+                </form>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Ana Vitrin -->
+    <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
         <div id="car-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Yükleniyor Mesajı -->
-            <div class="col-span-full text-center text-gray-400 py-10">
-                Garaj kapıları açılıyor, araçlar getiriliyor...
+            <!-- Başlangıç mesajı -->
+            <div class="col-span-full text-center text-gray-400 py-20 bg-gray-800/30 rounded-2xl border border-gray-700/50 dashed">
+                <div class="text-4xl mb-4">🔍🚗</div>
+                <h2 class="text-xl font-serif text-white mb-2">Wikipedia API Hazır</h2>
+                <p>Üstteki arama çubuğuna bir araç modeli yazın. <br>Tarihçesi ve fotoğrafları anında API'den çekilecektir.</p>
             </div>
         </div>
     </main>
 
-    <!-- Modal (Detay ve Galeri) -->
-    <div id="car-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-2 sm:p-4 backdrop-blur-md">
-        <div class="card-glass rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto relative border border-gray-700 shadow-2xl flex flex-col">
+    <!-- Modal (API Detay Penceresi) -->
+    <div id="car-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="card-glass rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative border border-gray-700 shadow-2xl">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-white bg-red-600/80 hover:bg-red-600 z-50 w-8 h-8 flex items-center justify-center rounded-full transition">
                 ✕
             </button>
-            <div id="modal-content" class="flex-grow"></div>
+            <div id="modal-content"></div>
         </div>
     </div>
 
     <script>
-        let allCars = [];
-        let currentCarImages = [];
-        let currentImageIndex = 0;
+        // Wikipedia Açık API'sinden Veri Çekme Fonksiyonu
+        async function searchCarAPI() {
+            let query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
 
-        // Veritabanından (JSON) araçları çekme işlemi
-        fetch('arabalar.json')
-            .then(response => response.json())
-            .then(data => {
-                allCars = data;
-                renderCars(allCars);
-            })
-            .catch(error => {
-                document.getElementById('car-grid').innerHTML = '<div class="col-span-full text-center text-red-400">Araçlar yüklenirken bir hata oluştu.</div>';
-            });
-
-        // Araçları Ekrana Çizme
-        function renderCars(carsToRender) {
             const grid = document.getElementById('car-grid');
-            if(carsToRender.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center text-gray-400">Aradığınız araç garajda bulunamadı.</div>';
-                return;
+            grid.innerHTML = '<div class="col-span-full text-center text-amber-500 py-10">Araç veritabanından sorgulanıyor... Lütfen bekleyin.</div>';
+
+            // Otomobil sonuçlarını daha isabetli getirmek için sorguyu güçlendiriyoruz
+            const apiQuery = query + " otomobil";
+            const url = `https://tr.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(apiQuery)}&prop=pageimages|extracts&pithumbsize=800&exchars=1200&exintro=1&explaintext=1&format=json&origin=*`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.query || !data.query.pages) {
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-10">
+                            <span class="text-4xl">⚠️</span>
+                            <p class="text-red-400 mt-4 font-semibold">"${query}" için bir sonuç bulunamadı.</p>
+                            <p class="text-gray-500 text-sm mt-2">Lütfen marka ve modeli daha açık yazarak tekrar deneyin (Örn: "Ford Mustang").</p>
+                        </div>`;
+                    return;
+                }
+
+                const pages = Object.values(data.query.pages);
+                
+                // Gelen verileri HTML kartlarına dönüştürüyoruz
+                grid.innerHTML = pages.map(car => {
+                    // Fallback (Resim yoksa varsayılan garaj deseni göster)
+                    const imgUrl = car.thumbnail ? car.thumbnail.source : 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80&blur=20';
+                    const title = car.title.replace(' (otomobil)', '');
+                    const snippet = car.extract ? car.extract.substring(0, 150) + '...' : 'Tarihçe bilgisi bulunamadı.';
+                    
+                    // Modala veri göndermek için textleri güvenli hale getiriyoruz
+                    const safeTitle = title.replace(/'/g, "\\'");
+                    const safeDesc = car.extract ? car.extract.replace(/'/g, "\\'").replace(/\n/g, '<br><br>') : 'Detaylı bilgi bulunamadı.';
+
+                    return `
+                        <div class="card-glass rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition duration-300 flex flex-col">
+                            <div class="h-56 w-full relative bg-gray-800">
+                                <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 pr-4">
+                                    <h3 class="text-xl font-bold font-serif text-white drop-shadow-md">${title}</h3>
+                                </div>
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow justify-between bg-gray-900/50">
+                                <p class="text-gray-400 text-sm mb-5 leading-relaxed">${snippet}</p>
+                                <button onclick="openModal('${safeTitle}', '${imgUrl}', '${safeDesc}')" class="w-full bg-gray-800 border border-gray-700 hover:border-amber-500 text-amber-500 font-semibold py-2.5 px-4 rounded-xl transition text-sm">
+                                    Ansiklopedi Detayını Aç
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">API bağlantısında bir hata oluştu. Lütfen bağlantınızı kontrol edin.</div>';
             }
-
-            grid.innerHTML = carsToRender.map((car, index) => `
-                <div class="card-glass rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition duration-300 flex flex-col">
-                    <!-- Vitrin Resmi -->
-                    <div class="h-56 w-full relative">
-                        <img src="${car.images[0]}" alt="${car.name}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-4 left-4">
-                            <span class="text-xs uppercase tracking-widest text-amber-400 font-bold bg-black/50 px-2 py-1 rounded-md backdrop-blur-sm">${car.year}</span>
-                            <h3 class="text-xl font-bold font-serif text-white mt-1 shadow-black drop-shadow-md">${car.name}</h3>
-                        </div>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow justify-between bg-gray-900/50">
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${car.story}</p>
-                        <button onclick="openModal(${car.id})" class="w-full bg-gray-800 border border-gray-700 hover:border-amber-500 text-amber-500 font-semibold py-2.5 px-4 rounded-xl transition text-sm">
-                            Galeriyi ve Detayları Aç
-                        </button>
-                    </div>
-                </div>
-            `).join('');
         }
 
-        // Arama Kutusu Filtresi
-        function filterCars() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allCars.filter(car => 
-                car.name.toLowerCase().includes(searchText) || 
-                car.year.includes(searchText) ||
-                car.category.toLowerCase().includes(searchText)
-            );
-            renderCars(filtered);
-        }
-
-        // Galeri Resmi Değiştirme
-        function changeImage(step) {
-            currentImageIndex += step;
-            if (currentImageIndex >= currentCarImages.length) currentImageIndex = 0;
-            if (currentImageIndex < 0) currentImageIndex = currentCarImages.length - 1;
-            document.getElementById('gallery-image').src = currentCarImages[currentImageIndex];
-            document.getElementById('gallery-counter').innerText = (currentImageIndex + 1) + " / " + currentCarImages.length;
-        }
-
-        // Detay Penceresini Açma
-        function openModal(carId) {
-            const car = allCars.find(c => c.id === carId);
-            currentCarImages = car.images;
-            currentImageIndex = 0;
-
+        // Detay Penceresini (Modal) Açma
+        function openModal(title, image, desc) {
             const modalContent = document.getElementById('modal-content');
-            
             modalContent.innerHTML = `
-                <!-- Fotoğraf Galerisi -->
-                <div class="relative w-full h-64 sm:h-96 bg-black rounded-t-2xl overflow-hidden group">
-                    <img id="gallery-image" src="${car.images[0]}" class="w-full h-full object-contain transition-all duration-300">
-                    
-                    <!-- Sol/Sağ Oklar -->
-                    <button onclick="changeImage(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-500 text-white p-3 rounded-full backdrop-blur-sm transition">❮</button>
-                    <button onclick="changeImage(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-amber-500 text-white p-3 rounded-full backdrop-blur-sm transition">❯</button>
-                    
-                    <!-- Sayaç -->
-                    <div id="gallery-counter" class="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">
-                        1 / ${car.images.length}
-                    </div>
+                <div class="relative w-full h-64 sm:h-80 bg-black rounded-t-2xl overflow-hidden">
+                    <img src="${image}" class="w-full h-full object-contain">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                 </div>
-
-                <!-- Bilgiler -->
-                <div class="p-6 sm:p-8">
-                    <div class="mb-6 border-b border-gray-800 pb-4">
-                        <span class="text-xs uppercase tracking-widest text-amber-500 font-semibold">${car.category}</span>
-                        <h2 class="text-2xl sm:text-4xl font-bold font-serif text-white mt-1">${car.name} <span class="text-gray-500 text-2xl">(${car.year})</span></h2>
+                
+                <div class="p-6 sm:p-8 bg-gray-900">
+                    <h2 class="text-3xl font-bold font-serif text-white mb-4 border-b border-gray-800 pb-4">${title}</h2>
+                    <div class="text-gray-300 text-sm sm:text-base leading-relaxed max-h-64 overflow-y-auto pr-2">
+                        ${desc}
                     </div>
                     
-                    <p class="text-gray-300 text-sm sm:text-base mb-8 leading-relaxed">${car.story}</p>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">Motor</span><strong class="text-sm text-gray-200">${car.engine}</strong></div>
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">Güç</span><strong class="text-sm text-gray-200">${car.power}</strong></div>
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">Maks. Hız</span><strong class="text-sm text-gray-200">${car.speed}</strong></div>
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">0-100 km/s</span><strong class="text-sm text-gray-200">${car.accel}</strong></div>
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">Ağırlık</span><strong class="text-sm text-gray-200">${car.weight}</strong></div>
-                        <div class="bg-gray-800/40 p-3 rounded-xl border border-gray-700/50"><span class="block text-[10px] uppercase text-gray-500 mb-1">Şanzıman</span><strong class="text-sm text-gray-200">${car.transmission}</strong></div>
-                    </div>
-
-                    <div class="bg-amber-500/10 border border-amber-500/20 p-5 rounded-xl flex gap-4 items-start">
-                        <div class="text-amber-500 text-2xl">💡</div>
-                        <div>
-                            <h5 class="text-xs uppercase tracking-wider text-amber-500 font-bold mb-1">Biliyor muydunuz?</h5>
-                            <p class="text-sm text-gray-300">${car.didYouKnow}</p>
-                        </div>
+                    <div class="mt-6 flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-gray-800">
+                        <span>Veri Kaynağı: Wikipedia TR Açık API</span>
                     </div>
                 </div>
             `;
             document.getElementById('car-modal').classList.remove('hidden');
         }
 
+        // Modalı Kapatma
         function closeModal() {
             document.getElementById('car-modal').classList.add('hidden');
         }
 
+        // Arka plana tıklayınca modalı kapatma
         window.onclick = function(event) {
             const modal = document.getElementById('car-modal');
             if (event.target === modal) closeModal();
