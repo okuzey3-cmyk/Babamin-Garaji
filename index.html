@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Babamın Garajı | Dinamik Otomobil Ansiklopedisi</title>
+    <title>Babamın Garajı | 1960-1999 Klasik Ansiklopedi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,7 +11,6 @@
         .font-serif { font-family: 'Playfair Display', serif; }
         .garage-gradient { background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #0f172a 100%); }
         .card-glass { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        /* Özel Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111827; }
         ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 4px; }
@@ -19,18 +18,18 @@
 </head>
 <body class="garage-gradient text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header & Dinamik API Arama -->
+    <!-- Header & Arama -->
     <header class="border-b border-gray-800 bg-gray-900/90 sticky top-0 z-40 backdrop-blur-md shadow-xl">
         <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="text-center sm:text-left">
-                <span class="text-amber-500 font-semibold tracking-widest text-xs uppercase">Canlı API Bağlantısı</span>
+                <span class="text-amber-500 font-semibold tracking-widest text-xs uppercase">Altın Çağ (1960 - 1999)</span>
                 <h1 class="text-3xl font-bold font-serif text-white tracking-wide">Babamın Garajı</h1>
             </div>
             
             <!-- Arama Motoru -->
             <div class="w-full sm:w-96 relative">
                 <form onsubmit="event.preventDefault(); searchCarAPI();" class="flex">
-                    <input type="text" id="searchInput" placeholder="Garaja araç getir (Örn: Murat 124, Mustang)..." 
+                    <input type="text" id="searchInput" placeholder="Klasik ara (Örn: Mustang, Murat 124)..." 
                            class="w-full bg-gray-800 border border-gray-700 text-sm rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition">
                     <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-6 py-3 rounded-r-xl transition">
                         Ara
@@ -43,16 +42,15 @@
     <!-- Ana Vitrin -->
     <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
         <div id="car-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Başlangıç mesajı -->
-            <div class="col-span-full text-center text-gray-400 py-20 bg-gray-800/30 rounded-2xl border border-gray-700/50 dashed">
-                <div class="text-4xl mb-4">🔍🚗</div>
-                <h2 class="text-xl font-serif text-white mb-2">Wikipedia API Hazır</h2>
-                <p>Üstteki arama çubuğuna bir araç modeli yazın. <br>Tarihçesi ve fotoğrafları anında API'den çekilecektir.</p>
+            <div class="col-span-full text-center text-gray-400 py-20 bg-gray-800/30 rounded-2xl border border-gray-700/50">
+                <div class="text-4xl mb-4">🏎️✨</div>
+                <h2 class="text-xl font-serif text-white mb-2">Garaj Kapıları Açık</h2>
+                <p>1960 - 1999 yılları arasındaki efsanevi klasik modelleri aratın.</p>
             </div>
         </div>
     </main>
 
-    <!-- Modal (API Detay Penceresi) -->
+    <!-- Modal (Detay Penceresi) -->
     <div id="car-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
         <div class="card-glass rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative border border-gray-700 shadow-2xl">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-white bg-red-600/80 hover:bg-red-600 z-50 w-8 h-8 flex items-center justify-center rounded-full transition">
@@ -63,15 +61,13 @@
     </div>
 
     <script>
-        // Wikipedia Açık API'sinden Veri Çekme Fonksiyonu
         async function searchCarAPI() {
             let query = document.getElementById('searchInput').value.trim();
             if (!query) return;
 
             const grid = document.getElementById('car-grid');
-            grid.innerHTML = '<div class="col-span-full text-center text-amber-500 py-10">Araç veritabanından sorgulanıyor... Lütfen bekleyin.</div>';
+            grid.innerHTML = '<div class="col-span-full text-center text-amber-500 py-10">Klasikler taranıyor, 1960-1999 dönemi filtreleniyor...</div>';
 
-            // Otomobil sonuçlarını daha isabetli getirmek için sorguyu güçlendiriyoruz
             const apiQuery = query + " otomobil";
             const url = `https://tr.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(apiQuery)}&prop=pageimages|extracts&pithumbsize=800&exchars=1200&exintro=1&explaintext=1&format=json&origin=*`;
 
@@ -80,25 +76,30 @@
                 const data = await response.json();
 
                 if (!data.query || !data.query.pages) {
-                    grid.innerHTML = `
-                        <div class="col-span-full text-center py-10">
-                            <span class="text-4xl">⚠️</span>
-                            <p class="text-red-400 mt-4 font-semibold">"${query}" için bir sonuç bulunamadı.</p>
-                            <p class="text-gray-500 text-sm mt-2">Lütfen marka ve modeli daha açık yazarak tekrar deneyin (Örn: "Ford Mustang").</p>
-                        </div>`;
+                    showNoResult(query);
                     return;
                 }
 
                 const pages = Object.values(data.query.pages);
                 
-                // Gelen verileri HTML kartlarına dönüştürüyoruz
-                grid.innerHTML = pages.map(car => {
-                    // Fallback (Resim yoksa varsayılan garaj deseni göster)
+                // 1960 - 1999 Yıl Filtreleme Algoritması
+                const filteredCars = pages.filter(car => {
+                    const text = (car.title + " " + car.extract).toLowerCase();
+                    // Metin içinde 4 haneli yılları tara
+                    const years = text.match(/\b(19[6-9][0-9])\b/g);
+                    return years !== null; // Sadece 1960-1999 arası yıl geçenleri al
+                });
+
+                if (filteredCars.length === 0) {
+                    showNoResult(query, "Bu aramada 1960-1999 dönemine ait bir klasik bulunamadı.");
+                    return;
+                }
+
+                grid.innerHTML = filteredCars.map(car => {
                     const imgUrl = car.thumbnail ? car.thumbnail.source : 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80&blur=20';
                     const title = car.title.replace(' (otomobil)', '');
                     const snippet = car.extract ? car.extract.substring(0, 150) + '...' : 'Tarihçe bilgisi bulunamadı.';
                     
-                    // Modala veri göndermek için textleri güvenli hale getiriyoruz
                     const safeTitle = title.replace(/'/g, "\\'");
                     const safeDesc = car.extract ? car.extract.replace(/'/g, "\\'").replace(/\n/g, '<br><br>') : 'Detaylı bilgi bulunamadı.';
 
@@ -108,13 +109,14 @@
                                 <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
                                 <div class="absolute bottom-4 left-4 pr-4">
-                                    <h3 class="text-xl font-bold font-serif text-white drop-shadow-md">${title}</h3>
+                                    <span class="text-[10px] uppercase tracking-widest text-amber-400 font-bold bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm">1960-1999 Klasik</span>
+                                    <h3 class="text-xl font-bold font-serif text-white drop-shadow-md mt-1">${title}</h3>
                                 </div>
                             </div>
                             <div class="p-5 flex flex-col flex-grow justify-between bg-gray-900/50">
                                 <p class="text-gray-400 text-sm mb-5 leading-relaxed">${snippet}</p>
                                 <button onclick="openModal('${safeTitle}', '${imgUrl}', '${safeDesc}')" class="w-full bg-gray-800 border border-gray-700 hover:border-amber-500 text-amber-500 font-semibold py-2.5 px-4 rounded-xl transition text-sm">
-                                    Ansiklopedi Detayını Aç
+                                    Klasik Detayını Aç
                                 </button>
                             </div>
                         </div>
@@ -122,11 +124,20 @@
                 }).join('');
 
             } catch (error) {
-                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">API bağlantısında bir hata oluştu. Lütfen bağlantınızı kontrol edin.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">Bağlantı hatası oluştu.</div>';
             }
         }
 
-        // Detay Penceresini (Modal) Açma
+        function showNoResult(query, customMsg) {
+            const grid = document.getElementById('car-grid');
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <span class="text-4xl">🕰️</span>
+                    <p class="text-amber-400 mt-4 font-semibold">${customMsg || `"${query}" için 1960-1999 aralığında sonuç bulunamadı.`}</p>
+                    <p class="text-gray-500 text-sm mt-2">Lütfen döneme uygun bir klasik model adı girin.</p>
+                </div>`;
+        }
+
         function openModal(title, image, desc) {
             const modalContent = document.getElementById('modal-content');
             modalContent.innerHTML = `
@@ -142,19 +153,18 @@
                     </div>
                     
                     <div class="mt-6 flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-gray-800">
-                        <span>Veri Kaynağı: Wikipedia TR Açık API</span>
+                        <span>Dönem Filtresi: 1960 - 1999</span>
+                        <span>Kaynak: Wikipedia TR</span>
                     </div>
                 </div>
             `;
             document.getElementById('car-modal').classList.remove('hidden');
         }
 
-        // Modalı Kapatma
         function closeModal() {
             document.getElementById('car-modal').classList.add('hidden');
         }
 
-        // Arka plana tıklayınca modalı kapatma
         window.onclick = function(event) {
             const modal = document.getElementById('car-modal');
             if (event.target === modal) closeModal();
