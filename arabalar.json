@@ -1,0 +1,48 @@
+[
+    {
+        "id": 1,
+        "name": "Mercedes 300 SL Gullwing",
+        "year": "1954",
+        "category": "Yarış Efsanesi",
+        "color": "from-slate-700 to-slate-900",
+        "engine": "3.0L Sıralı-6",
+        "power": "215 HP",
+        "torque": "294 Nm",
+        "speed": "260 km/s",
+        "accel": "7.0 sn",
+        "weight": "1,295 kg",
+        "produced": "1,400 adet",
+        "layout": "Önden Motor, Arkadan İtiş",
+        "transmission": "4 İleri Manuel",
+        "story": "Yukarı doğru açılan martı kanat kapılarıyla ünlenen bu model, döneminin en hızlı seri üretim otomobiliydi.",
+        "didYouKnow": "Kapıların tasarımı görsel bir tercih değil, şasi yapısının zorunluluğundan doğmuştur.",
+        "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Mercedes-Benz_300_SL_Gullwing_1955_Front_Left.jpg/800px-Mercedes-Benz_300_SL_Gullwing_1955_Front_Left.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Mercedes-Benz_300_SL_Gullwing_interior.jpg/800px-Mercedes-Benz_300_SL_Gullwing_interior.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Mercedes-Benz_300SL_Gullwing_Rear.jpg/800px-Mercedes-Benz_300SL_Gullwing_Rear.jpg"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "BMW 2002",
+        "year": "1968",
+        "category": "Alman Efsanesi",
+        "color": "from-blue-900 to-indigo-950",
+        "engine": "2.0L 4-Silindir",
+        "power": "120 HP",
+        "torque": "167 Nm",
+        "speed": "185 km/s",
+        "accel": "9.5 sn",
+        "weight": "990 kg",
+        "produced": "86,184 adet",
+        "layout": "Önden Motor, Arkadan İtiş",
+        "transmission": "4 İleri Manuel",
+        "story": "BMW'nin iflasın eşiğinden dönmesini sağlayan, modern spor sedanların atası kabul edilen efsane.",
+        "didYouKnow": "Turbo versiyonu, Avrupa'da seri üretilen ilk turboşarjlı binek otomobildir.",
+        "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/1974_BMW_2002.jpg/800px-1974_BMW_2002.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/BMW_2002_tii_Engine.jpg/800px-BMW_2002_tii_Engine.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/BMW_2002_interior.jpg/800px-BMW_2002_interior.jpg"
+        ]
+    }
+]
