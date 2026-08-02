@@ -77,14 +77,14 @@ a{color:var(--gold);text-decoration:none}
 
 /* DETAIL CARD */
 .detail{padding-bottom:48px;display:none}
-.detail.show{display:block;animation:fadeIn .5s ease-out}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.detail.show{display:block;animation:fadeIn .4s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
 
 /* GALLERY SLIDER */
 .gallery-container{position:relative;height:280px;background:#000;overflow:hidden}
-.gallery-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s ease-in-out;}
+.gallery-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.3s ease-in-out;}
 .gallery-slide.active{opacity:1}
 .gallery-btn{
   position:absolute;top:50%;transform:translateY(-50%);
@@ -255,7 +255,7 @@ a{color:var(--gold);text-decoration:none}
 
 <script>
 // =====================================================
-// ARABA VERİ TABANI (El Emeği & 8+ Fotoğraf Galerili)
+// STABİL ARABA VERİ TABANI
 // =====================================================
 var CARS = [
   {
@@ -269,7 +269,7 @@ var CARS = [
     description:"Autodelta tarafından hafifletilmiş alüminyum gövde panelleri ve çift mafsallı ateşleme sistemiyle pistler için geliştirilen GTA, Touring Car Şampiyonası'na adını altın harflerle yazdırmıştır.",
     eraStory:"1960'ların ortası Avrupa'da motor sporlarının ve hafif spor coupe akımının zirve yaptığı dönemdi.",
     comparison:"Günümüzün 1.5 litre turbo motorlu hatchback'leri benzer güçler sunsa da, GTA'nın 745 kg'lık tüy gibi hafifliği ve saf mekanik hissiyatı bugünkü ağır araçlarda bulunmaz.",
-    funFacts:["İsmindeki 'Alleggerita' kelimesi İtalyanca 'hafifletilmiş' anlamına gelir.","Kaportanın tamamen ince alüminyumdan üretilmesiyle standart modelden 200 kg daha hafiflemiştir.","Pistlerde dönemin dev motorlu rakiplerini alt etmiştir."],
+    funFacts:["İsmindeki 'Alleggerita' kelimesi İtalyanca 'hafifletilmiş' anlamına gelir.", "Kaportanın tamamen ince alüminyumdan üretilmesiyle standart modelden 200 kg daha hafiflemiştir.", "Pistlerde dönemin dev motorlu rakiplerini alt etmiştir."],
     relatedModels:"Alfa Romeo Spider Duetto, BMW 2002",
     images:[
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
@@ -293,7 +293,7 @@ var CARS = [
     description:"Touring of Milan tasarımı alüminyum Süperleggera gövdesiyle bir sanat eseridir. James Bond filmleriyle popüler kültürün zirvesine yerleşmiştir.",
     eraStory:"1960'ların başında İngiliz zarafeti ve endüstriyel lüksün tavan yaptığı dönemde James Bond serisiyle ölümsüzleşti.",
     comparison:"Günümüzün lüks grand tourer araçları 600+ beygire ulaşsa da DB5'in asil duruşu ve el işçiliği kokan kabini hiçbir dijital tablette bulunamaz.",
-    funFacts:["1964 yapımı 'Goldfinger' filmiyle dünyanın en ünlü ajan aracı unvanını almıştır.","Gövdesi ince alüminyum panellerden el işçiliğiyle üretilmiştir.","Koleksiyon dünyasının en çok aranan İngiliz klasiklerinden biridir."],
+    funFacts:["1964 yapımı 'Goldfinger' filmiyle dünyanın en ünlü ajan aracı unvanını almıştır.", "Gövdesi ince alüminyum panellerden el işçiliğiyle üretilmiştir.", "Koleksiyon dünyasının en çok aranan İngiliz klasiklerinden biridir."],
     relatedModels:"Aston Martin DB4, Jaguar E-Type",
     images:[
       "https://images.unsplash.com/photo-1503376712351-1f2a36b306b6?w=800&q=80",
@@ -317,7 +317,7 @@ var CARS = [
     description:"Otomobil yarışlarında dört tekerlekten çekiş sisteminin devrim yaratmasını sağlayan, ralli pistlerinin efsanevi 'Ur-Quattro' modelidir.",
     eraStory:"1980'lerde ralli dünyasında arkadan çekişli devri kapatıp 4 çeker çağını başlatan devrimci bir mühendislik hamlesiydi.",
     comparison:"Günümüz performans araçlarındaki akıllı elektronik 4 çeker sistemlerinin atasıdır; ancak 80'lerin o ham turbo patlaması modern araçlarda bulunmaz.",
-    funFacts:["Ralli tarihlerinde dört çeker sistemini kural haline getiren ilk öncüdür.","Beş silindirli motorunun egzotik egzoz sesi efsaneleşmiştir.","Dönemin süper sporcularını çamurlu yollarda geride bırakmıştır."],
+    funFacts:["Ralli tarihlerinde dört çeker sistemini kural haline getiren ilk öncüdür.", "Beş silindirli motorunun egzotik egzoz sesi efsaneleşmiştir.", "Dönemin süper sporcularını çamurlu yollarda geride bırakmıştır."],
     relatedModels:"Lancia Delta Integrale, BMW M3 E30",
     images:[
       "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80",
@@ -501,7 +501,7 @@ var CARS = [
 ];
 
 // =====================================================
-// UYGULAMA MİMARİSİ
+// KARARLI UYGULAMA MİMARİSİ
 // =====================================================
 var currentCar = null;
 var currentImageIndex = 0;
@@ -537,7 +537,15 @@ function filterCars() {
 
 function renderGrid(cars) {
   var grid = document.getElementById('carGrid');
+  if (!grid) return;
   grid.innerHTML = '';
+  
+  if (cars.length === 0) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:30px; color:var(--cream3);">Aradığınız kriterlere uygun klasik bulunamadı.</div>';
+    document.getElementById('countText').textContent = '0 klasik otomobil listeleniyor';
+    return;
+  }
+
   cars.forEach(function(car) {
     var div = document.createElement('div');
     div.className = 'grid-item' + (currentCar && currentCar.id === car.id ? ' active' : '');
@@ -557,6 +565,7 @@ function showCar(car) {
   currentCar = car;
   currentImageIndex = 0;
   var section = document.getElementById('detailSection');
+  if (!section) return;
 
   var factsHtml = '';
   car.funFacts.forEach(function(f, i) {
@@ -672,18 +681,22 @@ function applyFilters() {
 // SCROLL TO TOP
 window.addEventListener('scroll', function() {
   var btn = document.getElementById('scrollTopBtn');
-  btn.className = window.scrollY > 400 ? 'scroll-top show' : 'scroll-top';
+  if (btn) {
+    btn.className = window.scrollY > 400 ? 'scroll-top show' : 'scroll-top';
+  }
 });
 
 // INIT
 (function() {
   var sel = document.getElementById('brandFilter');
-  getBrands().forEach(function(b) {
-    var opt = document.createElement('option');
-    opt.value = b;
-    opt.textContent = b;
-    sel.appendChild(opt);
-  });
+  if (sel) {
+    getBrands().forEach(function(b) {
+      var opt = document.createElement('option');
+      opt.value = b;
+      opt.textContent = b;
+      sel.appendChild(opt);
+    });
+  }
   applyFilters();
 })();
 </script>
