@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Babamın Garajı — Klasik Otomobil Koleksiyonu</title>
-<meta name="description" content="Klasik otomobillerin detaylı Türkçe arşivi.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0D0B08">
@@ -163,7 +162,7 @@ a{color:var(--gold);text-decoration:none}
       <option value="">Tüm yıllar</option>
       <option value="1930">1930'lar</option>
       <option value="1940">1940'lar</option>
-      <option value="1950">1950'lar</option>
+      <option value="1950">1950'ler</option>
       <option value="1960">1960'lar</option>
       <option value="1970">1970'lar</option>
       <option value="1980">1980'lar</option>
@@ -188,21 +187,18 @@ a{color:var(--gold);text-decoration:none}
 
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
 
-<script>
-// =====================================================
-// BOŞ VERİ TABANI (Burayı kendi ellerinizle dolduracaksınız)
-// =====================================================
-var CARS = [];
+<!-- Arabalarımızı okuyacak ayrı defter dosyamız -->
+<script src="arabalar.js"></script>
 
-// =====================================================
-// UYGULAMA MOTORU
-// =====================================================
+<script>
 var currentCar = null;
 var currentImageIndex = 0;
 
 function getBrands() {
   var brands = [];
-  CARS.forEach(function(c) { if (brands.indexOf(c.brand) === -1) brands.push(c.brand); });
+  if (typeof CARS !== 'undefined') {
+    CARS.forEach(function(c) { if (brands.indexOf(c.brand) === -1) brands.push(c.brand); });
+  }
   return brands.sort();
 }
 
@@ -211,6 +207,7 @@ function getStartYear(car) {
 }
 
 function filterCars() {
+  if (typeof CARS === 'undefined') return [];
   var brand = document.getElementById('brandFilter').value;
   var decade = document.getElementById('decadeFilter').value;
   var search = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -235,7 +232,7 @@ function renderGrid(cars) {
   grid.innerHTML = '';
   
   if (cars.length === 0) {
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px 20px; color:var(--cream3);">Garajınız henüz boş. İlk arabanızı eklemeye hazır!</div>';
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px 20px; color:var(--cream3);">Garajınız henüz boş. arabalar.js dosyasına ilk aracınızı ekleyin!</div>';
     document.getElementById('countText').textContent = '0 klasik otomobil listeleniyor';
     return;
   }
@@ -262,9 +259,11 @@ function showCar(car) {
   if (!section) return;
 
   var factsHtml = '';
-  car.funFacts.forEach(function(f, i) {
-    factsHtml += '<div class="fact"><div class="fact-num">' + (i + 1) + '</div><div>' + f + '</div></div>';
-  });
+  if (car.funFacts) {
+    car.funFacts.forEach(function(f, i) {
+      factsHtml += '<div class="fact"><div class="fact-num">' + (i + 1) + '</div><div>' + f + '</div></div>';
+    });
+  }
 
   var slidesHtml = '';
   if (car.images && car.images.length > 0) {
@@ -291,8 +290,8 @@ function showCar(car) {
         '<h3>Otomobil Hikayesi</h3>' +
         '<p>' + car.description + '</p>' +
         '<div class="designer">' +
-          '<div class="designer-avatar">' + car.designer.charAt(0) + '</div>' +
-          '<div><div class="designer-name">' + car.designer + '</div><div class="designer-role">Tasarımcı / Mühendis</div></div>' +
+          '<div class="designer-avatar">' + (car.designer ? car.designer.charAt(0) : 'T') + '</div>' +
+          '<div><div class="designer-name">' + (car.designer || 'Bilinmiyor') + '</div><div class="designer-role">Tasarımcı / Mühendis</div></div>' +
         '</div>' +
         '<h3>Teknik Özellikler</h3>' +
         '<div class="specs">' +
@@ -358,7 +357,7 @@ function updateGallery() {
 }
 
 function specBox(label, value) {
-  return '<div class="spec"><div class="spec-label">' + label + '</div><div class="spec-value">' + value + '</div></div>';
+  return '<div class="spec"><div class="spec-label">' + label + '</div><div class="spec-value">' + (value || '-') + '</div></div>';
 }
 
 function pickRandom() {
@@ -380,6 +379,15 @@ window.addEventListener('scroll', function() {
 });
 
 (function() {
+  var sel = document.getElementById('brandFilter');
+  if (sel) {
+    getBrands().forEach(function(b) {
+      var opt = document.createElement('option');
+      opt.value = b;
+      opt.textContent = b;
+      sel.appendChild(opt);
+    });
+  }
   applyFilters();
 })();
 </script>
