@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Babamın Garajı — Klasik Otomobil Arşivi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://commons.wikimedia.org">
+<link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+<link rel="dns-prefetch" href="https://upload.wikimedia.org">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -381,6 +384,12 @@
   }
   .photo-slots .slot{cursor:zoom-in;}
 
+  .fade-img{
+    opacity:0;
+    transition:opacity .35s ease;
+  }
+  .fade-img.loaded{opacity:1;}
+
   .lightbox-overlay{
     position:fixed;inset:0;z-index:100;
     background:rgba(6,9,7,0.96);
@@ -453,13 +462,13 @@ const DATA = [
         story:"BMW'yi bugünkü sportif kimliğine taşıyan modeldi. Sade gövdesi ve keskin sürüş dengesiyle, markanın 'sürüş keyfi' sloganının ilk gerçek kanıtı oldu.",
         story2:"Amerikan pazarına girişte büyük bir başarı yakaladı; dönemin otomobil dergileri 2002'yi 'her gün kullanılabilecek bir spor otomobil' olarak tanımladı. 1968'de tanıtılan turbo versiyonu (2002 Turbo), Avrupa'da yola çıkan ilk turbolu seri üretim otomobillerden biriydi ve ayna üzerindeki ters yazılmış '2002 TURBO' yazısıyla ünlendi.",
         similar:["3.0 CSL","E30 M3"],
-        images:{front:"1968 BMW 2002 TI.JPG", side:"BMW 2002.JPG"}},
+        images:{front:"1968 BMW 2002 TI.JPG", side:"BMW 2002.JPG", interior:"2022 BMW 2002tii dash.jpg"}},
       {model:"3.0 CSL", year:1971, tag:"Pist Efsanesi", designer:"Paul Bracq (gövde), Karmann (üretim)", engine:"3.0–3.5L Altı Silindir",
         power:"180–206 BG", topSpeed:"210–220 km/s", production:"~1.265 adet",
         story:"Hafif alüminyum panelleri ve iddialı kanatçığıyla 'Batmobile' lakabını aldı; Avrupa Turizm Şampiyonası'nda peş peşe şampiyonluklar kazandı.",
         story2:"'CSL' kısaltması 'Coupe Sport Leichtbau' (Hafif Yapı Spor Coupe) anlamına gelir — kapı panelleri alüminyumdan, camlar plastikten yapılarak ağırlıktan tasarruf edildi. Alman yetkililer aerodinamik kanadı önce yasa dışı bularak arabaların bagajında satılmasını istedi, ama pilotlar pistte kanadı yine de taktı.",
         similar:["2002","M1"],
-        images:{front:"BMW 3.0 CSL (52687267795).jpg", side:"Bmw 3.0csl alpina.jpg"}},
+        images:{front:"BMW 3.0 CSL (52687267795).jpg", side:"Bmw 3.0csl alpina.jpg", interior:"MMWA 1973 BMW E9 Coupe-Dashboard.jpg"}},
       {model:"M1", year:1978, tag:"İlk M", designer:"Giorgetto Giugiaro", engine:"3.5L Altı Silindir, Orta Motor",
         power:"277 BG", topSpeed:"262 km/s", zeroToHundred:"5.6 sn", production:"453 adet",
         story:"BMW'nin M performans bölümünün doğuşuna işaret eden, İtalyan tasarımcı Giugiaro imzalı orta motorlu süper spor otomobil.",
@@ -471,7 +480,7 @@ const DATA = [
         story:"Pist için homologasyon amacıyla üretildi, ardından sokaklarda da efsaneleşti; keskin köşeli kanat çıkıntılarıyla tanınır.",
         story2:"FIA'nın Grup A yarış sınıfına girebilmek için minimum 5.000 adet sokak versiyonu üretilmesi şart koşulmuştu; BMW bu şartı fazlasıyla aştı. Sonuç olarak E30 M3, o dönemin turizm otomobili yarışlarında (DTM dahil) rakip tanımaz hale geldi ve tarihin en başarılı yarış otomobillerinden biri olarak anılıyor.",
         similar:["2002","M1"],
-        images:{front:"BMW E30 M3.jpg", side:"Grey e30 m3.jpg"}}
+        images:{front:"BMW E30 M3.jpg", side:"Grey e30 m3.jpg", interior:"BMW M3 E30 black interior.jpg"}}
     ]},
   { brand:"Mercedes-Benz", era:"1954–1989 · Kelebek Kapılardan W124'e", region:"Almanya",
     cars:[
@@ -497,11 +506,11 @@ const DATA = [
       {model:"356", year:1957, tag:"Kökler", designer:"Erwin Komenda", engine:"1.6L Boksör",
         story:"Porsche'nin ilk seri üretim modeli; markanın arkadan motorlu, hafif spor otomobil felsefesinin temelini attı.",
         similar:["911 (901)","928"],
-        images:{front:"Porsche 356-A Coupé 1956 Frontview.JPG", side:"Porsche 356 A (2014-09-13 7068 Sp).jpg"}},
+        images:{front:"Porsche 356-A Coupé 1956 Frontview.JPG", side:"Porsche 356 A (2014-09-13 7068 Sp).jpg", interior:"1962 Porsche 356B Roadster T6 dashboard (Porschella).jpg"}},
       {model:"911 (901)", year:1964, tag:"Ölümsüz Silüet", designer:"Ferdinand 'Butzi' Porsche", engine:"2.0L Boksör Altı",
         story:"Altmış yılı aşkın süredir neredeyse hiç değişmeyen silueti, otomotiv tasarım tarihinin en tanınmış formlarından biri haline geldi.",
         similar:["356","930 Turbo"],
-        images:{front:"1964 Porsche 901 rear.jpg"}},
+        images:{front:"1964 Porsche 901 rear.jpg", interior:"Porsche 911S Classic Targa 1968 (interior).jpg"}},
       {model:"930 Turbo", year:1975, tag:"Vahşi 911", designer:"Porsche Mühendislik", engine:"3.0L Turbo Boksör",
         story:"Geniş 'whale tail' kanadı ve ani turbo gücüyle 'Widowmaker' (Dul Yapıcı) lakabını aldı; dönemin en hızlı Alman otomobiliydi.",
         similar:["911 (901)","928"],
@@ -1788,6 +1797,18 @@ function commonsUrl(filename, width){
   return width ? base + "?width=" + width : base;
 }
 
+function handleImgError(img, filename){
+  if(!img.dataset.retried){
+    // İlk deneme başarısız oldu; tam çözünürlüklü sürümü dene (bazı dosyalarda küçük boyut isteği başarısız olabiliyor)
+    img.dataset.retried = '1';
+    img.src = commonsUrl(filename);
+  } else {
+    // İkinci deneme de başarısız oldu; görseli tamamen gizle, altındaki renkli plaka görünsün
+    img.style.display = 'none';
+    if(img.parentElement) img.parentElement.classList.add('img-failed');
+  }
+}
+
 function plateGradient(brand, idx){
   const palettes = {
     "BMW":["#1B2A45","#3A5A8C"], "Mercedes-Benz":["#1F1F1F","#4A4A4A"],
@@ -1895,8 +1916,9 @@ function renderMain(){
       const card = document.createElement('div');
       card.className = 'car-card';
       const hasPhoto = c.images && c.images.front;
+      const frontFileEsc = hasPhoto ? c.images.front.replace(/'/g,"\\'") : '';
       const plateInner = hasPhoto
-        ? `<img src="${commonsUrl(c.images.front, 300)}" alt="${b.brand} ${c.model}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.classList.add('img-failed'); this.style.display='none';">`
+        ? `<img src="${commonsUrl(c.images.front, 300)}" alt="${b.brand} ${c.model}" loading="lazy" decoding="async" class="fade-img" style="width:100%;height:100%;object-fit:cover;" onload="this.classList.add('loaded')" onerror="handleImgError(this,'${frontFileEsc}')">`
         : `<div class="plate-year">${c.year}</div>`;
       card.innerHTML = `
         <div class="car-plate" style="background:${plateGradient(b.brand, idx)}">
@@ -1935,8 +1957,9 @@ function openModal(brand, car){
     if(file){
       const thumbUrl = commonsUrl(file, 500);
       const fullUrl = commonsUrl(file, 1400);
+      const fileEsc = file.replace(/'/g,"\\'");
       return `<div class="slot" style="${bg}" onclick="openLightbox('${fullUrl.replace(/'/g,"\\'")}', '${(brand.brand+' '+car.model+' — '+label).replace(/'/g,"\\'")}')">
-        <img src="${thumbUrl}" alt="${brand.brand} ${car.model} ${label}" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';">
+        <img src="${thumbUrl}" alt="${brand.brand} ${car.model} ${label}" loading="lazy" decoding="async" class="fade-img" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onload="this.classList.add('loaded')" onerror="handleImgError(this,'${fileEsc}')">
         <span class="slot-label" style="position:relative;z-index:1;">${label}</span>
         <span class="zoom-hint">⤢</span>
       </div>`;
