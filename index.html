@@ -3,393 +3,1571 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Babamın Garajı — Klasik Otomobil Koleksiyonu</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0D0B08">
+<title>Babamın Garajı — Klasik Otomobil Arşivi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0D0B08;--bg2:#161310;--bg3:#1E1A16;
-  --gold:#C9A96E;--gold2:#A8884E;--gold3:#E0C992;
-  --cream:#E8E0D4;--cream2:#B0A899;--cream3:#7A7470;
-  --border:#2A2520;--border2:#3A3530;
-}
-body{background:var(--bg);color:var(--cream);font-family:'Inter',system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
-a{color:var(--gold);text-decoration:none}
-.container{max-width:760px;margin:0 auto;padding:0 16px}
-.hero{text-align:center;padding:56px 20px 36px;border-bottom:1px solid var(--border)}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,42px);font-weight:700;color:var(--cream);letter-spacing:-0.5px}
-.hero-sub{font-size:12px;color:var(--cream3);letter-spacing:3px;text-transform:uppercase;margin:6px 0 32px}
-.hero-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--gold);color:var(--bg);border:none;
-  padding:14px 32px;font-size:15px;font-weight:600;
-  border-radius:8px;cursor:pointer;font-family:inherit;
-  transition:all .2s;
-}
-.hero-btn:hover{background:var(--gold3);transform:translateY(-1px)}
-.hero-btn:active{transform:scale(.98)}
-.hero-btn svg{width:20px;height:20px}
-.filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:24px 0 12px}
-.filter-select{
-  background:var(--bg2);color:var(--cream);
-  border:1px solid var(--border);padding:9px 14px;
-  border-radius:8px;font-size:13px;font-family:inherit;
-  cursor:pointer;min-width:140px;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A7470' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center;
-  padding-right:32px;
-}
-.filter-select:focus{outline:none;border-color:var(--gold2)}
-.count{text-align:center;font-size:13px;color:var(--cream3);padding:8px 0 20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;padding-bottom:28px}
-.grid-item{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;cursor:pointer;
-  transition:all .25s;
-}
-.grid-item:hover{border-color:var(--gold2);transform:translateY(-3px)}
-.grid-item.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
-.grid-thumb{
-  height:95px;display:flex;align-items:center;justify-content:center;
-  font-family:'Playfair Display',serif;font-size:17px;font-weight:600;
-  color:rgba(255,255,255,.92);text-shadow:0 1px 8px rgba(0,0,0,.4);
-  position:relative;overflow:hidden;
-}
-.grid-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.65;}
-.grid-thumb span{position:relative;z-index:1;padding:0 8px;text-align:center;line-height:1.2}
-.grid-info{padding:8px 10px 10px}
-.grid-brand{font-size:10px;color:var(--cream3);text-transform:uppercase;letter-spacing:.8px}
-.grid-model{font-size:13px;font-weight:500;color:var(--cream);margin-top:2px}
-.detail{padding-bottom:48px;display:none}
-.detail.show{display:block;animation:fadeIn .4s ease-out}
-@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.gallery-container{position:relative;height:280px;background:#000;overflow:hidden}
-.gallery-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.3s ease-in-out;}
-.gallery-slide.active{opacity:1}
-.gallery-btn{
-  position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(0,0,0,0.6);color:#fff;border:none;width:36px;height:36px;
-  border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:16px;z-index:10;transition:background 0.2s;
-}
-.gallery-btn:hover{background:var(--gold);color:var(--bg)}
-.gallery-prev{left:12px}
-.gallery-next{right:12px}
-.gallery-counter{
-  position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);
-  color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;z-index:10;
-  backdrop-filter:blur(4px);
-}
-.card-overlay-info{padding:20px 24px;border-bottom:1px solid var(--border);background:var(--bg3)}
-.card-badge{display:inline-block;background:var(--gold);color:var(--bg);padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-.card-model{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,36px);font-weight:700;color:var(--cream)}
-.card-meta{font-size:13px;color:var(--cream3);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap}
-.card-body{padding:24px}
-.card-body h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--gold);margin:28px 0 12px}
-.card-body h3:first-child{margin-top:0}
-.card-body p{font-size:14px;line-height:1.8;color:var(--cream2);margin:0 0 10px}
-.designer{display:flex;align-items:center;gap:12px;background:var(--bg3);border-radius:8px;padding:14px;margin:14px 0}
-.designer-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;color:var(--bg);flex-shrink:0}
-.designer-name{font-size:14px;font-weight:500;color:var(--cream)}
-.designer-role{font-size:12px;color:var(--cream3)}
-.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border-radius:8px;overflow:hidden;margin:14px 0}
-.spec{background:var(--bg3);padding:12px 14px}
-.spec-label{font-size:10px;color:var(--cream3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.spec-value{font-size:13px;font-weight:500;color:var(--cream)}
-.era{background:var(--bg3);border-radius:8px;padding:16px;margin:14px 0;border-left:3px solid var(--gold)}
-.era-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px;font-weight:600}
-.era p{font-size:13px;line-height:1.75;color:var(--cream2);font-style:italic;margin:0}
-.comparison{background:var(--bg3);border-radius:8px;padding:16px;margin:14px 0;border-left:3px solid var(--gold2)}
-.fact{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.65;color:var(--cream2)}
-.fact:last-child{border-bottom:none}
-.fact-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px}
-.related{font-size:13px;color:var(--cream2);background:var(--bg3);border-radius:8px;padding:12px 14px;margin-top:14px}
-.related strong{color:var(--gold);font-weight:500}
-.center-btn{text-align:center;margin-top:24px}
-.footer{text-align:center;padding:32px 0 20px;border-top:1px solid var(--border);margin-top:24px}
-.footer-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--cream3)}
-.footer-sub{font-size:11px;color:var(--border2);margin-top:4px}
-.search-wrap{display:flex;justify-content:center;padding:0 0 8px}
-.search-input{
-  background:var(--bg2);color:var(--cream);border:1px solid var(--border);
-  padding:9px 14px 9px 36px;border-radius:8px;font-size:13px;
-  font-family:inherit;width:100%;max-width:320px;
-  background-image:url("data:image/svg+xml,%3Csvg width='14' height='14' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='5' stroke='%237A7470' fill='none' stroke-width='1.2'/%3E%3Cline x1='10' y1='10' x2='13' y2='13' stroke='%237A7470' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:12px center;
-}
-.search-input:focus{outline:none;border-color:var(--gold2)}
-.search-input::placeholder{color:var(--cream3)}
-.scroll-top{
-  position:fixed;bottom:24px;right:24px;width:44px;height:44px;
-  border-radius:50%;background:var(--gold);color:var(--bg);
-  border:none;cursor:pointer;font-size:18px;display:none;
-  align-items:center;justify-content:center;z-index:99;
-  box-shadow:0 4px 16px rgba(0,0,0,.4);transition:all .2s;
-}
-.scroll-top:hover{transform:scale(1.1)}
-.scroll-top.show{display:flex}
-@media(max-width:480px){
-  .grid{grid-template-columns:repeat(2,1fr);gap:8px}
-  .card-body{padding:18px}
-  .specs{grid-template-columns:1fr 1fr}
-  .hero{padding:40px 16px 28px}
-  .gallery-container{height:220px}
-}
+  :root{
+    --bg-deep:#141B15;
+    --bg-panel:#1D2620;
+    --bg-panel-2:#232E27;
+    --brass:#BB9A4B;
+    --brass-bright:#D9BC72;
+    --oxblood:#7C2F2A;
+    --oxblood-bright:#A5453D;
+    --cream:#EFE6D2;
+    --muted:#93A090;
+    --chrome:#5C665C;
+    --line:#33402F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg-deep);color:var(--cream);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--brass);color:#141B15;}
+
+  body::before{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+    opacity:0.5;
+  }
+
+  header{
+    position:relative;z-index:1;
+    padding:38px 20px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(ellipse at 50% -20%, rgba(187,154,75,0.10), transparent 60%),
+      var(--bg-deep);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.28em;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:42px;
+    letter-spacing:0.03em;
+    margin:8px 0 6px;
+    color:var(--cream);
+    text-transform:uppercase;
+  }
+  h1 span{color:var(--brass-bright);}
+  .subtitle{
+    color:var(--muted);
+    font-size:14px;
+    max-width:440px;
+    margin:0 auto;
+    line-height:1.5;
+  }
+  .archive-count{
+    margin-top:16px;
+    display:inline-flex;
+    gap:18px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--brass);
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:2px;
+    background:var(--bg-panel);
+  }
+  .archive-count b{color:var(--cream);font-weight:600;}
+
+  .filters{
+    position:sticky;top:0;z-index:5;
+    background:rgba(20,27,21,0.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:12px 16px;
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .filters::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    padding:7px 14px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:var(--bg-panel);
+    color:var(--muted);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--brass);color:var(--cream);}
+  .chip.active{background:var(--brass);color:#141B15;border-color:var(--brass);font-weight:600;}
+
+  main{position:relative;z-index:1;padding:24px 16px 80px;max-width:1100px;margin:0 auto;}
+
+  .brand-block{margin-bottom:44px;}
+  .brand-block[hidden]{display:none;}
+  .brand-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding-bottom:10px;
+    margin-bottom:16px;
+    border-bottom:2px solid var(--brass);
+  }
+  .brand-name{
+    font-family:'Oswald',sans-serif;
+    font-size:24px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    color:var(--cream);
+  }
+  .brand-era{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    padding:3px 9px;
+    border-radius:2px;
+  }
+
+  .car-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:14px;
+  }
+
+  .car-card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .18s ease, border-color .18s ease;
+    display:flex;flex-direction:column;
+  }
+  .car-card:hover{transform:translateY(-3px);border-color:var(--brass);}
+  .car-card:active{transform:translateY(-1px);}
+
+  .car-plate{
+    aspect-ratio:4/3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .car-plate::after{
+    content:"FOTOĞRAF EKLENECEK";
+    position:absolute;
+    bottom:8px;left:8px;right:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:8px;
+    letter-spacing:0.08em;
+    color:rgba(239,230,210,0.55);
+    text-align:left;
+  }
+  .car-plate .plate-year{
+    font-family:'Oswald',sans-serif;
+    font-size:34px;
+    font-weight:700;
+    color:rgba(239,230,210,0.85);
+    letter-spacing:0.02em;
+  }
+
+  .car-info{padding:10px 12px 12px;}
+  .car-model{
+    font-family:'Oswald',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--cream);
+    line-height:1.25;
+    margin-bottom:4px;
+  }
+  .car-year{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--brass);
+  }
+
+  .modal-overlay{
+    position:fixed;inset:0;z-index:50;
+    background:rgba(10,14,11,0.88);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    overflow-y:auto;
+    padding:0;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--bg-panel);
+    width:100%;
+    max-width:640px;
+    min-height:100vh;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+  @media(min-width:680px){
+    .modal-overlay{padding:40px 20px;}
+    .modal{min-height:auto;border-radius:4px;}
+  }
+  .modal-close{
+    position:sticky;top:0;z-index:2;
+    display:flex;justify-content:flex-end;
+    padding:14px 14px 0;
+  }
+  .modal-close button{
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--cream);
+    width:34px;height:34px;
+    border-radius:50%;
+    font-size:16px;
+    cursor:pointer;
+  }
+  .modal-hero{
+    padding:0 20px;
+    margin-top:-4px;
+  }
+  .photo-slots{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:130px 130px;
+    gap:6px;
+  }
+  .photo-slots .slot-main{grid-row:span 2;}
+  .slot{
+    border-radius:3px;
+    display:flex;align-items:flex-end;
+    padding:8px;
+    position:relative;
+    overflow:hidden;
+  }
+  .car-plate{position:relative;}
+  .slot-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;
+    letter-spacing:0.1em;
+    color:rgba(239,230,210,0.7);
+    background:rgba(10,14,11,0.4);
+    padding:2px 6px;
+    border-radius:2px;
+  }
+
+  .modal-body{padding:20px;}
+  .modal-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.15em;
+    color:var(--brass);
+    text-transform:uppercase;
+  }
+  .modal-title{
+    font-family:'Oswald',sans-serif;
+    font-size:28px;
+    font-weight:700;
+    margin:6px 0 2px;
+    color:var(--cream);
+    text-transform:uppercase;
+  }
+  .modal-sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+
+  .spec-plate{
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:14px 16px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 16px;
+    margin-bottom:20px;
+  }
+  .spec-item .k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .spec-item .v{font-size:13px;color:var(--cream);margin-top:2px;}
+
+  .modal-body p.story{
+    font-size:14.5px;
+    line-height:1.7;
+    color:#DAD2BE;
+    margin-bottom:18px;
+  }
+
+  .section-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    color:var(--brass);
+    text-transform:uppercase;
+    margin-bottom:10px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+
+  .similar-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
+  .similar-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    color:var(--cream);
+    cursor:pointer;
+    background:var(--bg-deep);
+  }
+  .similar-chip:hover{border-color:var(--brass);color:var(--brass-bright);}
+
+  .note-box{
+    margin-top:8px;
+  }
+  .note-box textarea{
+    width:100%;
+    min-height:70px;
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--cream);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    padding:10px;
+    resize:vertical;
+  }
+  .note-box textarea:focus{outline:none;border-color:var(--brass);}
+  .note-hint{font-size:11px;color:var(--muted);margin-top:6px;}
+
+  footer{
+    text-align:center;
+    padding:30px 20px 50px;
+    color:var(--chrome);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+  }
+
+  .zoom-hint{
+    position:absolute;
+    top:8px;right:8px;
+    z-index:2;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:rgba(10,14,11,0.55);
+    color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+    pointer-events:none;
+  }
+  .photo-slots .slot{cursor:zoom-in;}
+
+  .lightbox-overlay{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(6,9,7,0.96);
+    display:none;
+    align-items:center;justify-content:center;
+    flex-direction:column;
+    padding:20px;
+    cursor:zoom-out;
+  }
+  .lightbox-overlay.open{display:flex;}
+  .lightbox-overlay img{
+    max-width:100%;
+    max-height:80vh;
+    object-fit:contain;
+    border-radius:3px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-caption{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--brass-bright);
+    margin-bottom:14px;
+    text-align:center;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:16px;right:16px;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--cream);
+    width:38px;height:38px;
+    border-radius:50%;
+    font-size:18px;
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="hero">
-    <div class="hero-title">Babamın Garajı</div>
-    <div class="hero-sub">Klasik Otomobil Koleksiyonu</div>
-    <button class="hero-btn" onclick="pickRandom()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-      Rastgele Araba Getir
-    </button>
-  </div>
+<header>
+  <div class="eyebrow">Bir aile arşivi</div>
+  <h1>Babamın <span>Garajı</span></h1>
+  <p class="subtitle">İkonlaştığı çağın klasikleriyle, marka marka derlenen bir otomobil koleksiyonu.</p>
+  <div class="archive-count" id="archiveCount"></div>
+</header>
 
-  <div class="filters">
-    <select class="filter-select" id="brandFilter" onchange="applyFilters()">
-      <option value="">Tüm markalar</option>
-    </select>
-    <select class="filter-select" id="decadeFilter" onchange="applyFilters()">
-      <option value="">Tüm yıllar</option>
-      <option value="1930">1930'lar</option>
-      <option value="1940">1940'lar</option>
-      <option value="1950">1950'ler</option>
-      <option value="1960">1960'lar</option>
-      <option value="1970">1970'lar</option>
-      <option value="1980">1980'lar</option>
-      <option value="1990">1990'lar</option>
-    </select>
-  </div>
+<div class="filters" id="filters"></div>
 
-  <div class="search-wrap">
-    <input type="text" class="search-input" id="searchInput" placeholder="Araba ara..." oninput="applyFilters()">
-  </div>
+<main id="main"></main>
 
-  <div class="count" id="countText"></div>
-  <div class="grid" id="carGrid"></div>
+<footer>BABAMIN GARAJI — KİŞİSEL ARŞİV — v0.1 PROTOTİP</footer>
 
-  <div class="detail" id="detailSection"></div>
-
-  <div class="footer">
-    <div class="footer-title">Babamın Garajı</div>
-    <div class="footer-sub">Sevgiyle hazırlandı</div>
-  </div>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
 </div>
 
-<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
-
-<!-- Arabalarımızı okuyacak ayrı defter dosyamız -->
-<script src="arabalar.js"></script>
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+  <img id="lightboxImg" src="" alt="">
+</div>
 
 <script>
-var currentCar = null;
-var currentImageIndex = 0;
+const DATA = [
+  { brand:"BMW", era:"1966–1989 · Neue Klasse'den E30'a", region:"Almanya",
+    cars:[
+      {model:"2002", year:1968, tag:"Yükselen Klasik", designer:"Wilhelm Hofmeister", engine:"1.6–2.0L 4 Silindir",
+        story:"BMW'yi bugünkü sportif kimliğine taşıyan modeldi. Sade gövdesi ve keskin sürüş dengesiyle, markanın 'sürüş keyfi' sloganının ilk gerçek kanıtı oldu.",
+        similar:["3.0 CSL","E30 M3"],
+        images:{front:"1968 BMW 2002 TI.JPG", side:"BMW 2002.JPG"}},
+      {model:"3.0 CSL", year:1971, tag:"Pist Efsanesi", designer:"Paul Bracq (gövde), Karmann (üretim)", engine:"3.0–3.5L Altı Silindir",
+        story:"Hafif alüminyum panelleri ve iddialı kanatçığıyla 'Batmobile' lakabını aldı; Avrupa Turizm Şampiyonası'nda peş peşe şampiyonluklar kazandı.",
+        similar:["2002","M1"],
+        images:{front:"BMW 3.0 CSL (52687267795).jpg", side:"Bmw 3.0csl alpina.jpg"}},
+      {model:"M1", year:1978, tag:"İlk M", designer:"Giorgetto Giugiaro", engine:"3.5L Altı Silindir, Orta Motor",
+        story:"BMW'nin M performans bölümünün doğuşuna işaret eden, İtalyan tasarımcı Giugiaro imzalı orta motorlu süper spor otomobil.",
+        similar:["3.0 CSL","E30 M3"],
+        images:{front:"1978 BMW M1 (6191658839).jpg", side:"1981 BMW M1.JPG"}},
+      {model:"E30 M3", year:1986, tag:"Grup A Şampiyonu", designer:"BMW M GmbH", engine:"2.3L Dört Silindir",
+        story:"Pist için homologasyon amacıyla üretildi, ardından sokaklarda da efsaneleşti; keskin köşeli kanat çıkıntılarıyla tanınır.",
+        similar:["2002","M1"],
+        images:{front:"BMW E30 M3.jpg", side:"Grey e30 m3.jpg"}}
+    ]},
+  { brand:"Mercedes-Benz", era:"1954–1989 · Kelebek Kapılardan W124'e", region:"Almanya",
+    cars:[
+      {model:"300 SL Gullwing", year:1954, tag:"Kelebek Kapılar", designer:"Rudolf Uhlenhaut", engine:"3.0L Altı Silindir, Direkt Enjeksiyon",
+        story:"Dönemin en hızlı seri üretim otomobiliydi; kelebek kanadı andıran kapıları, şasi tasarımının zorunlu bir sonucu olarak doğdu ve ikonik hale geldi.",
+        similar:["W113 Pagode","190E 2.3-16"],
+        images:{front:"Mercedes-Benz 300-SL-Gullwing Front-view.JPG", side:"1955 Mercedes-Benz 300SL Gullwing Coupe 34 right.jpg", interior:"Mercedes-Benz 300 SL - Innenraum.JPG"}},
+      {model:"W113 'Pagode'", year:1963, tag:"Zarif SL", designer:"Paul Bracq", engine:"2.3–2.8L Altı Silindir",
+        story:"Çatısının hafif çukur formundan dolayı 'Pagoda' adını aldı; güvenlik ve zarafeti bir araya getiren dönemin öncü tasarımlarından biriydi.",
+        similar:["300 SL Gullwing","W123"],
+        images:{front:"1964 Mercedes-Benz 230SL roadster front 3q.jpg", side:"1964 Mercedes Benz 230 SL W113 Roadster (31579928018).jpg"}},
+      {model:"W123", year:1976, tag:"Dayanıklılık Efsanesi", designer:"Mercedes-Benz Tasarım Ekibi", engine:"2.0–2.8L, Benzinli/Dizel",
+        story:"Milyonlarca kilometre sağlamlığıyla ün saldı; bugün hâlâ birçok ülkede taksi olarak kullanılan örnekleri var.",
+        similar:["W113 Pagode","190E 2.3-16"],
+        images:{front:"Mercedes-Benz 200 (W123) front.jpg", side:"1980 Mercedes-Benz W123.jpg", interior:"Mercedes-Benz W123 inside.JPG"}},
+      {model:"190E 2.3-16", year:1984, tag:"Kompakt Sporcu", designer:"Cosworth işbirliği", engine:"2.3L Dört Silindir, 16 Supap",
+        story:"Mercedes'in kompakt sınıfa getirdiği performans yorumu; Cosworth mühendisliğiyle geliştirilen motoru döneminin pist yarışlarında rakip tanımadı.",
+        similar:["W123","300 SL Gullwing"],
+        images:{front:"1986 Mercedes-Benz 190E 2.3-16 (9505123008).jpg", side:"1986 Mercedes-Benz 190E 2.3-16 (9505124366).jpg"}}
+    ]},
+  { brand:"Porsche", era:"1948–1989 · 356'dan 964 Öncesine", region:"Almanya",
+    cars:[
+      {model:"356", year:1957, tag:"Kökler", designer:"Erwin Komenda", engine:"1.6L Boksör",
+        story:"Porsche'nin ilk seri üretim modeli; markanın arkadan motorlu, hafif spor otomobil felsefesinin temelini attı.",
+        similar:["911 (901)","928"],
+        images:{front:"Porsche 356-A Coupé 1956 Frontview.JPG", side:"Porsche 356 A (2014-09-13 7068 Sp).jpg"}},
+      {model:"911 (901)", year:1964, tag:"Ölümsüz Silüet", designer:"Ferdinand 'Butzi' Porsche", engine:"2.0L Boksör Altı",
+        story:"Altmış yılı aşkın süredir neredeyse hiç değişmeyen silueti, otomotiv tasarım tarihinin en tanınmış formlarından biri haline geldi.",
+        similar:["356","930 Turbo"],
+        images:{front:"1964 Porsche 901 rear.jpg"}},
+      {model:"930 Turbo", year:1975, tag:"Vahşi 911", designer:"Porsche Mühendislik", engine:"3.0L Turbo Boksör",
+        story:"Geniş 'whale tail' kanadı ve ani turbo gücüyle 'Widowmaker' (Dul Yapıcı) lakabını aldı; dönemin en hızlı Alman otomobiliydi.",
+        similar:["911 (901)","928"],
+        images:{front:"1976 Porsche 930 Turbo, Emerald Green met, front left.jpg", side:"1975 Porsche 911 Turbo 930.jpg"}},
+      {model:"928", year:1978, tag:"Alternatif Vizyon", designer:"Wolfgang Möbius", engine:"4.5–5.0L V8, Önde Motor",
+        story:"911'in yerini almak üzere tasarlanan, önde motorlu ve gran turizm karakterli farklı bir Porsche vizyonuydu.",
+        similar:["930 Turbo","356"],
+        images:{front:"Gold 1978 Porsche 928.jpg", side:"1978 Silver Porsche 928.jpg", interior:"1987 Porsche 928 S4 interior.jpg"}}
+    ]},
+  { brand:"Ferrari", era:"1957–1976 · 250 Serisinden Berlinetta Boxer'a", region:"İtalya",
+    cars:[
+      {model:"250 GTO", year:1962, tag:"Kutsal Kâse", designer:"Giotto Bizzarrini, Sergio Scaglietti", engine:"3.0L V12",
+        story:"Sadece 36 adet üretildi; bugün açık artırmalarda dünyanın en pahalı otomobilleri arasına giriyor, koleksiyonerlerin rüyası.",
+        similar:["Daytona 365 GTB/4","Dino 246 GT"],
+        images:{front:"1962 Ferrari 250 GTO front.jpg", side:"1962 Ferrari 250 GTO 34 2.jpg", interior:"1962 Ferrari 250 GTO interior.jpg"}},
+      {model:"Daytona 365 GTB/4", year:1968, tag:"Son Klasik V12 GT", designer:"Pininfarina (Leonardo Fioravanti)", engine:"4.4L V12",
+        story:"Keskin köşeli, uzun kaputlu formuyla klasik Ferrari GT tasarımının doruk noktalarından biri kabul edilir.",
+        similar:["250 GTO","308 GTB"],
+        images:{front:"1971 Ferrari GTB4 Daytona.jpg", side:"Ferrari 365 GTB-4 Daytona red vr.jpg"}},
+      {model:"Dino 246 GT", year:1969, tag:"Ferrari Değil, Dino", designer:"Pininfarina (Aldo Brovarone)", engine:"2.4L V6",
+        story:"Enzo Ferrari'nin oğlu Dino'nun anısına, bilinçli olarak 'Ferrari' rozeti taşımadan satıldı; bugün en zarif Ferrari formlarından biri sayılıyor.",
+        similar:["308 GTB","250 GTO"],
+        images:{front:"Dino 246 GT front left in red.jpg", side:"1974 Dino 246 GT (5963194692).jpg"}},
+      {model:"308 GTB", year:1975, tag:"Popüler İkon", designer:"Bertone (Marcello Gandini)", engine:"3.0L V8",
+        story:"Kama şeklindeki gövdesiyle 70'lerin ruhunu yansıttı; bir TV dizisiyle de dünya çapında tanınırlığa kavuştu.",
+        similar:["Dino 246 GT","Daytona 365 GTB/4"],
+        images:{front:"1975 Ferrari 308 GTB.jpg", side:"Ferrari 308 GTB museo automobile Torino.JPG"}}
+    ]},
+  { brand:"Alfa Romeo", era:"1954–1994 · Giulietta'dan Spider'ın Sonuna", region:"İtalya",
+    cars:[
+      {model:"Giulietta Spider", year:1955, tag:"İtalyan Zarafeti", designer:"Pininfarina", engine:"1.3L Dört Silindir",
+        story:"Kompakt gövdesi ve canlı sürüş karakteriyle, savaş sonrası İtalyan otomobil tasarımının duygusal tarafını temsil etti.",
+        similar:["Spider Duetto","Giulia Sprint GT"],
+        images:{front:"Alfa Giulietta Spider.JPG"}},
+      {model:"Giulia Sprint GT", year:1963, tag:"Yarış Ruhlu Coupe", designer:"Giorgetto Giugiaro (Bertone)", engine:"1.6L Dört Silindir",
+        story:"Hafif gövdesi ve keskin tepkisiyle döneminin turizm yarışlarında sık sık podyuma çıktı.",
+        similar:["Alfetta GTV","Giulietta Spider"],
+        images:{front:"Alfa Romeo Guilia Sprint GT 1965 mod foran 01.jpg"}},
+      {model:"Spider Duetto", year:1966, tag:"Sinema Yıldızı", designer:"Pininfarina", engine:"1.6–2.0L Dört Silindir",
+        story:"'Kayık kıç' formuyla tanınan bu Spider, bir Hollywood filminde başrol otomobili olarak dünya çapında ün kazandı.",
+        similar:["Giulietta Spider","Alfetta GTV"],
+        images:{front:"Alfa Romeo Spider Duetto.JPG", interior:"Alfa Duetto Cockpit.JPG"}},
+      {model:"Alfetta GTV", year:1974, tag:"Dengeli Sporcu", designer:"Giorgetto Giugiaro (ItalDesign)", engine:"1.8–2.0L Dört Silindir",
+        story:"Ağırlık dağılımını dengelemek için şanzımanı arkaya taşıyan teknik çözümüyle mühendislik açısından dikkat çekti.",
+        similar:["Giulia Sprint GT","Spider Duetto"],
+        images:{front:"Alfa Romeo Alfetta GT (01).JPG", side:"1978 Alfa Romeo Alfetta GTV (32323615092).jpg"}}
+    ]},
+  { brand:"Jaguar", era:"1961–1975 · E-Type Çağı", region:"İngiltere",
+    cars:[
+      {model:"E-Type", year:1961, tag:"'En Güzel Otomobil'", designer:"Malcolm Sayer", engine:"3.8–4.2L Altı Silindir",
+        story:"Enzo Ferrari'nin 'şimdiye dek yapılmış en güzel otomobil' dediği söylenir; uzun kaputu ve akışkan hatlarıyla dönemin sembolü oldu.",
+        similar:["XJ6","XJS"],
+        images:{front:"Jaguar E-Type Series 1 3.8 Litre 1961.jpg", side:"1962 Jaguar E-Type 4.jpg"}},
+      {model:"XJ6", year:1968, tag:"Lüks Sedan", designer:"Sir William Lyons", engine:"2.8–4.2L Altı Silindir",
+        story:"Sportif sürüş karakterini lüks bir sedan gövdesiyle birleştirerek, İngiliz lüks otomobil geleneğine yeni bir standart getirdi.",
+        similar:["E-Type","XJS"],
+        images:{front:"Jaguar XJ6 Series 1 4.2 (1968), Paris Motor Show 2018, IMG 0481.jpg", side:"Jaguar XJ6 Series I 2.8 Litre Front.jpg"}},
+      {model:"XJS", year:1975, tag:"E-Type'ın Halefi", designer:"Malcolm Sayer, Doug Thorpe", engine:"5.3L V12",
+        story:"E-Type'ın yerini alması kolay olmadı, ama zamanla kendi gran turizm kimliğini kurarak uzun bir üretim ömrüne ulaştı.",
+        similar:["E-Type","XJ6"],
+        images:{front:"Jaguar XJS facelift Coupe.jpg"}}
+    ]},
+  { brand:"Aston Martin", era:"1958–1972 · DB4'ten DBS'e", region:"İngiltere",
+    cars:[
+      {model:"DB4", year:1958, tag:"Grand Tourer'ın Şablonu", designer:"Carrozzeria Touring (Superleggera)", engine:"3.7L Altı Silindir",
+        story:"İtalyan 'superleggera' (süper hafif) gövde tekniğiyle üretildi; İngiliz mühendisliği ile İtalyan tasarımının en zarif buluşmalarından biriydi.",
+        similar:["DB5","DBS"],
+        images:{front:"1962 Aston Martin DB4 Series 5 Vantage GT.JPG", side:"Astion Martin DB4 (52576367884).jpg"}},
+      {model:"DB5", year:1963, tag:"Ajan Arabası", designer:"Carrozzeria Touring", engine:"4.0L Altı Silindir",
+        story:"Bir casus filmi serisindeki rolüyle dünya çapında tanınan, gadget'larıyla popüler kültüre giren nadir klasiklerden.",
+        similar:["DB4","DBS"],
+        images:{front:"1964 Aston Martin DB5 4.0 Front.jpg", side:"Aston Martin DB5 1965 side view Kip C. Cyprus.png"}},
+      {model:"DBS", year:1967, tag:"Kaslı Zarafet", designer:"William Towns", engine:"4.0L Altı / 5.3L V8",
+        story:"Daha geniş ve kaslı gövdesiyle markanın 70'lere geçişini simgeledi; V8 versiyonuyla performansını da artırdı.",
+        similar:["DB5","DB4"],
+        images:{front:"1967 Aston Martin DBS (53427201750).jpg", side:"1970 Aston Martin DBS V8 fr.jpg"}}
+    ]},
+  { brand:"Ford", era:"1964–1973 · Mustang'ın Doğuşundan Kas Araba Çağına", region:"ABD",
+    cars:[
+      {model:"Mustang", year:1964, tag:"Pony Car'ın Doğuşu", designer:"Joe Oros", engine:"2.8L Altı Silindir – 4.7L V8",
+        story:"Piyasaya çıktığı ilk yıl beklenenin kat kat üzerinde satarak kendi segmentini ('pony car') yarattı.",
+        similar:["GT40","Capri"],
+        images:{front:"Ford Mustang Bj 1964 100 PS 6 Zylinder 3,3 l Hubraum Front.JPG", side:"1964 Ford Mustang Fastback (14331575908).jpg"}},
+      {model:"GT40", year:1966, tag:"Le Mans Fatihi", designer:"Eric Broadley, Roy Lunn", engine:"4.7–7.0L V8",
+        story:"Le Mans 24 Saat yarışında art arda zaferler kazanarak, dönemin en güçlü İtalyan takımlarına karşı Amerikan mühendisliğini kanıtladı.",
+        similar:["Mustang","Escort RS2000"],
+        images:{front:"1966 Ford GT40 Mk I.jpg", side:"1967 Green Ford GT40.JPG"}},
+      {model:"Capri", year:1969, tag:"Avrupa'nın Mustang'ı", designer:"Philip Clark", engine:"1.3–3.0L",
+        story:"Ford'un Avrupa pazarı için tasarladığı bu spor coupe, 'cebindeki Mustang' sloganıyla pazarlandı.",
+        similar:["Mustang","Escort RS2000"],
+        images:{front:"1969 Ford Capri GT 2.0 Front.jpg", side:"1969 Ford Capri Mk I 1600 GT (15817706154).jpg", interior:"1969 Ford Capri GT 2.0 Interior.jpg"}},
+      {model:"Escort RS2000", year:1973, tag:"Ralli Kahramanı", designer:"Ford Advanced Vehicle Operations", engine:"2.0L Dört Silindir",
+        story:"Kompakt gövdesi ve keskin tepkisiyle Avrupa ralli pistlerinde adından sıkça söz ettirdi.",
+        similar:["Capri","GT40"],
+        images:{front:"Ford Escort RS2000 MkI.jpg"}}
+    ]},
+  { brand:"Chevrolet", era:"1963–1972 · Sting Ray'den Kas Araba Doruğuna", region:"ABD",
+    cars:[
+      {model:"Corvette Sting Ray", year:1963, tag:"Amerikan Sporcusu", designer:"Larry Shinoda, Bill Mitchell", engine:"5.4–7.0L V8",
+        story:"Bölünmüş arka camıyla tanınan ilk yıl modeli, bugün koleksiyonerler arasında en aranan Corvette nesillerinden biri.",
+        similar:["Camaro SS","Chevelle SS396"],
+        images:{front:"1963 Chevrolet Corvette Stingray (C2) front.JPG", side:"Chevrelet Corvette Sting Ray.jpg", interior:"1963 Corvette interior.jpg"}},
+      {model:"Camaro SS", year:1967, tag:"Mustang'e Cevap", designer:"Chevrolet Tasarım Stüdyosu", engine:"5.7–6.5L V8",
+        story:"Ford Mustang'e doğrudan yanıt olarak geliştirildi; keskin hatları ve güçlü V8 seçenekleriyle kas araba çağının simgelerinden oldu.",
+        similar:["Chevelle SS396","Monte Carlo"],
+        images:{front:"1967 Chevrolet Camaro Coupé SS RS Front .jpg", side:"1967 Chevrolet Camaro RS SS.jpg"}},
+      {model:"Chevelle SS396", year:1969, tag:"Sokak Canavarı", designer:"Chevrolet Tasarım Stüdyosu", engine:"6.5L V8",
+        story:"Orta boy gövdesine sığdırılan güçlü V8 motoruyla, dönemin drag pistlerinde adını duyurdu.",
+        similar:["Camaro SS","Corvette Sting Ray"],
+        images:{front:"1969 Chevrolet Chevelle SS The Beast Fox Island Car Show 2016 01.jpg"}},
+      {model:"Monte Carlo", year:1970, tag:"Kişisel Lüks Coupe", designer:"Dave Holls", engine:"5.7–7.4L V8",
+        story:"Kas araba gücünü daha rahat ve şık bir gövdeyle birleştiren 'kişisel lüks' segmentinin öncülerinden.",
+        similar:["Chevelle SS396","Camaro SS"],
+        images:{front:"'70 Chevrolet Monte Carlo (Auto classique St-Constant '13).JPG"}}
+    ]},
+  { brand:"Toyota", era:"1965–1976 · 2000GT'den Celica'ya", region:"Japonya",
+    cars:[
+      {model:"2000GT", year:1967, tag:"Japonya'nın İlk Süper Otomobili", designer:"Satoru Nozaki, Yamaha işbirliği", engine:"2.0L Altı Silindir",
+        story:"Japon otomotiv endüstrisinin dünya çapında ciddiye alınmasını sağlayan model; bir casus filminde de yer aldı.",
+        similar:["Celica","Corolla KE"],
+        images:{front:"Toyota 2000GT (MF12L, mid-year 1967) front.jpg", side:"1967 Toyota 2000GT (MF10L), Bellatrix Yellow, front right side.jpg", interior:"The interior of Toyota 2000GT (MF10 latter period).JPG"}},
+      {model:"Celica", year:1970, tag:"Erişilebilir Spor", designer:"Toyota Tasarım Merkezi", engine:"1.4–2.0L Dört Silindir",
+        story:"Amerikan 'pony car' formülünü Japon güvenilirliğiyle birleştirerek geniş bir kitleye spor sürüş deneyimi sundu.",
+        similar:["2000GT","Corolla KE"],
+        images:{front:"Toyota Celica Notchback 1972 First Generation.jpg", side:"1976-1977 Toyota Celica (RA23) LT hardtop 01.jpg"}},
+      {model:"Corolla KE", year:1974, tag:"Sadelik Sanatı", designer:"Toyota Tasarım Merkezi", engine:"1.2–1.6L Dört Silindir",
+        story:"Arkadan itişli, hafif gövdesiyle bugün de amatör yarışçılar arasında sevilen, mütevazı ama karakterli bir klasik.",
+        similar:["Celica","2000GT"],
+        images:{front:"1974 Toyota Corolla (KE20) L 2-door sedan (20538742573).jpg"}}
+    ]},
+  { brand:"Citroën", era:"1955–1975 · DS'ten CX'e", region:"Fransa",
+    cars:[
+      {model:"DS 19", year:1955, tag:"Geleceğin Otomobili", designer:"Flaminio Bertoni", engine:"1.9–2.3L Dört Silindir",
+        story:"Hidropnömatik süspansiyonu ve aerodinamik gövdesiyle çıktığı yıl otomotiv dünyasını şaşkına çevirdi; bir cumhurbaşkanına suikast girişiminde hayat kurtardığı bilinir.",
+        similar:["SM","CX"],
+        images:{front:"Citroen DS 19 1957.JPG", side:"Citroen ds 2.jpg"}},
+      {model:"SM", year:1970, tag:"Fransız-İtalyan İttifakı", designer:"Robert Opron", engine:"2.7L V6 (Maserati)",
+        story:"Citroën'in Maserati ile ortak geliştirdiği motoru taşıyan bu gran turizm, dönemin en teknolojik yolcu otomobillerinden biriydi.",
+        similar:["DS 19","CX"],
+        images:{front:"Citroen SM (1972) - 15340846543.jpg"}},
+      {model:"CX", year:1974, tag:"DS'in Mirasçısı", designer:"Robert Opron", engine:"2.0–2.5L Dört Silindir",
+        story:"DS'in hidropnömatik felsefesini sürdürerek, kavisli arka camı ve iç bükey gösterge paneliyle kendine özgü bir kimlik kurdu.",
+        similar:["DS 19","SM"],
+        images:{front:"Citroen CX 2.jpg", interior:"Citroen CX dashboard.JPG"}}
+    ]},
+  { brand:"Renault", era:"1962–1980 · Gordini'den Alpine'e", region:"Fransa",
+    cars:[
+      {model:"8 Gordini", year:1964, tag:"Cebindeki Yarışçı", designer:"Amédée Gordini", engine:"1.1L Dört Silindir",
+        story:"Kompakt gövdesine sığdırılan performans donanımıyla, Fransız ralli pistlerinde amatör yarışçıların gözdesi oldu.",
+        similar:["5 Alpine","17"],
+        images:{front:"Renault 8 Gordini (1964) - 10275765484.jpg", side:"Renault R8 Gordini Lahti.JPG"}},
+      {model:"5 Alpine", year:1976, tag:"Hot Hatch Öncüsü", designer:"Michel Boué", engine:"1.4L Dört Silindir, Turbo",
+        story:"Küçük ve çevik gövdesiyle Avrupa'da 'hot hatch' akımının erken örneklerinden biri oldu.",
+        similar:["8 Gordini","17"],
+        images:{front:"1982 Renault 5 Gordini Turbo Front BS O24.jpg"}},
+      {model:"17", year:1971, tag:"Şık Coupe", designer:"Renault Tasarım Stüdyosu", engine:"1.6L Dört Silindir",
+        story:"Renault 12 tabanlı bu coupe, dönemin plastik tampon ve cam çatı gibi yeniliklerini erken benimsedi.",
+        similar:["5 Alpine","8 Gordini"],
+        images:{front:"1972 Renault 17TS in Yellow, front right (Lime Rock).jpg"}}
+    ]},
+  { brand:"Peugeot", era:"1955–1985 · 403'ten 205 GTI'a", region:"Fransa",
+    cars:[
+      {model:"403", year:1955, tag:"Dayanıklılık Sembolü", designer:"Pininfarina", engine:"1.5L Dört Silindir",
+        story:"Sağlamlığıyla ün saldı; bir dedektif dizisinde başrol otomobili olarak dünya çapında tanınırlık kazandı.",
+        similar:["504","205 GTI"],
+        images:{front:"1956 Peugeot 403 pic1.JPG", side:"Peugeot 403 1958 - pic4.jpg"}},
+      {model:"504", year:1968, tag:"Afrika'nın Efsanesi", designer:"Pininfarina", engine:"1.8–2.7L",
+        story:"Sağlam süspansiyonu ve dayanıklılığıyla özellikle Afrika pazarlarında onlarca yıl üretimde kaldı.",
+        similar:["403","205 GTI"]},
+      {model:"205 GTI", year:1984, tag:"Hot Hatch Kralı", designer:"Peugeot Tasarım Merkezi", engine:"1.6–1.9L Dört Silindir",
+        story:"Hafif gövdesi ve keskin tepkisiyle 80'lerin en sevilen hot hatch'lerinden biri olarak anılır.",
+        similar:["504","403"],
+        images:{front:"Peugeot 205 GTI 1.6, white.jpg", interior:"Peugeot 205 GTI interior.jpg"}}
+    ]},
+  { brand:"MG", era:"1955–1970 · MGA'dan MGB'ye", region:"İngiltere",
+    cars:[
+      {model:"MGA", year:1955, tag:"Akışkan Form", designer:"Syd Enever", engine:"1.5–1.8L Dört Silindir",
+        story:"Önceki MG modellerinin köşeli formundan tamamen kopan akışkan gövdesiyle markanın spor kimliğini yeniledi.",
+        similar:["MGB","Midget"],
+        images:{front:"MG A 1500 (1956) - 15838588582.jpg"}},
+      {model:"MGB", year:1962, tag:"En Çok Satan Roadster", designer:"Don Hayter", engine:"1.8L Dört Silindir",
+        story:"On sekiz yılı aşkın üretim ömrü boyunca dünya çapında en çok satan İngiliz spor otomobillerinden biri oldu.",
+        similar:["MGA","Midget"],
+        images:{front:"1975 MG MGB in Harvest Gold, Front Right, 06-11-2022.jpg", side:"1965 MG MGB GT MkI Coupe.jpg"}},
+      {model:"Midget", year:1961, tag:"Cep Boy Roadster", designer:"Syd Enever", engine:"1.1–1.5L Dört Silindir",
+        story:"MGB'nin küçük kardeşi olarak, erişilebilir fiyatıyla geniş bir kitleye açık araba deneyimi sundu.",
+        similar:["MGA","MGB"],
+        images:{front:"1965 MG Midget Mk II Roadster (24596158355).jpg"}}
+    ]},
+  { brand:"Triumph", era:"1961–1970 · TR4'ten Stag'e", region:"İngiltere",
+    cars:[
+      {model:"Spitfire", year:1962, tag:"Zarif Küçük Roadster", designer:"Giovanni Michelotti", engine:"1.1–1.5L Dört Silindir",
+        story:"İtalyan tasarımcı Michelotti imzasıyla, MG Midget'e karşı sunulan zarif ve hafif bir alternatifti.",
+        similar:["TR6","Stag"],
+        images:{front:"Triumph Spitfire 1962.jpg", side:"1963 Triumph Spitfire - fvl (12913101975).jpg"}},
+      {model:"TR6", year:1968, tag:"Kaslı Roadster", designer:"Karmann", engine:"2.5L Altı Silindir",
+        story:"Köşeli ve kaslı gövdesiyle önceki TR modellerinden ayrıştı; enjeksiyonlu motoruyla dönemine göre güçlüydü.",
+        similar:["Spitfire","Stag"],
+        images:{front:"1972 Triumph TR6 (11793).jpg", side:"Triumph TR6 red (1).jpg", interior:"Triumph TR6 - Interior.jpg"}},
+      {model:"Stag", year:1970, tag:"Dört Kişilik GT", designer:"Giovanni Michelotti", engine:"3.0L V8",
+        story:"Karakteristik roll-bar'ıyla tanınan bu dört kişilik gran turizm, İngiliz otomobil tasarımının özgün örneklerinden biri.",
+        similar:["TR6","Spitfire"],
+        images:{front:"1974 Triumph Stag Automatic 3.0.jpg"}}
+    ]},
+  { brand:"Mini", era:"1961–1971 · Cooper'dan Clubman'e", region:"İngiltere",
+    cars:[
+      {model:"Cooper", year:1961, tag:"Küçük Dev", designer:"Sir Alec Issigonis, John Cooper", engine:"1.0L Dört Silindir",
+        story:"Alec Issigonis'in devrimci enine motor tasarımı üzerine John Cooper'ın performans dokunuşuyla doğdu.",
+        similar:["Cooper S","Clubman"],
+        images:{front:"1967 Austin Mini Cooper.jpg"}},
+      {model:"Cooper S", year:1963, tag:"Ralli Şampiyonu", designer:"John Cooper", engine:"1.0–1.3L Dört Silindir",
+        story:"Monte Carlo Ralli'sinde art arda zaferler kazanarak, küçük gövdesine rağmen büyük rakiplere karşı efsaneleşti.",
+        similar:["Cooper","Clubman"],
+        images:{front:"1967 Austin Mini Cooper S 1.jpg", side:"Morris Mini Cooper S, 1968 - Flickr - Supermac1961.jpg"}},
+      {model:"Clubman", year:1969, tag:"Uzatılmış Burun", designer:"Roy Haynes", engine:"1.0–1.3L Dört Silindir",
+        story:"Orijinal Mini'nin yuvarlak burnunu düzleştiren bu versiyon, markanın 70'lere geçişini simgeledi.",
+        similar:["Cooper S","Cooper"],
+        images:{front:"1972 Morris Mini Clubman 1.3 Front.jpg"}}
+    ]},
+  { brand:"Datsun / Nissan", era:"1968–1973 · 510'dan Fairlady Z'ye", region:"Japonya",
+    cars:[
+      {model:"510", year:1968, tag:"Sedan Dayanıklılığı", designer:"Nissan Tasarım Merkezi", engine:"1.6L Dört Silindir",
+        story:"Bağımsız süspansiyonu ve dengeli sürüşüyle döneminin ralli ve pist yarışlarında sık sık podyuma çıktı.",
+        similar:["Fairlady Z","Skyline GT-R"],
+        images:{front:"1978 Datsun 510 two-door sedan front left.jpg"}},
+      {model:"Fairlady Z (240Z)", year:1969, tag:"Japon Spor İkonu", designer:"Yoshihiko Matsuo", engine:"2.4L Altı Silindir",
+        story:"Avrupa GT'lerine rakip fiyat-performans sunan bu model, Japon spor otomobillerinin dünya çapında ciddiye alınmasını sağladı.",
+        similar:["510","Skyline GT-R"],
+        images:{front:"1972 Datsun 240-Z, front right (2022 Ellwood City Fall Fest & Car Cruise).jpg", interior:"Datsun 240Z interior (9308625344).jpg"}},
+      {model:"Skyline GT-R (Hakosuka)", year:1969, tag:"'Godzilla'nın Atası", designer:"Nissan Tasarım Merkezi", engine:"2.0L Altı Silindir",
+        story:"Pist yarışlarında neredeyse yenilmez bir performans sergileyerek, GT-R efsanesinin temelini attı.",
+        similar:["Fairlady Z","510"],
+        images:{front:"Nissan GC10 Skyline 2000GT (No.404) (24042812191).jpg"}}
+    ]},
+  { brand:"Mazda", era:"1967–1978 · Cosmo Sport'tan RX-7'ye", region:"Japonya",
+    cars:[
+      {model:"Cosmo Sport", year:1967, tag:"Rotari Öncüsü", designer:"Mazda Tasarım Merkezi", engine:"1.0L Wankel Rotari",
+        story:"Wankel rotari motoru seri üretime taşıyan ilk otomobillerden biri olarak, Mazda'nın mühendislik cesaretinin sembolü oldu.",
+        similar:["RX-3","RX-7"],
+        images:{front:"Mazda Cosmo Sport (L10A) front.jpg", side:"1968 Mazda Cosmo-Sport 01.jpg"}},
+      {model:"RX-3", year:1971, tag:"Pist Rakibi", designer:"Mazda Tasarım Merkezi", engine:"1.1–1.3L Wankel Rotari",
+        story:"Hafif gövdesi ve pürüzsüz rotari motoruyla dönemin Japon pist yarışlarında güçlü bir rakip oldu.",
+        similar:["Cosmo Sport","RX-7"],
+        images:{front:"1973 Mazda RX3 Coupe (9475849515).jpg"}},
+      {model:"RX-7", year:1978, tag:"Rotari Efsanesi", designer:"Matasaburo Maeda", engine:"1.1L Wankel Rotari",
+        story:"Dengeli ağırlık dağılımı ve pürüzsüz rotari gücüyle, uygun fiyatlı bir spor otomobil olarak dünya çapında sevildi.",
+        similar:["RX-3","Cosmo Sport"],
+        images:{front:"1981 Mazda RX-7 (FB Series 2) coupe (15979998413).jpg"}}
+    ]},
+  { brand:"Lancia", era:"1965–1980 · Fulvia'dan Delta'ya", region:"İtalya",
+    cars:[
+      {model:"Fulvia", year:1965, tag:"Zarif Mühendislik", designer:"Piero Castagnero", engine:"1.2–1.6L V4",
+        story:"Dar açılı V4 motoru ve önden çekişli şasisiyle mühendislik açısından döneminin en ileri tasarımlarından biriydi.",
+        similar:["Stratos HF","Beta Monte Carlo"],
+        images:{front:"Lancia Fulvia HF Rally.jpg", side:"1968 Lancia Fulvia Sport 1.3S (31651745518).jpg"}},
+      {model:"Stratos HF", year:1973, tag:"Ralli Devrimi", designer:"Marcello Gandini (Bertone)", engine:"2.4L V6 (Ferrari Dino)",
+        story:"Sıfırdan ralli için tasarlanan ilk otomobillerden biri; art arda Dünya Ralli Şampiyonlukları kazandı.",
+        similar:["Fulvia","Beta Monte Carlo"],
+        images:{front:"Lancia Stratos (49817653007).jpg", side:"1974 Lancia Stratos HF Stradale.jpg"}},
+      {model:"Beta Monte Carlo", year:1975, tag:"Orta Motorlu Cesaret", designer:"Pininfarina", engine:"2.0L Dört Silindir",
+        story:"Orta motorlu yerleşimiyle İtalyan spor otomobil geleneğine cesur bir katkı sundu.",
+        similar:["Stratos HF","Fulvia"],
+        images:{front:"Lancia Monte-Carlo Pininfarina1.JPG"}}
+    ]},
+  { brand:"Maserati", era:"1963–1975 · Ghibli'den Bora'ya", region:"İtalya",
+    cars:[
+      {model:"Ghibli", year:1967, tag:"Zarif Güç", designer:"Giorgetto Giugiaro (Ghia)", engine:"4.7L V8",
+        story:"Uzun ve alçak kaputuyla Giugiaro'nun en zarif tasarımlarından biri kabul edilir; Ferrari ve Lamborghini'ye doğrudan rakipti.",
+        similar:["Bora","Merak"],
+        images:{front:"1967 Maserati Ghibli (7707670274).jpg", side:"1966 Maserati Ghibli (9015300836).jpg"}},
+      {model:"Bora", year:1971, tag:"İlk Orta Motorlu Maserati", designer:"Giorgetto Giugiaro (Italdesign)", engine:"4.7L V8",
+        story:"Maserati'nin orta motorlu süper otomobil dünyasına ilk adımıydı; günlük kullanıma uygun konforuyla da öne çıktı.",
+        similar:["Ghibli","Merak"],
+        images:{front:"1973 Maserati Bora in Greenwich.jpg", interior:"1975MaseratiBora-interior.jpg"}},
+      {model:"Merak", year:1972, tag:"Erişilebilir Kardeş", designer:"Giorgetto Giugiaro (Italdesign)", engine:"3.0L V6",
+        story:"Bora'nın daha uygun fiyatlı ve hafif motorlu versiyonu olarak, orta motorlu deneyimi daha geniş bir kitleye açtı.",
+        similar:["Bora","Ghibli"],
+        images:{front:"Maserati Merak SS.JPG"}}
+    ]},
+  { brand:"Fiat", era:"1957–1979 · 500'den 131 Abarth'a", region:"İtalya",
+    cars:[
+      {model:"500 (Nuova)", year:1957, tag:"İtalya'yı Tekerleklendiren Araba", designer:"Dante Giacosa", engine:"0.5–0.6L İkiz Silindir",
+        story:"Savaş sonrası İtalya'da milyonlarca aileye ilk otomobil sahipliğini sağladı; küçük gövdesiyle şehir hayatının sembolü oldu.",
+        similar:["124 Spider","131 Abarth"],
+        images:{front:"1959 Fiat 500 Nuova Transformable Normale (14301697449).jpg"}},
+      {model:"124 Spider", year:1966, tag:"Güneşli Roadster", designer:"Pininfarina", engine:"1.4–2.0L Dört Silindir",
+        story:"Zarif İtalyan çizgileriyle Amerika'da da büyük ilgi gördü; onlarca yıl ihracat modeli olarak üretimde kaldı.",
+        similar:["500 (Nuova)","131 Abarth"],
+        images:{front:".00 2896 Fiat 124 Sport Spider.jpg", side:"Fiat 124 Spider rear.jpg"}},
+      {model:"131 Abarth", year:1976, tag:"Ralli Şampiyonu", designer:"Fiat Tasarım Merkezi, Abarth", engine:"2.0L Dört Silindir",
+        story:"Abarth performans dokunuşuyla Dünya Ralli Şampiyonası'nda art arda unvanlar kazandı.",
+        similar:["124 Spider","500 (Nuova)"],
+        images:{front:"Fiat 131 Abarth 001.JPG", interior:"1976 Fiat 131 Abarth Rally Stradale in Rosso Aranci, interior2.jpg"}}
+    ]},
+  { brand:"Cadillac", era:"1959–1967 · Kanatlı Çağ", region:"ABD",
+    cars:[
+      {model:"Eldorado Biarritz", year:1959, tag:"Kanat Efsanesi", designer:"Harley Earl", engine:"6.4L V8",
+        story:"Roket çağının etkisiyle tasarlanan devasa arka kanatları, Amerikan otomobil tasarımının en abartılı ve unutulmaz anını temsil eder.",
+        similar:["DeVille","Eldorado (1967)"],
+        images:{front:"1959 Cadillac Eldorado Biarritz pic1.JPG", side:"(1-18) 1959 Cadillac Eldorado Biarritz (4330212037).jpg"}},
+      {model:"DeVille", year:1965, tag:"Lüksün Standardı", designer:"GM Tasarım Stüdyosu", engine:"7.0L V8",
+        story:"Daha sade ve düz hatlara geçişiyle, Cadillac'ın 60'ların ortasındaki zarif lüks anlayışını simgeledi.",
+        similar:["Eldorado Biarritz","Eldorado (1967)"],
+        images:{front:"1965 Cadillac Deville convertible front.jpg"}},
+      {model:"Eldorado (1967)", year:1967, tag:"Öndeki Devrim", designer:"Bill Mitchell", engine:"7.0L V8",
+        story:"Cadillac'ın ilk önden çekişli modeliydi; keskin köşeli gövdesiyle markanın tasarım dilini yeniledi.",
+        similar:["DeVille","Eldorado Biarritz"],
+        images:{front:"Cadillac Eldorado 2.JPG"}}
+    ]},
+  { brand:"Pontiac", era:"1964–1973 · GTO'dan Trans Am'a", region:"ABD",
+    cars:[
+      {model:"GTO", year:1964, tag:"İlk Kas Araba", designer:"John DeLorean, Pontiac Ekibi", engine:"6.4L V8",
+        story:"Orta boy bir gövdeye büyük motor yerleştirme fikriyle, birçok tarihçiye göre 'kas araba' segmentini başlattı.",
+        similar:["Firebird Trans Am","Grand Prix"],
+        images:{front:"64 Pontiac GTO (9119313559).jpg", interior:"GM Heritage Center - 037 - Cars - 1964 GTO Interior.jpg"}},
+      {model:"Firebird Trans Am", year:1969, tag:"Sokak Yarışçısı", designer:"Pontiac Tasarım Stüdyosu", engine:"6.6L V8",
+        story:"Agresif kaput çıkıntısı ve Ram Air motoruyla, Amerikan kas araba çağının en tanınan silüetlerinden biri oldu.",
+        similar:["GTO","Grand Prix"],
+        images:{front:"1969 Pontiac Firebird Trans Am Polar White Frt Qtr.jpg"}},
+      {model:"Grand Prix", year:1969, tag:"Kişisel Lüks Coupe", designer:"Pontiac Tasarım Stüdyosu", engine:"7.5L V8",
+        story:"Uzun kaputu ve lüks iç mekanıyla, güç ile konforu aynı gövdede buluşturan 'kişisel lüks' segmentine katkı sundu.",
+        similar:["Firebird Trans Am","GTO"],
+        images:{front:"1969 Pontiac Grand Prix SJ (20601173932).jpg"}}
+    ]},
+  { brand:"Volkswagen", era:"1955–1974 · Beetle'dan Bus'a", region:"Almanya",
+    cars:[
+      {model:"Beetle", year:1955, tag:"Halkın Otomobili", designer:"Ferdinand Porsche", engine:"1.2L Boksör Dört",
+        story:"Savaş öncesi tasarlanan bu basit ve dayanıklı otomobil, tüm zamanların en çok üretilen tek platformlu modellerinden biri oldu.",
+        similar:["Karmann Ghia","Type 2 Bus"],
+        images:{front:"The Volkswagen Beetle.JPG"}},
+      {model:"Karmann Ghia", year:1955, tag:"Beetle'ın Şık Hali", designer:"Luigi Segre (Ghia)", engine:"1.2L Boksör Dört",
+        story:"Sıradan Beetle mekaniğini İtalyan tasarımıyla giydirerek, mütevazı bütçeyle şık bir spor coupe deneyimi sundu.",
+        similar:["Beetle","Type 2 Bus"],
+        images:{front:"1962 Volkswagen Karmann-Ghia Cinvertible Red (1).jpg"}},
+      {model:"Type 2 (Bus)", year:1962, tag:"Özgürlüğün Sembolü", designer:"Volkswagen Tasarım Ekibi", engine:"1.5L Boksör Dört",
+        story:"60'ların karşı kültür hareketiyle özdeşleşen bu minibüs, bugün hâlâ dünya çapında bir kültürel ikon olarak yaşıyor.",
+        similar:["Beetle","Karmann Ghia"],
+        images:{front:"1955 Volkswagen Type 2.jpg"}}
+    ]},
+  { brand:"Honda", era:"1966–1974 · S800'den Civic'e", region:"Japonya",
+    cars:[
+      {model:"S800", year:1966, tag:"Yüksek Devirli Cevher", designer:"Honda Tasarım Merkezi", engine:"0.8L Dört Silindir",
+        story:"Motosiklet mirasından gelen yüksek devir kabiliyetiyle, küçük motoruna rağmen canlı bir sürüş sundu.",
+        similar:["N600","Civic"],
+        images:{front:"1967 Honda S800 Roadster (23486869510).jpg", side:"1966 Honda S800 rear.jpg"}},
+      {model:"N600", year:1967, tag:"Kompakt İhracatçı", designer:"Honda Tasarım Merkezi", engine:"0.6L İkiz Silindir",
+        story:"Honda'nın otomobil pazarındaki ilk uluslararası adımlarından biri; küçük ama verimli motoruyla dikkat çekti.",
+        similar:["S800","Civic"],
+        images:{front:"1972 Honda N600 Hypermileage Car Lane Motor Museum.jpg"}},
+      {model:"Civic", year:1972, tag:"Küresel Başarı", designer:"Honda Tasarım Merkezi", engine:"1.2–1.5L Dört Silindir",
+        story:"Petrol krizi döneminde yakıt verimliliğiyle öne çıkarak, Honda'yı küresel bir otomobil markasına dönüştürdü.",
+        similar:["N600","S800"],
+        images:{front:"1973 Honda Civic Coupe (23433060569).jpg"}}
+    ]},
+  { brand:"Dodge", era:"1966–1971 · Kas Araba Çağı", region:"ABD",
+    cars:[
+      {model:"Charger", year:1966, tag:"Uçan Köprü Silueti", designer:"Chrysler Tasarım Stüdyosu", engine:"5.2–7.2L V8",
+        story:"Gizli farları ve fastback çatısıyla döneminin en agresif görünümlü kas arabalarından biriydi; sinema ve televizyonda sık sık başrol oynadı.",
+        similar:["Challenger","Super Bee"],
+        images:{front:"1967 Dodge Charger Hardtop (30686870927).jpg", side:"1967 Dodge Charger fastback red.jpg", interior:"1967 Dodge Charger fastback interior sf.jpg"}},
+      {model:"Challenger", year:1970, tag:"Geç Kalan Rakip", designer:"Carl Cameron", engine:"5.2–7.2L V8",
+        story:"Mustang ve Camaro'ya karşı geç ama güçlü bir cevap olarak geldi; geniş motor seçenekleriyle tam bir kas araba kimliği kazandı.",
+        similar:["Charger","Super Bee"],
+        images:{front:"1970 Dodge Challenger RT 440 Magnum (13440447413).jpg", side:"1970 Dodge Challenger RT 440 Magnum (13440720504).jpg"}},
+      {model:"Super Bee", year:1968, tag:"Bütçe Dostu Güç", designer:"Chrysler Tasarım Stüdyosu", engine:"6.3–7.2L V8",
+        story:"Coronet tabanlı bu model, yüksek performansı daha erişilebilir bir fiyata sunarak gençlerin gözdesi oldu.",
+        similar:["Charger","Challenger"],
+        images:{front:"1968 Dodge Super Bee (28824878894).jpg"}}
+    ]},
+  { brand:"Plymouth", era:"1964–1971 · Barracuda'dan GTX'e", region:"ABD",
+    cars:[
+      {model:"Barracuda", year:1964, tag:"İlk Pony Car Adaylarından", designer:"Chrysler Tasarım Stüdyosu", engine:"2.8–7.0L",
+        story:"Ford Mustang'den haftalar önce piyasaya çıkarak, pony car segmentinin ilk örneklerinden biri olma unvanını taşır.",
+        similar:["Road Runner","GTX"],
+        images:{front:"1964 Plymouth Barracuda, front right (2022 Back to the 50's Weekend).jpg"}},
+      {model:"Road Runner", year:1968, tag:"Sade ve Güçlü", designer:"Plymouth Tasarım Stüdyosu", engine:"5.2–7.0L V8",
+        story:"Lüks donanımlardan arındırılmış, sade ve düşük maliyetli bir kas araba felsefesiyle büyük satış başarısı yakaladı.",
+        similar:["Barracuda","GTX"],
+        images:{front:"1969 Plymouth Road Runner (13493885724).jpg"}},
+      {model:"GTX", year:1967, tag:"Beyefendi Kas Araba", designer:"Plymouth Tasarım Stüdyosu", engine:"7.0–7.2L V8",
+        story:"Kas araba gücünü daha şık ve donanımlı bir gövdeyle sunarak 'centilmen kas araba' konseptini temsil etti.",
+        similar:["Road Runner","Barracuda"],
+        images:{front:"1967 Plymouth GTX Convertible (14383887593).jpg"}}
+    ]},
+  { brand:"Buick", era:"1963–1970 · Riviera'dan Wildcat'e", region:"ABD",
+    cars:[
+      {model:"Riviera", year:1963, tag:"Amerikan Zarafeti", designer:"Bill Mitchell (GM)", engine:"6.6–7.0L V8",
+        story:"Avrupa gran turizmlerinden ilham alan keskin ve zarif hatlarıyla, Amerikan lüks coupe tasarımında bir dönüm noktası oldu.",
+        similar:["GS 400","Wildcat"],
+        images:{front:"Buick Riviera (29305196800).jpg", interior:"GM Heritage Center - 030 - Cars - Riviera GS Interior.jpg"}},
+      {model:"GS 400", year:1965, tag:"Lüks Kas Araba", designer:"Buick Tasarım Stüdyosu", engine:"6.6L V8",
+        story:"Buick'in kas araba dünyasına konforu feda etmeden verdiği yanıt; güç ile lüksü aynı gövdede buluşturdu.",
+        similar:["Riviera","Wildcat"],
+        images:{front:"1969 Buick GS 400 Convertble (27330948655).jpg"}},
+      {model:"Wildcat", year:1966, tag:"Tam Boy Performans", designer:"Buick Tasarım Stüdyosu", engine:"7.0L V8",
+        story:"Büyük gövdesine rağmen sportif bir sürüş karakteri sunarak Buick'in performans iddiasını taşıdı.",
+        similar:["Riviera","GS 400"],
+        images:{front:"1966 Buick Wildcat Convertible.jpg"}}
+    ]},
+  { brand:"Oldsmobile", era:"1966–1970 · Toronado'dan 442'ye", region:"ABD",
+    cars:[
+      {model:"Toronado", year:1966, tag:"Öncü Çekiş", designer:"David North (GM)", engine:"7.0L V8",
+        story:"Savaş sonrası Amerika'nın ilk seri üretim önden çekişli otomobillerinden biriydi; heykelsi gövdesiyle de dikkat çekti.",
+        similar:["442","Cutlass Supreme"],
+        images:{front:"1966 Oldsmobile Toronado Deluxe, front right, 06-16-2024.jpg", side:"1966 Oldsmobile Toronado.jpg"}},
+      {model:"442", year:1968, tag:"Sokak Canavarı", designer:"Oldsmobile Tasarım Stüdyosu", engine:"6.6–7.5L V8",
+        story:"Dört karbüratörlü versiyonlarıyla ismini alan bu model, dönemin en güçlü kas arabalarından biri olarak anılır.",
+        similar:["Toronado","Cutlass Supreme"],
+        images:{front:"Oldsmobile 442 1968 oldtimertreffen Kulmbach 20186170777.jpg"}},
+      {model:"Cutlass Supreme", year:1970, tag:"Dengeli Performans", designer:"Oldsmobile Tasarım Stüdyosu", engine:"5.7–6.6L V8",
+        story:"Günlük kullanım konforuyla performansı dengeleyerek, 70'lerin en çok satan orta boy modellerinden biri oldu.",
+        similar:["442","Toronado"],
+        images:{front:"1970 Oldsmobile Cutlass Supreme Holiday Coupe, front right, 06-21-2023.jpg"}}
+    ]},
+  { brand:"Austin-Healey", era:"1953–1967 · 100'den Sprite'a", region:"İngiltere",
+    cars:[
+      {model:"100", year:1953, tag:"İngiliz Roadster Klasiği", designer:"Donald Healey", engine:"2.7L Dört Silindir",
+        story:"Donald Healey'nin kendi adını taşıyan tasarım stüdyosuyla geliştirdiği bu roadster, markanın temelini attı.",
+        similar:["3000","Sprite"],
+        images:{front:"1953 Austin Healey 100 BN1 (12081338536).jpg"}},
+      {model:"3000", year:1959, tag:"Büyük Sağlam Healey", designer:"Donald Healey", engine:"2.9L Altı Silindir",
+        story:"Daha güçlü altı silindirli motoruyla, Healey'nin en tanınan ve en çok üretilen modeli oldu.",
+        similar:["100","Sprite"],
+        images:{front:"1962 Austin-Healey 3000 Mk II BT7 Roadster in British Racing Green, Front Left, 07-23-2022.jpg"}},
+      {model:"Sprite", year:1958, tag:"Gülümseyen Yüz", designer:"Donald Healey", engine:"0.9–1.3L Dört Silindir",
+        story:"Öne çıkık far yerleşimiyle 'kurbağa göz' lakabını aldı; küçük ve uygun fiyatlı bir açık araba deneyimi sundu.",
+        similar:["100","3000"],
+        images:{front:"JCN110 1958 Austin Healey Frogeye Sprite.jpg", interior:"Austin Healey Frogeye sprite mark one interior.jpg"}}
+    ]},
+  { brand:"Chrysler", era:"1955–1963 · 300C'den Imperial'a", region:"ABD",
+    cars:[
+      {model:"300C", year:1957, tag:"Mektup Serisi", designer:"Virgil Exner", engine:"6.4L V8",
+        story:"'Mektup Serisi' olarak bilinen performans modellerinin en güçlülerinden biriydi; keskin kanatlı gövdesiyle dönemine damga vurdu.",
+        similar:["Newport","Imperial"],
+        images:{front:"Chrysler 300C.jpg"}},
+      {model:"Newport", year:1961, tag:"Erişilebilir Lüks", designer:"Chrysler Tasarım Stüdyosu", engine:"6.3L V8",
+        story:"Chrysler'ın lüks hissini daha geniş bir kitleye taşıyan giriş seviyesi tam boy modeliydi.",
+        similar:["300C","Imperial"],
+        images:{front:"1961 Chrysler Newport Sedan.jpg"}},
+      {model:"Imperial", year:1963, tag:"Zirvedeki Marka", designer:"Elwood Engel", engine:"6.8L V8",
+        story:"Chrysler'ın ayrı bir marka olarak konumlandırdığı bu model, Cadillac ve Lincoln'e karşı doğrudan rakipti.",
+        similar:["300C","Newport"],
+        images:{front:"Chrysler Imperial Crown 1962 5311471.jpg"}}
+    ]},
+  { brand:"AMC", era:"1968–1974 · AMX'ten Gremlin'e", region:"ABD",
+    cars:[
+      {model:"AMX", year:1968, tag:"İki Kişilik Kas Araba", designer:"Richard Teague", engine:"4.8–6.4L V8",
+        story:"American Motors'un küçük gövdeye büyük motor sığdırma cesaretiyle ortaya çıkan iki kişilik spor modeliydi.",
+        similar:["Javelin","Gremlin"],
+        images:{front:"1968 AMC AMX in Turbo Silver, Front Left, 05-27-2023.jpg"}},
+      {model:"Javelin", year:1968, tag:"Pony Car Rakibi", designer:"Richard Teague", engine:"3.8–6.4L V8",
+        story:"Mustang ve Camaro'ya karşı AMC'nin pony car segmentindeki cevabıydı; yarış pistlerinde de başarı yakaladı.",
+        similar:["AMX","Gremlin"],
+        images:{front:"1972 AMC Javelin AMX, front right (Cruisin' the River Lowellville Car Show, June 19th, 2023).jpg"}},
+      {model:"Gremlin", year:1970, tag:"Cesur Kompakt", designer:"Richard Teague", engine:"3.3–4.2L Altı Silindir",
+        story:"Kesik arka gövdesiyle tartışmalı ama akılda kalıcı bir tasarım sundu; Amerikan kompakt otomobil pazarına erken bir giriş oldu.",
+        similar:["AMX","Javelin"],
+        images:{front:"Gremlin X Front.jpg", interior:"1974 AMC Gremlin X and Levi's package in Diamond blue at 2021 AMO 6of6.jpg"}}
+    ]},
+  { brand:"Opel", era:"1968–1978 · GT'den Kadett'e", region:"Almanya",
+    cars:[
+      {model:"GT", year:1968, tag:"Küçük Corvette", designer:"Erhard Schnell", engine:"1.1–1.9L Dört Silindir",
+        story:"Chevrolet Corvette'i andıran gövdesiyle 'Avrupa'nın küçük Corvette'i' olarak anıldı; açılır farları döneminde dikkat çekiciydi.",
+        similar:["Manta","Kadett GT/E"],
+        images:{front:"Opel gt 1970 front.JPG"}},
+      {model:"Manta", year:1970, tag:"Zarif Coupe", designer:"Opel Tasarım Merkezi", engine:"1.6–1.9L Dört Silindir",
+        story:"Ford Capri'ye rakip olarak geliştirilen bu coupe, dengeli sürüşü ve zarif çizgileriyle sevildi.",
+        similar:["GT","Kadett GT/E"],
+        images:{front:"1970 Opel Manta.jpg"}},
+      {model:"Kadett GT/E", year:1973, tag:"Enjeksiyonlu Performans", designer:"Opel Tasarım Merkezi", engine:"1.9L Dört Silindir, Enjeksiyonlu",
+        story:"Dönemine göre ileri sayılan yakıt enjeksiyon teknolojisiyle, kompakt gövdesine canlı bir performans kattı.",
+        similar:["Manta","GT"],
+        images:{front:"Opel Kadett GTE Front.jpg"}}
+    ]},
+  { brand:"Rover", era:"1958–1976 · P5'ten SD1'e", region:"İngiltere",
+    cars:[
+      {model:"P5", year:1958, tag:"Devlet Adamı Otomobili", designer:"David Bache", engine:"3.0L Altı Silindir",
+        story:"Ağırbaşlı gövdesiyle İngiliz hükümet yetkilileri ve kraliyet ailesi tarafından tercih edilen bir statü sembolü oldu.",
+        similar:["P6 2000","SD1"],
+        images:{front:"Rover 3-litre aka Rover P5 2995cc July 1960.JPG"}},
+      {model:"P6 2000", year:1963, tag:"Mühendislik Ödülü", designer:"David Bache", engine:"2.0–3.5L",
+        story:"Yenilikçi güvenlik ve süspansiyon çözümleriyle Avrupa'nın ilk 'Yılın Otomobili' ödülünü kazandı.",
+        similar:["P5","SD1"],
+        images:{front:"Rover 2000 TC aka P6 1997cc August 1967 faithfully conserved or restored to look not unlike the way they looked in 1967.JPG"}},
+      {model:"SD1", year:1976, tag:"Kama Formu", designer:"David Bache", engine:"2.3–3.5L V8",
+        story:"Ferrari Daytona'dan ilham alan kama şeklindeki hatchback gövdesiyle, İngiliz otomobil tasarımına cesur bir adım attı.",
+        similar:["P6 2000","P5"],
+        images:{front:"1976 Rover 3500 SD (18800001220).jpg", interior:"Rover SD1 Interior (2517758216).jpg"}}
+    ]},
+  { brand:"Studebaker", era:"1953–1963 · Starliner'dan Avanti'ye", region:"ABD",
+    cars:[
+      {model:"Starliner", year:1953, tag:"Havacılık İlhamı", designer:"Robert Bourke (Raymond Loewy Ekibi)", engine:"2.8–4.2L",
+        story:"Uçak tasarımından ilham alan pürüzsüz gövdesiyle, döneminin en özgün Amerikan otomobillerinden biri olarak kabul edilir.",
+        similar:["Avanti","Hawk"],
+        images:{front:"Studebaker-commander-starliner-1953.jpg"}},
+      {model:"Avanti", year:1962, tag:"Fiberglas Devrimi", designer:"Raymond Loewy Ekibi", engine:"4.7–5.0L V8",
+        story:"Fiberglas gövdesi ve fütüristik tasarımıyla, batmakta olan bir markanın son cesur ve yaratıcı hamlesiydi.",
+        similar:["Starliner","Hawk"],
+        images:{front:"STUDEBAKER Avanti V8 front.jpg", interior:"STUDEBAKER Avanti V8 interior.jpg"}},
+      {model:"Hawk", year:1956, tag:"Zarif Coupe", designer:"Raymond Loewy Ekibi", engine:"3.7–4.7L",
+        story:"Uzun kaputu ve dik ızgarasıyla döneminin Avrupa gran turizmlerine göz kırpan zarif bir Amerikan yorumuydu.",
+        similar:["Avanti","Starliner"],
+        images:{front:"1962 Studebaker Gran Turismo Hawk in black FL 09of11.jpg"}}
+    ]},
+  { brand:"Volvo", era:"1956–1975 · P1800'den 240'a", region:"İsveç",
+    cars:[
+      {model:"Amazon (P120)", year:1956, tag:"İsveç'in Güven Sembolü", designer:"Jan Wilsgaard", engine:"1.6–2.0L Dört Silindir",
+        story:"Sağlam gövdesi ve dönemine göre öncü emniyet kemeri standardıyla Volvo'nun güvenlik odaklı kimliğinin temelini attı.",
+        similar:["P1800","240"],
+        images:{front:"Classic 1965 Volvo 122 parked on Borstal Road, Rochester - geograph.org.uk - 3935777.jpg"}},
+      {model:"P1800", year:1961, tag:"Zarif İskandinav GT", designer:"Pelle Petterson", engine:"1.8–2.0L Dört Silindir",
+        story:"Bir televizyon dizisinde başrol otomobili olarak dünya çapında tanındı; İsveç tasarımının zarif yüzü oldu.",
+        similar:["Amazon (P120)","240"],
+        images:{front:"1962 Volvo P1800 in Red (Greenwich), front right.jpg"}},
+      {model:"240", year:1974, tag:"Kutu Şeklinde Dayanıklılık", designer:"Jan Wilsgaard", engine:"2.0–2.3L Dört Silindir",
+        story:"Köşeli, sade gövdesiyle onlarca yıl üretimde kaldı; sağlamlığıyla adeta efsaneleşti.",
+        similar:["P1800","Amazon (P120)"],
+        images:{front:"1981 Volvo 244 GL.jpg", interior:"1982 Volvo 240 interior - Flickr - dave 7.jpg"}}
+    ]},
+  { brand:"Saab", era:"1960–1978 · 96'dan 99 Turbo'ya", region:"İsveç",
+    cars:[
+      {model:"96", year:1960, tag:"Havacılık Kökenli Form", designer:"Sixten Sason", engine:"0.8–1.7L",
+        story:"Uçak üreticisi kökenli mühendislik felsefesiyle aerodinamik bir gövde tasarladı; ralli pistlerinde de başarı kazandı.",
+        similar:["Sonett","99 Turbo"],
+        images:{front:"1960 Saab 96 pic1.JPG", side:"1970 tan Saab 96 side.JPG"}},
+      {model:"Sonett III", year:1970, tag:"İsveç'in Spor Yorumu", designer:"Sergio Coggiola", engine:"1.7–2.0L",
+        story:"Saab'ın sınırlı sayıda ürettiği bu spor coupe, markanın mühendislik cesaretini gövdeye yansıttı.",
+        similar:["96","99 Turbo"],
+        images:{front:"Saab Sonett III front view.jpg", interior:"Saab Sonett III Cockpit.jpg"}},
+      {model:"99 Turbo", year:1978, tag:"Turbo Öncüsü", designer:"Björn Envall", engine:"2.0L Dört Silindir, Turbo",
+        story:"Turbo teknolojisini geniş kitlelere tanıtan öncü modellerden biri; İsveç mühendisliğinin performans atılımıydı.",
+        similar:["96","Sonett"],
+        images:{front:"1978 Saab 99 Turbo EMS.jpg"}}
+    ]},
+  { brand:"Simca", era:"1957–1975 · Aronde'dan 1000 Rallye'ye", region:"Fransa",
+    cars:[
+      {model:"Aronde", year:1957, tag:"Fransız Aile Klasiği", designer:"Simca Tasarım Stüdyosu", engine:"1.3–1.5L Dört Silindir",
+        story:"Savaş sonrası Fransa'da geniş kitlelere ulaşan, sade ve pratik bir aile otomobiliydi.",
+        similar:["1000 Rallye","1301"],
+        images:{front:"1963 Simca Aronde (P60) Deluxe sedan (19816046702).jpg"}},
+      {model:"1000 Rallye", year:1970, tag:"Ralli Ruhlu Kompakt", designer:"Simca Tasarım Stüdyosu", engine:"1.0–1.3L Dört Silindir",
+        story:"Arkadan motorlu kompakt gövdesiyle Avrupa ralli pistlerinde amatör yarışçıların gözdesi oldu.",
+        similar:["Aronde","1301"],
+        images:{front:"1977 Simca 1000 Rallye 1 front.jpg", side:"1977 Simca 1000 Rallye 1 side.jpg"}},
+      {model:"1301", year:1966, tag:"Konforlu Aile Sedanı", designer:"Simca Tasarım Stüdyosu", engine:"1.3–1.5L Dört Silindir",
+        story:"Geniş iç mekanı ve konforlu süspansiyonuyla dönemin orta sınıf Fransız ailelerinin tercihi oldu.",
+        similar:["1000 Rallye","Aronde"],
+        images:{front:"Simca 1301 Special Front.JPG"}}
+    ]},
+  { brand:"Bristol", era:"1953–1976 · 404'ten 411'e", region:"İngiltere",
+    cars:[
+      {model:"404", year:1953, tag:"Havacılık Zarafeti", designer:"Bristol Tasarım Ekibi", engine:"2.0L Altı Silindir",
+        story:"Uçak üreticisi kökeninden gelen hassas mühendislikle, az sayıda üretilen ama son derece özenli bir İngiliz GT'siydi.",
+        similar:["408","411"],
+        images:{front:"Bristol 404.JPG"}},
+      {model:"408", year:1963, tag:"Sessiz Lüks", designer:"Bristol Tasarım Ekibi", engine:"5.2L V8 (Chrysler)",
+        story:"Amerikan V8 gücünü İngiliz zarafetiyle birleştirerek, göze batmayan ama son derece güçlü bir lüks GT sundu.",
+        similar:["404","411"]},
+      {model:"411", year:1969, tag:"Zirvedeki Bristol", designer:"Dennis Sevier", engine:"6.6L V8 (Chrysler)",
+        story:"Markanın en güçlü ve olgun modellerinden biri; sınırlı üretimiyle bugün nadir bulunan bir koleksiyoner parçası.",
+        similar:["408","404"],
+        images:{front:"1970 Bristol 411 Series 1.JPG", interior:"Bristol 411 interior.jpg"}}
+    ]},
+  { brand:"Rambler", era:"1958–1969 · Ambassador'dan Rebel'e", region:"ABD",
+    cars:[
+      {model:"Ambassador", year:1958, tag:"Verimli Lüks", designer:"Edmund Anderson", engine:"3.2–5.4L",
+        story:"Dönemin dev Amerikan otomobillerine karşı daha kompakt ama yine de lüks bir alternatif sundu.",
+        similar:["Rebel","American"],
+        images:{front:"1958 Ambassador 4-d hardtop front.jpg"}},
+      {model:"Rebel", year:1957, tag:"Erken Kas Araba", designer:"Edmund Anderson", engine:"5.4L V8",
+        story:"Büyük V8 motoru kompakt bir gövdeye yerleştirerek, kas araba çağının erken habercilerinden biri oldu.",
+        similar:["Ambassador","American"],
+        images:{interior:"1957 Rambler Rebel interior.JPG"}},
+      {model:"American", year:1964, tag:"Sade Kompakt", designer:"Richard Teague", engine:"3.2–4.8L",
+        story:"Gereksiz süslerden arındırılmış sade tasarımıyla, pratik ve ekonomik bir Amerikan otomobili anlayışını temsil etti.",
+        similar:["Rebel","Ambassador"],
+        images:{front:"1958 Rambler American two-door sedan in red and white at PA meet 5of5.jpg"}}
+    ]},
+  { brand:"Land Rover", era:"1948–1985 · Series I'den Range Rover'a", region:"İngiltere",
+    cars:[
+      {model:"Series I", year:1948, tag:"Arazinin Öncüsü", designer:"Maurice Wilks", engine:"1.6–2.0L Dört Silindir",
+        story:"Savaş sonrası çiftlik ve arazi ihtiyacından doğan bu model, dünya çapında bir arazi aracı efsanesinin ilk adımıydı.",
+        similar:["Series III","Range Rover"],
+        images:{front:"Land Rover Series I 1948 (HUE 166).jpg"}},
+      {model:"Series III", year:1971, tag:"Dayanıklılığın Zirvesi", designer:"Land Rover Tasarım Ekibi", engine:"2.3–2.6L",
+        story:"Basit ama son derece güvenilir mekaniğiyle dünyanın en zorlu coğrafyalarında görev yaptı.",
+        similar:["Series I","Range Rover"],
+        images:{front:"1978 Land Rover Series III SWB (10832847845).jpg"}},
+      {model:"Range Rover", year:1970, tag:"Lüks Arazi Devrimi", designer:"David Bache, Spen King", engine:"3.5L V8",
+        story:"Arazi kabiliyetini lüks bir gövdeyle birleştirerek, bugünkü lüks SUV segmentinin temelini attı.",
+        similar:["Series III","Series I"],
+        images:{front:"1970 Land Rover Range Rover 3.5.jpg"}}
+    ]},
+  { brand:"Wolseley", era:"1948–1972 · 6/80'den Six'e", region:"İngiltere",
+    cars:[
+      {model:"6/80", year:1948, tag:"Devriye Klasiği", designer:"Wolseley Tasarım Stüdyosu", engine:"2.2L Altı Silindir",
+        story:"İngiliz polis teşkilatlarının tercih ettiği bu sedan, dönemin otoyollarında tanıdık bir siluet haline geldi.",
+        similar:["Hornet","Six"],
+        images:{front:"Wolseley 6-80 (1953) - 14619677753.jpg", side:"Wolseley 6-80 front.jpg"}},
+      {model:"Hornet", year:1961, tag:"Şık Küçük Sedan", designer:"Wolseley Tasarım Stüdyosu", engine:"1.0–1.3L Dört Silindir",
+        story:"Mini tabanlı ama daha uzun kaputlu ve klasik ızgaralı gövdesiyle markanın zarafetini küçük ölçekte sundu.",
+        similar:["6/80","Six"],
+        images:{front:"1965 Wolseley Hornet.jpg"}},
+      {model:"Six", year:1972, tag:"Son Nesil", designer:"Wolseley Tasarım Stüdyosu", engine:"2.2L Altı Silindir",
+        story:"Markanın son dönem modellerinden biri; ışıklı ızgara amblemiyle tanınan geleneksel Wolseley kimliğini sürdürdü.",
+        similar:["6/80","Hornet"]}
+    ]},
+  { brand:"Riley", era:"1952–1969 · RME'den Elf'e", region:"İngiltere",
+    cars:[
+      {model:"RME", year:1952, tag:"Zarif Küçük Sedan", designer:"Riley Tasarım Stüdyosu", engine:"1.5L Dört Silindir",
+        story:"Ahşap kaplamalı iç mekanı ve zarif çizgileriyle döneminin sevilen orta sınıf İngiliz otomobillerinden biriydi.",
+        similar:["Elf","1.5"],
+        images:{front:"Riley RME (1954) - 20607875326.jpg"}},
+      {model:"1.5", year:1957, tag:"Sportif Sedan", designer:"Riley Tasarım Stüdyosu", engine:"1.5L Dört Silindir",
+        story:"Sade gövdesinin altında sportif bir karakter taşıyan bu model, markanın performans mirasını sürdürdü.",
+        similar:["RME","Elf"]},
+      {model:"Elf", year:1961, tag:"Lüks Mini Yorumu", designer:"Riley Tasarım Stüdyosu", engine:"1.0–1.3L Dört Silindir",
+        story:"Mini'nin mekaniğini uzatılmış kuyruk ve klasik ızgarayla lüks bir pakete dönüştürdü.",
+        similar:["1.5","RME"],
+        images:{front:"1962 Riley Elf Mark I 850cc.jpg"}}
+    ]},
+  { brand:"Humber", era:"1952–1967 · Hawk'tan Sceptre'a", region:"İngiltere",
+    cars:[
+      {model:"Super Snipe", year:1952, tag:"Devlet Aracı", designer:"Humber Tasarım Stüdyosu", engine:"2.3–3.0L Altı Silindir",
+        story:"Geniş ve konforlu gövdesiyle İngiliz ordusu ve devlet yetkilileri tarafından sıkça tercih edildi.",
+        similar:["Hawk","Sceptre"],
+        images:{front:"Humber Super Snipe 4086cc 1952.JPG"}},
+      {model:"Hawk", year:1957, tag:"Aile Sedanı", designer:"Humber Tasarım Stüdyosu", engine:"2.3L Altı Silindir",
+        story:"Super Snipe'ın daha erişilebilir kardeşi olarak, orta sınıf ailelere konforlu bir seçenek sundu.",
+        similar:["Super Snipe","Sceptre"]},
+      {model:"Sceptre", year:1963, tag:"Lüks Donanımlı", designer:"Humber Tasarım Stüdyosu", engine:"1.6–1.7L Dört Silindir",
+        story:"Rootes grubunun üst donanım vitrini olarak, dönemine göre zengin bir opsiyon listesiyle geldi.",
+        similar:["Hawk","Super Snipe"]}
+    ]},
+  { brand:"Panhard", era:"1955–1967 · Dyna'dan 24'e", region:"Fransa",
+    cars:[
+      {model:"Dyna Z", year:1955, tag:"Hafif Alüminyum Gövde", designer:"Louis Bionier", engine:"0.85L İkiz Silindir",
+        story:"Alüminyum gövdesiyle döneminin en hafif sedanlarından biriydi; küçük motoruna rağmen şaşırtıcı bir iç hacim sundu.",
+        similar:["PL17","24"],
+        images:{front:"Panhard Dyna Z(1956) (31765202635).jpg"}},
+      {model:"PL17", year:1959, tag:"Aerodinamik Sedan", designer:"Louis Bionier", engine:"0.85–0.85L İkiz Silindir",
+        story:"Aerodinamik gövdesi sayesinde küçük motoruna rağmen dönemine göre şaşırtıcı bir hız potansiyeline sahipti.",
+        similar:["Dyna Z","24"],
+        images:{front:"Panhard PL17 (1960) (31853567286).jpg"}},
+      {model:"24", year:1964, tag:"Markanın Zirvesi", designer:"Louis Bionier", engine:"0.85L İkiz Silindir",
+        story:"Panhard'ın son özgün modeli olarak, zarif coupe gövdesiyle markanın tasarım mirasını taçlandırdı.",
+        similar:["PL17","Dyna Z"],
+        images:{front:"Panhard 24 BT.jpg"}}
+    ]},
+  { brand:"De Tomaso", era:"1967–1974 · Vallelunga'dan Pantera'ya", region:"İtalya",
+    cars:[
+      {model:"Vallelunga", year:1965, tag:"İlk Adım", designer:"Carrozzeria Fissore", engine:"1.5L Dört Silindir, Orta Motor",
+        story:"Markanın orta motorlu felsefesini başlatan ilk seri üretim modeliydi; hafif gövdesiyle çevik bir sürüş sundu.",
+        similar:["Mangusta","Pantera"]},
+      {model:"Mangusta", year:1967, tag:"Amerikan Kalpli İtalyan", designer:"Giorgetto Giugiaro (Ghia)", engine:"4.7L V8 (Ford)",
+        story:"İtalyan tasarımı ile Amerikan V8 gücünü birleştiren bu model, markanın uluslararası tanınırlığını başlattı.",
+        similar:["Vallelunga","Pantera"],
+        images:{front:"De Tomaso Mangusta (1967).jpg"}},
+      {model:"Pantera", year:1971, tag:"Ford Ortaklığı", designer:"Tom Tjaarda (Ghia)", engine:"5.8L V8 (Ford)",
+        story:"Ford bayilerinde satılan bu orta motorlu süper otomobil, İtalyan tasarımını Amerikan pazarına taşıdı.",
+        similar:["Mangusta","Vallelunga"],
+        images:{front:"1973 De Tomaso Pantera in silver grey, front right.jpg", side:"De Tomaso Pantera Side View.jpg"}}
+    ]},
+  { brand:"Iso", era:"1962–1972 · Rivolta'dan Lele'ye", region:"İtalya",
+    cars:[
+      {model:"Rivolta", year:1962, tag:"Kompakt Skuter Devinden GT'ye", designer:"Giorgetto Giugiaro (Bertone)", engine:"5.4L V8 (Chevrolet)",
+        story:"Skuter üreticisi kökenli Iso'nun, Amerikan V8 gücüyle İtalyan zarafetini birleştirdiği ilk gran turizmiydi.",
+        similar:["Grifo","Lele"]},
+      {model:"Grifo", year:1965, tag:"Rekabetin Zirvesi", designer:"Giorgetto Giugiaro (Bertone)", engine:"5.4–7.4L V8 (Chevrolet)",
+        story:"Ferrari ve Lamborghini'ye doğrudan rakip olan bu model, dönemin en hızlı gran turizmlerinden biriydi.",
+        similar:["Rivolta","Lele"],
+        images:{front:"1968 Iso Grifo 7 Litri RHD.jpg"}},
+      {model:"Lele", year:1969, tag:"Köşeli Zarafet", designer:"Marcello Gandini (Bertone)", engine:"5.4L V8 (Ford/Chevrolet)",
+        story:"Rivolta'nın yerini alan bu model, daha köşeli ve dönemine uygun bir tasarım diliyle geldi.",
+        similar:["Grifo","Rivolta"],
+        images:{front:"1970 Iso Lele, front left (Greenwich 2019).jpg"}}
+    ]},
+  { brand:"Facel Vega", era:"1954–1964 · FV'den Facellia'ya", region:"Fransa",
+    cars:[
+      {model:"FV", year:1954, tag:"Fransız Lüks GT", designer:"Jean Daninos", engine:"4.5–5.9L V8 (Chrysler)",
+        story:"Amerikan V8 motorunu Fransız zarafetiyle birleştiren bu model, dönemin ünlülerinin gözdesi oldu.",
+        similar:["HK500","Facellia"],
+        images:{front:"1955 Facel Vega FV1 - fvr.jpg"}},
+      {model:"HK500", year:1958, tag:"Markanın Doruğu", designer:"Jean Daninos", engine:"5.9L V8 (Chrysler)",
+        story:"Güçlü motoru ve lüks donanımıyla, Facel Vega'nın en tanınan ve en başarılı modeli oldu.",
+        similar:["FV","Facellia"],
+        images:{front:"1958 Facel Vega HK500 coupe (9596079971).jpg"}},
+      {model:"Facellia", year:1959, tag:"Kompakt Kardeş", designer:"Jean Daninos", engine:"1.6L Dört Silindir",
+        story:"Markanın daha erişilebilir bir modeli olarak tasarlandı, ancak motor sorunları markanın sonunu hazırladı.",
+        similar:["HK500","FV"],
+        images:{front:"1961 Facel Vega Facellia - fvl.jpg"}}
+    ]},
+  { brand:"DeSoto", era:"1949–1961 · Custom'dan Adventurer'a", region:"ABD",
+    cars:[
+      {model:"Custom", year:1949, tag:"Savaş Sonrası Klasik", designer:"Chrysler Tasarım Stüdyosu", engine:"3.9L Altı Silindir",
+        story:"Sağlam ve güvenilir mekaniğiyle savaş sonrası Amerikan ailelerinin tercih ettiği modellerden biriydi.",
+        similar:["Fireflite","Adventurer"]},
+      {model:"Fireflite", year:1955, tag:"Kanatlı Çağın Habercisi", designer:"Virgil Exner", engine:"5.4L V8",
+        story:"Renkli iki tonlu boyası ve kroma gövdesiyle 50'lerin iyimser Amerikan tasarım dilini yansıttı.",
+        similar:["Custom","Adventurer"],
+        images:{front:"1955 Desoto Fireflite Coronado Sedan (22183837915).jpg"}},
+      {model:"Adventurer", year:1956, tag:"Performans Amiral Gemisi", designer:"Virgil Exner", engine:"5.7L V8",
+        story:"Markanın en güçlü ve en donanımlı modeli olarak, DeSoto'nun performans iddiasını taşıdı.",
+        similar:["Fireflite","Custom"],
+        images:{front:"1956 DeSoto Adventurer.jpg"}}
+    ]},
+  { brand:"Packard", era:"1951–1958 · 200'den Caribbean'a", region:"ABD",
+    cars:[
+      {model:"200", year:1951, tag:"Erişilebilir Lüks", designer:"Packard Tasarım Stüdyosu", engine:"4.0L Altı Silindir",
+        story:"Markanın giriş seviyesi modeli olarak, Packard kalitesini daha geniş bir kitleye ulaştırmayı hedefledi.",
+        similar:["Caribbean","Clipper"],
+        images:{front:"1951 Packard 200 Deluxe 4-door Sedan 2401-2462, front left (Hershey 2019).jpg"}},
+      {model:"Caribbean", year:1953, tag:"Markanın Zirvesi", designer:"Richard Teague", engine:"5.4–6.0L V8",
+        story:"Sınırlı sayıda üretilen bu üstün donanımlı kabriyolet, Packard'ın son altın çağını simgeledi.",
+        similar:["200","Clipper"],
+        images:{front:"51 Packard Caribbean (8436136281).jpg"}},
+      {model:"Clipper", year:1955, tag:"Ayrı Bir Marka Denemesi", designer:"Dick Teague", engine:"5.8L V8",
+        story:"Packard'ın orta sınıf pazara girişimi olarak ayrı bir alt marka gibi konumlandırıldı.",
+        similar:["Caribbean","200"]}
+    ]},
+  { brand:"Willys", era:"1948–1963 · Jeepster'dan Aero'ya", region:"ABD",
+    cars:[
+      {model:"Jeepster", year:1948, tag:"Sivil Jeep", designer:"Brooks Stevens", engine:"2.2–2.6L",
+        story:"Askeri Jeep mirasını sivil hayata taşıyan bu model, açık gövdesiyle serbest bir yaşam tarzını simgeledi.",
+        similar:["Aero","CJ-3"],
+        images:{front:"1948 Willys Jeepster (2908911020).jpg"}},
+      {model:"Aero", year:1952, tag:"Kompakt Sedan Denemesi", designer:"Willys Tasarım Stüdyosu", engine:"2.2–2.6L Altı Silindir",
+        story:"Markanın Jeep dışına açılma girişimi olarak, kompakt ve verimli bir sedan sundu.",
+        similar:["Jeepster","CJ-3"]},
+      {model:"CJ-3B", year:1953, tag:"Arazinin Atası", designer:"Willys Mühendislik", engine:"2.2L Dört Silindir",
+        story:"Askeri Jeep'in doğrudan sivil devamı olarak, dünya çapında arazi aracı kategorisinin temelini attı.",
+        similar:["Jeepster","Aero"],
+        images:{front:"1951 Willys Overland CJ-3a (12670063085).jpg"}}
+    ]},
+  { brand:"Hudson", era:"1948–1954 · Commodore'dan Hornet'e", region:"ABD",
+    cars:[
+      {model:"Commodore", year:1948, tag:"Alçak Ağırlık Merkezi", designer:"Frank Spring", engine:"3.5–4.3L Altı Silindir",
+        story:"'Step-down' şasi tasarımıyla dönemine göre alışılmadık derecede düşük bir ağırlık merkezine sahipti.",
+        similar:["Hornet","Wasp"],
+        images:{front:"1948 Hudson Commodore 8.JPG"}},
+      {model:"Hornet", year:1951, tag:"NASCAR Şampiyonu", designer:"Frank Spring", engine:"5.0L Altı Silindir",
+        story:"Düşük ağırlık merkezi sayesinde erken dönem NASCAR yarışlarında rakip tanımadı.",
+        similar:["Commodore","Wasp"],
+        images:{front:"1951 Hudson Hornet (Doc Hudson) (18843132580).jpg"}},
+      {model:"Wasp", year:1952, tag:"Kompakt Kardeş", designer:"Frank Spring", engine:"3.3–4.3L Altı Silindir",
+        story:"Commodore'un daha kompakt ve ekonomik versiyonu olarak, aynı 'step-down' felsefesini taşıdı.",
+        similar:["Hornet","Commodore"]}
+    ]},
+  { brand:"Subaru", era:"1958–1974 · 360'tan Leone'ye", region:"Japonya",
+    cars:[
+      {model:"360", year:1958, tag:"Halkın Kei Otomobili", designer:"Subaru Tasarım Ekibi", engine:"0.36L İkiz Silindir",
+        story:"Savaş sonrası Japonya'da 'Ladybug' lakabıyla anılan bu minik otomobil, halkın motorlaşmasında öncü oldu.",
+        similar:["Leone","1000"],
+        images:{front:"1958 Subaru 360.jpg"}},
+      {model:"1000", year:1966, tag:"Önden Çekiş Öncüsü", designer:"Subaru Tasarım Ekibi", engine:"1.0L Boksör Dört",
+        story:"Subaru'nun boksör motor ve önden çekiş felsefesini başlatan ilk modeliydi.",
+        similar:["360","Leone"],
+        images:{front:"1966 Subaru 1000 Deluxe, front left (Tokyo 2005).jpg"}},
+      {model:"Leone", year:1971, tag:"4x4'ün Öncüsü", designer:"Subaru Tasarım Ekibi", engine:"1.4–1.6L Boksör",
+        story:"Seri üretim bir binek otomobile dört çeker seçeneği sunan öncü modellerden biriydi.",
+        similar:["1000","360"],
+        images:{front:"1972 Subaru Leone 4WD Estate Van.jpg"}}
+    ]},
+  { brand:"Mitsubishi", era:"1970–1980 · Galant GTO'dan Starion'a", region:"Japonya",
+    cars:[
+      {model:"Galant GTO", year:1970, tag:"Japon Kas Coupe'u", designer:"Mitsubishi Tasarım Merkezi", engine:"1.7–2.0L Dört Silindir",
+        story:"Uzun kaputu ve fastback gövdesiyle Amerikan kas araba estetiğini Japon mühendisliğiyle yorumladı.",
+        similar:["Colt Galant","Lancer"],
+        images:{front:"1971 Mitsubishi Colt Galant GTO MR (25792274972).jpg"}},
+      {model:"Colt Galant", year:1969, tag:"Aile Sedanı", designer:"Mitsubishi Tasarım Merkezi", engine:"1.3–1.6L Dört Silindir",
+        story:"Mitsubishi'nin uluslararası pazarlara açılmasını sağlayan, güvenilir ve pratik bir aile otomobiliydi.",
+        similar:["Galant GTO","Lancer"],
+        images:{front:"1970 Mitsubishi Colt Galant AII Custom L.jpg"}},
+      {model:"Lancer", year:1973, tag:"Ralli Yeteneği", designer:"Mitsubishi Tasarım Merkezi", engine:"1.2–1.6L Dört Silindir",
+        story:"Hafif gövdesi ve dengeli sürüşüyle Avustralya ralli pistlerinde erken başarılar kazandı.",
+        similar:["Colt Galant","Galant GTO"],
+        images:{front:"1976 Mitsubishi Lancer (13619709533).jpg"}}
+    ]},
+  { brand:"Isuzu", era:"1968–1981 · 117 Coupe'dan Bellett'e", region:"Japonya",
+    cars:[
+      {model:"117 Coupe", year:1968, tag:"El Yapımı Zarafet", designer:"Giorgetto Giugiaro (Ghia)", engine:"1.6–2.0L Dört Silindir",
+        story:"İlk üretim yıllarında el yapımı gövde panelleriyle üretildi; İtalyan tasarımının Japon zanaatkarlığıyla buluşmasıydı.",
+        similar:["Bellett","117 Coupe"],
+        images:{front:"1968 Isuzu 117Coupe 02.jpg", side:"Isuzu 117 Coupe 005.JPG"}},
+      {model:"Bellett", year:1963, tag:"Sportif Sedan", designer:"Isuzu Tasarım Merkezi", engine:"1.5–1.6L Dört Silindir",
+        story:"Dengeli sürüş karakteriyle dönemin Japon pist yarışlarında sık sık öne çıktı.",
+        similar:["117 Coupe","Bellett GT"],
+        images:{front:"1970 Isuzu Bellett 1600 GT-R coupe (6108710977).jpg"}},
+      {model:"Bellett GT", year:1964, tag:"Japonya'nın İlk GT'si", designer:"Isuzu Tasarım Merkezi", engine:"1.6L Dört Silindir",
+        story:"Japonya'da 'GT' rozeti taşıyan ilk seri üretim otomobili olarak kabul edilir.",
+        similar:["Bellett","117 Coupe"]}
+    ]},
+  { brand:"Checker", era:"1956–1982 · Marathon'dan Aerobus'a", region:"ABD",
+    cars:[
+      {model:"Marathon", year:1961, tag:"New York'un Simgesi", designer:"Checker Tasarım Ekibi", engine:"3.7–5.7L",
+        story:"Neredeyse hiç değişmeden onlarca yıl üretilen bu sağlam sedan, New York taksilerinin simgesi haline geldi.",
+        similar:["Aerobus","Superba"],
+        images:{front:"1980 Checker A12 Marathon Taxi (45966007431).jpg"}},
+      {model:"Superba", year:1958, tag:"Geniş İç Hacim", designer:"Checker Tasarım Ekibi", engine:"3.7L Altı Silindir",
+        story:"Ferah kabini ve dayanıklı yapısıyla ticari filo kullanımı için özel olarak tasarlandı.",
+        similar:["Marathon","Aerobus"]},
+      {model:"Aerobus", year:1961, tag:"Uzatılmış Taksi", designer:"Checker Tasarım Ekibi", engine:"5.7L V8",
+        story:"Marathon'un uzatılmış versiyonu olarak, havaalanı servisi ve toplu taşıma amacıyla üretildi.",
+        similar:["Marathon","Superba"],
+        images:{front:"Checker Ambulance built in Switzerland in 1964.jpg"}}
+    ]},
+  { brand:"Excalibur", era:"1964–1975 · Series I'den Phaeton'a", region:"ABD",
+    cars:[
+      {model:"Series I", year:1964, tag:"Retro Süper Otomobil", designer:"Brooks Stevens", engine:"5.4–6.4L V8 (Corvette)",
+        story:"1920'lerin Mercedes SSK'sından ilham alan gövdesiyle, modern Corvette gücünü nostaljik bir kabukla sundu.",
+        similar:["Phaeton","Series II"],
+        images:{front:"Excalibur SS (4633350948).jpg"}},
+      {model:"Series II", year:1966, tag:"Geliştirilmiş Retro", designer:"Brooks Stevens", engine:"5.4–6.4L V8",
+        story:"İlk serinin başarısı üzerine geliştirilen, biraz daha rafine edilmiş bir versiyon oldu.",
+        similar:["Series I","Phaeton"]},
+      {model:"Phaeton", year:1970, tag:"Dört Kişilik Versiyon", designer:"Brooks Stevens", engine:"5.7–6.6L V8",
+        story:"Orijinal iki kişilik formülü genişleterek, aynı retro estetiği dört kişilik bir gövdeye taşıdı.",
+        similar:["Series II","Series I"],
+        images:{front:"1982 Excalibur Series IV Phaeton - front right.jpg", interior:"1982 Excalibur Series IV Phaeton - interior.jpg"}}
+    ]},
+  { brand:"Bizzarrini", era:"1965–1969 · 5300 GT'den P538'e", region:"İtalya",
+    cars:[
+      {model:"5300 GT Strada", year:1965, tag:"Yarış Kalpli Yol Otomobili", designer:"Giorgetto Giugiaro (Bertone)", engine:"5.3L V8 (Chevrolet)",
+        story:"Eski Ferrari mühendisi Giotto Bizzarrini'nin imzasını taşıyan bu model, yarış teknolojisini yola taşıdı.",
+        similar:["GT Strada 5300","P538"],
+        images:{front:"1967 Bizzarrini 5300 GT Strada in Emerald Green, front right.jpg", interior:"1967 Bizzarrini 5300 GT Strada 0276, interior.jpg"}},
+      {model:"GT Europa", year:1966, tag:"Kompakt Kardeş", designer:"Giorgetto Giugiaro (Bertone)", engine:"1.9L Dört Silindir (Opel)",
+        story:"5300 GT'nin daha küçük motorlu ve erişilebilir versiyonu olarak markanın ürün gamını genişletti.",
+        similar:["5300 GT Strada","P538"]},
+      {model:"P538", year:1966, tag:"Pist Canavarı", designer:"Giotto Bizzarrini", engine:"5.3L V8",
+        story:"Le Mans için tasarlanan bu prototip, markanın mühendislik hırsının en uç örneğiydi.",
+        similar:["GT Europa","5300 GT Strada"]}
+    ]},
+  { brand:"Intermeccanica", era:"1966–1974 · Italia'dan Indra'ya", region:"İtalya/ABD",
+    cars:[
+      {model:"Italia", year:1966, tag:"İtalyan-Amerikan Melezi", designer:"Franco Scaglione", engine:"4.7–5.0L V8 (Ford)",
+        story:"İtalyan tasarımını Amerikan Ford V8 gücüyle birleştiren bu gran turizm, butik üretimin özgün bir örneğiydi.",
+        similar:["Indra","Murena"],
+        images:{front:"Intermeccanica Torino, Bj. 1967 (2017-07-02 Sp).JPG"}},
+      {model:"Indra", year:1971, tag:"Opel Ortaklığı", designer:"Bertone", engine:"2.8–5.4L (Opel/Chevrolet)",
+        story:"Opel şasisi üzerine kurulan bu model, markanın Avrupa pazarına açılma girişimiydi.",
+        similar:["Italia","Murena"],
+        images:{front:"1974 Intermeccanica Indra 2+2.jpg", interior:"Intermeccanica 1972 Interieur.JPG"}},
+      {model:"Murena", year:1969, tag:"Sınırlı Üretim Coupe", designer:"Intermeccanica Tasarım Ekibi", engine:"1.6–2.0L (Opel)",
+        story:"Az sayıda üretilen bu model, markanın butik ve el işçiliğine dayalı üretim felsefesini yansıttı.",
+        similar:["Indra","Italia"]}
+    ]}
+];
 
-function getBrands() {
-  var brands = [];
-  if (typeof CARS !== 'undefined') {
-    CARS.forEach(function(c) { if (brands.indexOf(c.brand) === -1) brands.push(c.brand); });
-  }
-  return brands.sort();
+// Flatten
+const ALL = [];
+DATA.forEach(b=>b.cars.forEach(c=>ALL.push({...c, brand:b.brand, brandEra:b.era, region:b.region})));
+
+let activeEra = "all";
+let activeBrand = "all";
+
+const eraGroups = [
+  {id:"all", label:"Tümü"},
+  {id:"50s", label:"1950'ler", test:y=>y<1960},
+  {id:"60s", label:"1960'lar", test:y=>y>=1960&&y<1970},
+  {id:"70s", label:"1970'ler", test:y=>y>=1970&&y<1980},
+  {id:"80s", label:"1980'ler", test:y=>y>=1980}
+];
+
+function commonsUrl(filename){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(filename);
 }
 
-function getStartYear(car) {
-  return parseInt(car.year);
+function plateGradient(brand, idx){
+  const palettes = {
+    "BMW":["#1B2A45","#3A5A8C"], "Mercedes-Benz":["#1F1F1F","#4A4A4A"],
+    "Porsche":["#3A1E1E","#7C2F2A"], "Ferrari":["#5C1414","#A5312A"],
+    "Alfa Romeo":["#5C1414","#8C2E22"], "Jaguar":["#1B3B2A","#2E5A40"],
+    "Aston Martin":["#1B2E22","#2E5040"], "Ford":["#1B2A45","#2E4A73"],
+    "Chevrolet":["#3A2A0E","#7C5A1E"], "Toyota":["#2A1B45","#4A2E73"],
+    "Citroën":["#1E2A3A","#3A5A73"], "Renault":["#1E3A2A","#2E7350"],
+    "Peugeot":["#1E3A3A","#2E7373"], "MG":["#3A1E1E","#7C2E22"],
+    "Triumph":["#2A2A1E","#5A5A2E"], "Mini":["#3A1E2A","#7C2E4A"],
+    "Datsun / Nissan":["#1E1E3A","#2E2E73"], "Mazda":["#3A2A1E","#7C5A2E"],
+    "Lancia":["#3A1E3A","#7C2E7C"], "Maserati":["#1E3A1E","#2E5A2E"],
+    "Fiat":["#1E2A1E","#3A5A3A"], "Cadillac":["#2A1E1E","#5A3A2E"],
+    "Pontiac":["#1E2A3A","#3A4A73"], "Volkswagen":["#1E2A1E","#2E5A3A"],
+    "Honda":["#2A1E2A","#5A2E4A"],
+    "Dodge":["#3A1414","#7C2A2A"], "Plymouth":["#2A1E3A","#5A3A73"],
+    "Buick":["#1E2A3A","#3A5A73"], "Oldsmobile":["#2A2A1E","#5A5A2E"],
+    "Austin-Healey":["#1E3A2A","#2E7350"], "Chrysler":["#3A2A1E","#73502E"],
+    "AMC":["#3A1E1E","#732E2E"], "Opel":["#1E2A1E","#3A5A3A"],
+    "Rover":["#1E1E3A","#3A3A73"], "Studebaker":["#2A1E1E","#5A3A2E"],
+    "Volvo":["#1E2A3A","#3A5A73"], "Saab":["#1E2A2A","#3A5A5A"],
+    "Simca":["#2A1E3A","#5A3A73"], "Bristol":["#1E2A1E","#3A5A3A"],
+    "Rambler":["#3A2A1E","#73502E"],
+    "Land Rover":["#1E2A1E","#3A5A2E"], "Wolseley":["#1E1E2A","#3A3A5A"],
+    "Riley":["#2A1E1E","#5A3A2E"], "Humber":["#1E2A2A","#3A5A5A"],
+    "Panhard":["#2A1E2A","#5A3A5A"], "De Tomaso":["#3A1414","#7C2A2A"],
+    "Iso":["#1E2A3A","#3A5A73"], "Facel Vega":["#2A1E1E","#5A2E2E"],
+    "DeSoto":["#3A2A1E","#73502E"], "Packard":["#1E1E2A","#3A3A5A"],
+    "Willys":["#2A2A1E","#5A5A2E"], "Hudson":["#3A1E1E","#732E2E"],
+    "Subaru":["#1E2A3A","#2E5A73"], "Mitsubishi":["#3A1414","#7C2A2A"],
+    "Isuzu":["#1E2A1E","#3A5A3A"], "Checker":["#2A2A1E","#5A5A2E"],
+    "Excalibur":["#3A2A0E","#7C5A1E"], "Bizzarrini":["#3A1414","#7C2A2A"],
+    "Intermeccanica":["#2A1E3A","#5A3A73"]
+  };
+  const [c1,c2] = palettes[brand] || ["#232E27","#33402F"];
+  const angle = 120 + (idx*17)%80;
+  return `linear-gradient(${angle}deg, ${c1}, ${c2})`;
 }
 
-function filterCars() {
-  if (typeof CARS === 'undefined') return [];
-  var brand = document.getElementById('brandFilter').value;
-  var decade = document.getElementById('decadeFilter').value;
-  var search = document.getElementById('searchInput').value.toLowerCase().trim();
-  return CARS.filter(function(c) {
-    if (brand && c.brand !== brand) return false;
-    if (decade) {
-      var y = getStartYear(c);
-      var d = parseInt(decade);
-      if (y < d || y >= d + 10) return false;
-    }
-    if (search) {
-      var haystack = (c.brand + ' ' + c.model + ' ' + c.year + ' ' + c.origin + ' ' + c.designer).toLowerCase();
-      if (haystack.indexOf(search) === -1) return false;
-    }
-    return true;
+function renderFilters(){
+  const wrap = document.getElementById('filters');
+  wrap.innerHTML = '';
+  eraGroups.forEach(e=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (activeEra===e.id ? ' active':'');
+    chip.textContent = e.label;
+    chip.onclick = ()=>{ activeEra = e.id; renderFilters(); renderMain(); };
+    wrap.appendChild(chip);
+  });
+  const divider = document.createElement('div');
+  divider.style.cssText = 'width:1px;background:var(--line);margin:0 4px;flex:0 0 auto;';
+  wrap.appendChild(divider);
+
+  const allBrandChip = document.createElement('div');
+  allBrandChip.className = 'chip' + (activeBrand==='all' ? ' active':'');
+  allBrandChip.textContent = 'Tüm Markalar';
+  allBrandChip.onclick = ()=>{ activeBrand='all'; renderFilters(); renderMain(); };
+  wrap.appendChild(allBrandChip);
+
+  DATA.forEach(b=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (activeBrand===b.brand ? ' active':'');
+    chip.textContent = b.brand;
+    chip.onclick = ()=>{ activeBrand = b.brand; renderFilters(); renderMain(); };
+    wrap.appendChild(chip);
   });
 }
 
-function renderGrid(cars) {
-  var grid = document.getElementById('carGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  
-  if (cars.length === 0) {
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px 20px; color:var(--cream3);">Garajınız henüz boş. arabalar.js dosyasına ilk aracınızı ekleyin!</div>';
-    document.getElementById('countText').textContent = '0 klasik otomobil listeleniyor';
-    return;
-  }
+function renderMain(){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const eraDef = eraGroups.find(e=>e.id===activeEra);
+  let visibleCount = 0;
 
-  cars.forEach(function(car) {
-    var div = document.createElement('div');
-    div.className = 'grid-item' + (currentCar && currentCar.id === car.id ? ' active' : '');
-    div.onclick = function() { showCar(car); };
-    var label = car.model.length > 14 ? car.model.split(' ')[0] : car.model;
-    var thumbImg = (car.images && car.images.length > 0) ? car.images[0] : '';
-    div.innerHTML = '<div class="grid-thumb" style="background:linear-gradient(135deg,' + car.color1 + ',' + car.color2 + ')">' +
-      (thumbImg ? '<img src="' + thumbImg + '" alt="' + car.model + '">' : '') +
-      '<span>' + label + '</span></div>' +
-      '<div class="grid-info"><div class="grid-brand">' + car.brand + '</div><div class="grid-model">' + car.model + ' · ' + car.year.split('–')[0] + '</div></div>';
-    grid.appendChild(div);
-  });
-  document.getElementById('countText').textContent = cars.length + ' klasik otomobil listeleniyor';
-}
+  DATA.forEach(b=>{
+    if(activeBrand!=='all' && activeBrand!==b.brand) return;
+    const filteredCars = b.cars.filter(c => eraDef.id==='all' ? true : eraDef.test(c.year));
+    if(filteredCars.length===0) return;
+    visibleCount += filteredCars.length;
 
-function showCar(car) {
-  currentCar = car;
-  currentImageIndex = 0;
-  var section = document.getElementById('detailSection');
-  if (!section) return;
-
-  var factsHtml = '';
-  if (car.funFacts) {
-    car.funFacts.forEach(function(f, i) {
-      factsHtml += '<div class="fact"><div class="fact-num">' + (i + 1) + '</div><div>' + f + '</div></div>';
+    const block = document.createElement('div');
+    block.className = 'brand-block';
+    block.innerHTML = `
+      <div class="brand-head">
+        <div class="brand-name">${b.brand}</div>
+        <div class="brand-era">${b.era}</div>
+      </div>
+      <div class="car-grid"></div>
+    `;
+    const grid = block.querySelector('.car-grid');
+    filteredCars.forEach((c, idx)=>{
+      const card = document.createElement('div');
+      card.className = 'car-card';
+      const hasPhoto = c.images && c.images.front;
+      const plateInner = hasPhoto
+        ? `<img src="${commonsUrl(c.images.front)}" alt="${b.brand} ${c.model}" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.classList.add('img-failed'); this.style.display='none';">`
+        : `<div class="plate-year">${c.year}</div>`;
+      card.innerHTML = `
+        <div class="car-plate" style="background:${plateGradient(b.brand, idx)}">
+          ${plateInner}
+        </div>
+        <div class="car-info">
+          <div class="car-model">${c.model}</div>
+          <div class="car-year">${c.tag}</div>
+        </div>
+      `;
+      card.onclick = ()=>openModal(b, c);
+      grid.appendChild(card);
     });
-  }
-
-  var slidesHtml = '';
-  if (car.images && car.images.length > 0) {
-    car.images.forEach(function(img, idx) {
-      slidesHtml += '<img src="' + img + '" class="gallery-slide ' + (idx === 0 ? 'active' : '') + '" alt="Galeri Görseli">';
-    });
-  }
-
-  section.innerHTML =
-    '<div class="card">' +
-      '<div class="gallery-container" id="galleryContainer">' +
-        slidesHtml +
-        (car.images && car.images.length > 1 ? 
-          '<button class="gallery-btn gallery-prev" onclick="prevSlide(event)">&#10094;</button>' +
-          '<button class="gallery-btn gallery-next" onclick="nextSlide(event)">&#10095;</button>' +
-          '<div class="gallery-counter" id="galleryCounter">1 / ' + car.images.length + '</div>' : '') +
-      '</div>' +
-      '<div class="card-overlay-info">' +
-        '<span class="card-badge">' + car.brand + '</span>' +
-        '<div class="card-model">' + car.model + '</div>' +
-        '<div class="card-meta"><span>Üretim: ' + car.year + '</span><span>Menşei: ' + car.origin + '</span></div>' +
-      '</div>' +
-      '<div class="card-body">' +
-        '<h3>Otomobil Hikayesi</h3>' +
-        '<p>' + car.description + '</p>' +
-        '<div class="designer">' +
-          '<div class="designer-avatar">' + (car.designer ? car.designer.charAt(0) : 'T') + '</div>' +
-          '<div><div class="designer-name">' + (car.designer || 'Bilinmiyor') + '</div><div class="designer-role">Tasarımcı / Mühendis</div></div>' +
-        '</div>' +
-        '<h3>Teknik Özellikler</h3>' +
-        '<div class="specs">' +
-          specBox('Motor', car.engine) +
-          specBox('Güç', car.hp) +
-          specBox('Tork', car.torque) +
-          specBox('Maks. Hız', car.topSpeed) +
-          specBox('Hızlanma', car.acceleration) +
-          specBox('Ağırlık', car.weight) +
-          specBox('Üretim Adedi', car.production) +
-          specBox('Şasi Düzeni', car.layout) +
-          specBox('Şanzıman', car.transmission) +
-        '</div>' +
-        '<h3>Dönemin Tarihsel Bağlamı</h3>' +
-        '<div class="era"><div class="era-label">Dönem Ruhu</div><p>' + car.eraStory + '</p></div>' +
-        '<h3>Günümüz Araçlarıyla Kıyaslama</h3>' +
-        '<div class="comparison"><div class="era-label">Teknolojik & Performans Karşılaştırması</div><p style="font-size:13px;line-height:1.75;color:var(--cream2);margin:0">' + car.comparison + '</p></div>' +
-        '<h3>Biliyor muydunuz?</h3>' +
-        factsHtml +
-        '<h3>İlgili Klasikler</h3>' +
-        '<div class="related"><strong>Benzer ikonlar: </strong>' + car.relatedModels + '</div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="center-btn"><button class="hero-btn" onclick="pickRandom()">&#8635; Başka bir araba göster</button></div>';
-
-  section.className = 'detail show';
-  applyFilters();
-  setTimeout(function() {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
-}
-
-function nextSlide(e) {
-  e.stopPropagation();
-  if (!currentCar || !currentCar.images) return;
-  currentImageIndex = (currentImageIndex + 1) % currentCar.images.length;
-  updateGallery();
-}
-
-function prevSlide(e) {
-  e.stopPropagation();
-  if (!currentCar || !currentCar.images) return;
-  currentImageIndex = (currentImageIndex - 1 + currentCar.images.length) % currentCar.images.length;
-  updateGallery();
-}
-
-function updateGallery() {
-  if (!currentCar || !currentCar.images) return;
-  var container = document.getElementById('galleryContainer');
-  if (!container) return;
-  var slides = container.querySelectorAll('.gallery-slide');
-  slides.forEach(function(slide, idx) {
-    if (idx === currentImageIndex) {
-      slide.classList.add('active');
-    } else {
-      slide.classList.remove('active');
-    }
+    main.appendChild(block);
   });
-  var counter = document.getElementById('galleryCounter');
-  if (counter) {
-    counter.textContent = (currentImageIndex + 1) + ' / ' + currentCar.images.length;
+
+  document.getElementById('archiveCount').innerHTML =
+    `<span>Markalar: <b>${new Set(DATA.filter(b=>activeBrand==='all'||activeBrand===b.brand).map(b=>b.brand)).size}</b></span>
+     <span>Otomobiller: <b>${visibleCount}</b></span>`;
+
+  if(visibleCount===0){
+    main.innerHTML = '<div class="empty-state">Bu filtrede henüz araba yok.</div>';
   }
 }
 
-function specBox(label, value) {
-  return '<div class="spec"><div class="spec-label">' + label + '</div><div class="spec-value">' + (value || '-') + '</div></div>';
+function openModal(brand, car){
+  const overlay = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+  const noteKey = `note_${brand.brand}_${car.model}`.replace(/\s+/g,'_');
+  const savedNote = window.__notes && window.__notes[noteKey] || '';
+
+  const imgs = car.images || {};
+  const slotHtml = (key, label, gradIdx) => {
+    const file = imgs[key];
+    const bg = `background:${plateGradient(brand.brand, gradIdx)}`;
+    if(file){
+      const url = commonsUrl(file);
+      return `<div class="slot" style="${bg}" onclick="openLightbox('${url.replace(/'/g,"\\'")}', '${(brand.brand+' '+car.model+' — '+label).replace(/'/g,"\\'")}')">
+        <img src="${url}" alt="${brand.brand} ${car.model} ${label}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';">
+        <span class="slot-label" style="position:relative;z-index:1;">${label}</span>
+        <span class="zoom-hint">⤢</span>
+      </div>`;
+    }
+    return `<div class="slot" style="${bg}"><span class="slot-label">${label} — YAKINDA</span></div>`;
+  };
+
+  content.innerHTML = `
+    <div class="modal-close"><button onclick="closeModal()">✕</button></div>
+    <div class="modal-hero">
+      <div class="photo-slots">
+        ${slotHtml('front','ÖN GÖRÜNÜM',0).replace('class="slot"','class="slot slot-main"')}
+        ${slotHtml('side','YAN GÖRÜNÜM',1)}
+        ${slotHtml('interior','İÇ MEKAN',2)}
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-eyebrow">${brand.brand} · ${car.tag}</div>
+      <div class="modal-title">${car.model}</div>
+      <div class="modal-sub">${car.year} · ${brand.region}</div>
+
+      <div class="spec-plate">
+        <div class="spec-item"><div class="k">Tasarımcı</div><div class="v">${car.designer}</div></div>
+        <div class="spec-item"><div class="k">Motor</div><div class="v">${car.engine}</div></div>
+        <div class="spec-item"><div class="k">Üretim Yılı</div><div class="v">${car.year}</div></div>
+        <div class="spec-item"><div class="k">Marka Dönemi</div><div class="v">${brand.era}</div></div>
+      </div>
+
+      <p class="story">${car.story}</p>
+
+      <div class="section-label">Benzer Modeller</div>
+      <div class="similar-row">
+        ${car.similar.map(s=>`<div class="similar-chip" onclick="jumpTo('${brand.brand}','${s}')">${s}</div>`).join('')}
+      </div>
+
+      <div class="section-label">Notlarım</div>
+      <div class="note-box">
+        <textarea placeholder="Bu arabaya dair bir anın mı var? Buraya yazabilirsin..." id="noteArea">${savedNote}</textarea>
+        <div class="note-hint">Not: bu prototipte notlar kalıcı kaydedilmiyor — canlı sürümde saklanacak.</div>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
 }
 
-function pickRandom() {
-  var pool = filterCars();
-  if (pool.length === 0) return;
-  var car = pool[Math.floor(Math.random() * pool.length)];
-  showCar(car);
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
 }
 
-function applyFilters() {
-  renderGrid(filterCars());
+function jumpTo(brandName, modelName){
+  const brand = DATA.find(b=>b.brand===brandName);
+  if(!brand) return;
+  const car = brand.cars.find(c=>c.model===modelName);
+  if(!car) return;
+  openModal(brand, car);
 }
 
-window.addEventListener('scroll', function() {
-  var btn = document.getElementById('scrollTopBtn');
-  if (btn) {
-    btn.className = window.scrollY > 400 ? 'scroll-top show' : 'scroll-top';
-  }
+function openLightbox(url, caption){
+  document.getElementById('lightboxImg').src = url;
+  document.getElementById('lightboxCaption').textContent = caption;
+  document.getElementById('lightboxOverlay').classList.add('open');
+}
+
+function closeLightbox(){
+  document.getElementById('lightboxOverlay').classList.remove('open');
+}
+
+document.getElementById('modalOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'modalOverlay') closeModal();
 });
 
-(function() {
-  var sel = document.getElementById('brandFilter');
-  if (sel) {
-    getBrands().forEach(function(b) {
-      var opt = document.createElement('option');
-      opt.value = b;
-      opt.textContent = b;
-      sel.appendChild(opt);
-    });
-  }
-  applyFilters();
-})();
+renderFilters();
+renderMain();
 </script>
 </body>
 </html>
