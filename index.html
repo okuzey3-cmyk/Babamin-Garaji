@@ -24,6 +24,7 @@
   body{margin:0;background:var(--bg-deep);color:var(--cream);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
   ::selection{background:var(--brass);color:#141B15;}
 
+  /* texture */
   body::before{
     content:"";
     position:fixed;inset:0;pointer-events:none;z-index:0;
@@ -79,6 +80,7 @@
   }
   .archive-count b{color:var(--cream);font-weight:600;}
 
+  /* filters */
   .filters{
     position:sticky;top:0;z-index:5;
     background:rgba(20,27,21,0.96);
@@ -196,6 +198,7 @@
     color:var(--brass);
   }
 
+  /* Modal */
   .modal-overlay{
     position:fixed;inset:0;z-index:50;
     background:rgba(10,14,11,0.88);
@@ -438,7 +441,7 @@
 <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
   <div class="lightbox-caption" id="lightboxCaption"></div>
-  <img id="lightboxImg" src="" alt="">
+  <img id="lightboxImg" src="" alt="" style="transition:opacity .2s ease;">
 </div>
 
 <script>
@@ -446,19 +449,27 @@ const DATA = [
   { brand:"BMW", era:"1966–1989 · Neue Klasse'den E30'a", region:"Almanya",
     cars:[
       {model:"2002", year:1968, tag:"Yükselen Klasik", designer:"Wilhelm Hofmeister", engine:"1.6–2.0L 4 Silindir",
+        power:"100–130 BG (tii)", topSpeed:"175–190 km/s", zeroToHundred:"9.5 sn (tii)", production:"~861.940 adet (tüm 02 serisi)",
         story:"BMW'yi bugünkü sportif kimliğine taşıyan modeldi. Sade gövdesi ve keskin sürüş dengesiyle, markanın 'sürüş keyfi' sloganının ilk gerçek kanıtı oldu.",
+        story2:"Amerikan pazarına girişte büyük bir başarı yakaladı; dönemin otomobil dergileri 2002'yi 'her gün kullanılabilecek bir spor otomobil' olarak tanımladı. 1968'de tanıtılan turbo versiyonu (2002 Turbo), Avrupa'da yola çıkan ilk turbolu seri üretim otomobillerden biriydi ve ayna üzerindeki ters yazılmış '2002 TURBO' yazısıyla ünlendi.",
         similar:["3.0 CSL","E30 M3"],
         images:{front:"1968 BMW 2002 TI.JPG", side:"BMW 2002.JPG"}},
       {model:"3.0 CSL", year:1971, tag:"Pist Efsanesi", designer:"Paul Bracq (gövde), Karmann (üretim)", engine:"3.0–3.5L Altı Silindir",
+        power:"180–206 BG", topSpeed:"210–220 km/s", production:"~1.265 adet",
         story:"Hafif alüminyum panelleri ve iddialı kanatçığıyla 'Batmobile' lakabını aldı; Avrupa Turizm Şampiyonası'nda peş peşe şampiyonluklar kazandı.",
+        story2:"'CSL' kısaltması 'Coupe Sport Leichtbau' (Hafif Yapı Spor Coupe) anlamına gelir — kapı panelleri alüminyumdan, camlar plastikten yapılarak ağırlıktan tasarruf edildi. Alman yetkililer aerodinamik kanadı önce yasa dışı bularak arabaların bagajında satılmasını istedi, ama pilotlar pistte kanadı yine de taktı.",
         similar:["2002","M1"],
         images:{front:"BMW 3.0 CSL (52687267795).jpg", side:"Bmw 3.0csl alpina.jpg"}},
       {model:"M1", year:1978, tag:"İlk M", designer:"Giorgetto Giugiaro", engine:"3.5L Altı Silindir, Orta Motor",
+        power:"277 BG", topSpeed:"262 km/s", zeroToHundred:"5.6 sn", production:"453 adet",
         story:"BMW'nin M performans bölümünün doğuşuna işaret eden, İtalyan tasarımcı Giugiaro imzalı orta motorlu süper spor otomobil.",
+        story2:"Üretim başlangıçta Lamborghini ile ortak yürütülecekti, ancak İtalyan firmasının mali sıkıntıları nedeniyle proje BMW'ye geri döndü ve gövdeler İtalya'da (Ital Design/Marchesi), son montaj ise Baur firmasında yapıldı. M1 ayrıca kendi adına özel bir yarış serisi olan 'Procar Championship'i doğurdu; bu seride dönemin Formula 1 pilotları da yarıştı.",
         similar:["3.0 CSL","E30 M3"],
         images:{front:"1978 BMW M1 (6191658839).jpg", side:"1981 BMW M1.JPG"}},
       {model:"E30 M3", year:1986, tag:"Grup A Şampiyonu", designer:"BMW M GmbH", engine:"2.3L Dört Silindir",
+        power:"200–238 BG", topSpeed:"235–248 km/s", zeroToHundred:"6.7 sn", production:"~17.970 adet (tüm varyantlar)",
         story:"Pist için homologasyon amacıyla üretildi, ardından sokaklarda da efsaneleşti; keskin köşeli kanat çıkıntılarıyla tanınır.",
+        story2:"FIA'nın Grup A yarış sınıfına girebilmek için minimum 5.000 adet sokak versiyonu üretilmesi şart koşulmuştu; BMW bu şartı fazlasıyla aştı. Sonuç olarak E30 M3, o dönemin turizm otomobili yarışlarında (DTM dahil) rakip tanımaz hale geldi ve tarihin en başarılı yarış otomobillerinden biri olarak anılıyor.",
         similar:["2002","M1"],
         images:{front:"BMW E30 M3.jpg", side:"Grey e30 m3.jpg"}}
     ]},
@@ -1337,6 +1348,423 @@ const DATA = [
       {model:"Murena", year:1969, tag:"Sınırlı Üretim Coupe", designer:"Intermeccanica Tasarım Ekibi", engine:"1.6–2.0L (Opel)",
         story:"Az sayıda üretilen bu model, markanın butik ve el işçiliğine dayalı üretim felsefesini yansıttı.",
         similar:["Indra","Italia"]}
+    ]},
+  { brand:"Lamborghini", era:"1964–1974 · 350 GT'den Countach'a", region:"İtalya",
+    cars:[
+      {model:"350 GT", year:1964, tag:"Markanın Doğuşu", designer:"Franco Scaglione, Carrozzeria Touring", engine:"3.5L V12",
+        power:"270 BG", topSpeed:"245 km/s", production:"~120 adet",
+        story:"Traktör üreticisi Ferruccio Lamborghini'nin Ferrari'ye 'daha iyi bir spor otomobil yapabilirim' diyerek başlattığı efsanenin ilk adımıydı.",
+        story2:"Efsaneye göre Ferruccio, Enzo Ferrari'nin kendisine debriyaj şikayeti konusunda kaba davranmasına kızarak otomobil üretimine girmeye karar verdi. 350 GT, markanın V12 motor geleneğinin de başlangıcı oldu — bu motor ailesi neredeyse 50 yıl kullanılmaya devam etti.",
+        similar:["Miura","Espada"],
+        images:{front:"Lamborghini 350 GT 1964.jpg"}},
+      {model:"Miura", year:1966, tag:"Süper Otomobilin İcadı", designer:"Marcello Gandini (Bertone)", engine:"3.9L V12, Orta Motor",
+        power:"350–385 BG", topSpeed:"280 km/s", zeroToHundred:"6.7 sn", production:"~764 adet",
+        story:"Motoru sürücünün arkasına enine yerleştiren ilk yüksek performanslı yol otomobili olarak, 'süper otomobil' kavramını fiilen icat etti.",
+        story2:"Tanıtıldığında dünyanın en hızlı seri üretim otomobiliydi ve bir film serisinin açılış sahnesinde İtalyan Alpleri'nde sürülerek popüler kültüre girdi. Rakip Ferrari'nin geleneksel önde-motor formülünü tamamen alt üst etti.",
+        similar:["350 GT","Espada"],
+        images:{front:"1968 Lamborghini Miura P400.jpg"}},
+      {model:"Espada", year:1968, tag:"Dört Kişilik Süper GT", designer:"Marcello Gandini (Bertone)", engine:"3.9L V12",
+        power:"325–350 BG", topSpeed:"245 km/s", production:"~1.217 adet",
+        story:"Miura'nın vahşiliğine karşılık, dört yetişkinin rahatça oturabildiği geniş camlı bir gran turizm sundu.",
+        story2:"Kelebek gibi açılan geniş cam yüzeyleri döneminde alışılmadık bir şeffaflık sağladı; markanın en çok satan modellerinden biri oldu.",
+        similar:["Miura","350 GT"],
+        images:{front:"Lamborghini Espada (52176601584).jpg"}}
+    ]},
+  { brand:"Lotus", era:"1957–1976 · Elite'ten Esprit'e", region:"İngiltere",
+    cars:[
+      {model:"Elite", year:1957, tag:"Fiberglas Monokok Öncüsü", designer:"Colin Chapman, Peter Kirwan-Taylor", engine:"1.2L Dört Silindir",
+        power:"75–105 BG", topSpeed:"185 km/s", production:"~1.030 adet",
+        story:"Tüm gövdesi fiberglastan tek parça monokok olarak üretilen ilk seri üretim otomobillerden biriydi.",
+        story2:"Colin Chapman'ın 'her gramı at, gerekmeyen hiçbir parça olmasın' felsefesinin en saf ifadesiydi; hafifliği sayesinde küçük motoruna rağmen yarış pistlerinde sınıfının çok üstünde performans gösterdi.",
+        similar:["Elan","Europa"],
+        images:{front:"Lotus Elite Reg 1962 1460 cc.JPG"}},
+      {model:"Elan", year:1962, tag:"Sürüş Dinamiğinin Ders Kitabı", designer:"Ron Hickman", engine:"1.6L Dört Silindir",
+        power:"105–126 BG", topSpeed:"185–200 km/s", production:"~17.000 adet",
+        story:"Çelik iskelet şasi ve fiberglas gövdesiyle olağanüstü hafif ve çevik bir sürüş sundu; birçok sonraki roadster tasarımına ilham verdi.",
+        story2:"Bir çizgi film dizisindeki karakterin arabası olarak da tanınır; gerçek Elan'ın çevikliği o çizgi filmdeki abartılı manevraları bile gerçekçi kılmıştı.",
+        similar:["Elite","Europa"],
+        images:{front:"1963 Lotus Elan 1600 S1 (4643818094).jpg"}},
+      {model:"Europa", year:1966, tag:"Orta Motorlu Cesaret", designer:"Ron Hickman", engine:"1.5–1.6L Dört Silindir, Orta Motor",
+        power:"78–126 BG", topSpeed:"180–200 km/s", production:"~9.230 adet",
+        story:"Lotus'un ilk orta motorlu yol otomobiliydi; Renault motoru kullanan alçak ve aerodinamik gövdesiyle döneminin en özgün tasarımlarından biriydi.",
+        story2:"Bir casus filminde sualtına dalabilen otomobil olarak uyarlanmasıyla popüler kültürde de yer edindi.",
+        similar:["Elan","Elite"],
+        images:{front:"1966 Lotus Europa Series 1.jpg"}}
+    ]},
+  { brand:"Bentley", era:"1952–1980 · R-Type'tan Turbo R'a", region:"İngiltere",
+    cars:[
+      {model:"R-Type Continental", year:1952, tag:"Dönemin En Hızlı Dört Kişilik Otomobili", designer:"John Blatchley", engine:"4.6L Altı Silindir",
+        power:"150 BG", topSpeed:"195 km/s", production:"~208 adet",
+        story:"Rüzgar tüneli testleriyle geliştirilen aerodinamik gövdesi sayesinde tanıtıldığında dünyanın en hızlı dört kişilik seri üretim otomobili unvanını taşıdı.",
+        story2:"El yapımı alüminyum gövdesi ve zarif fastback formu, sonraki nesil Bentley Continental'ların tasarım dilinin temelini attı.",
+        similar:["S3 Continental","Turbo R"],
+        images:{front:"1952 Bentley R Type Continental.jpg"}},
+      {model:"S3 Continental", year:1962, tag:"Zarafetin Zirvesi", designer:"Rolls-Royce/Bentley Tasarım Ekibi", engine:"6.2L V8",
+        power:"~200+ BG (açıklanmadı)", topSpeed:"185 km/s", production:"~312 adet (Continental gövdeli)",
+        story:"Çift farlı ön yüzüyle tanınan bu model, markanın el işçiliğine dayalı lüks geleneğinin son klasik döneme ait örneklerinden biriydi.",
+        similar:["R-Type Continental","Turbo R"],
+        images:{front:"1964 Bentley S3 Continental (32288197837).jpg"}},
+      {model:"Turbo R", year:1985, tag:"Sportif Lüksün Yeniden Doğuşu", designer:"Bentley Tasarım Ekibi", engine:"6.75L V8, Turbo",
+        power:"296–328 BG", topSpeed:"229 km/s", zeroToHundred:"6.6 sn", production:"~8.176 adet",
+        story:"Turbo motoruyla Bentley markasına sportif kimliğini geri kazandırdı; uzun süre 'Rolls-Royce'un sessiz kardeşi' olarak anılan markayı yeniden bağımsız bir performans kimliğine kavuşturdu.",
+        similar:["R-Type Continental","S3 Continental"],
+        images:{front:"1985 Bentley Turbo R 4-door saloon (01) (33392644040).jpg"}}
+    ]},
+  { brand:"Rolls-Royce", era:"1955–1980 · Silver Cloud'dan Silver Spirit'e", region:"İngiltere",
+    cars:[
+      {model:"Silver Cloud", year:1955, tag:"Zarafetin Standardı", designer:"John Blatchley", engine:"4.9–6.2L Altı Silindir/V8",
+        power:"178–220 BG (açıklanmadı, tahmini)", topSpeed:"180 km/s", production:"~7.372 adet",
+        story:"'Dünyanın en iyi otomobili' sloganını taşıyan markanın klasik döneme ait en zarif sedanlarından biriydi.",
+        story2:"Rolls-Royce geleneksel olarak motor gücünü açıklamazdı; şirket yalnızca 'yeterli' ifadesini kullanırdı. Silver Cloud, el yapımı Mulliner Park Ward kaportalarıyla da sipariş edilebiliyordu.",
+        similar:["Silver Shadow","Corniche"],
+        images:{front:"1956 Rolls Royce Silver Cloud I Saloon (46008773805).jpg"}},
+      {model:"Silver Shadow", year:1965, tag:"Monokok Devrimi", designer:"John Blatchley", engine:"6.2–6.75L V8",
+        production:"~30.000 adet (tüm varyantlar)",
+        story:"Markanın ilk monokok gövdeli (ayrı şasisiz) modeliydi; hidrolik süspansiyon sistemiyle döneminin en konforlu sürüşlerinden birini sundu.",
+        story2:"Yirmi yılı aşkın üretim ömrü boyunca neredeyse hiç değişmeyen tasarımıyla, markanın 'zamansızlık' felsefesinin somut kanıtı oldu.",
+        similar:["Silver Cloud","Corniche"],
+        images:{front:"1972 Rolls Royce Silver Shadow I Saloon (46510886494).jpg"}},
+      {model:"Corniche", year:1971, tag:"El Yapımı Kabriyolet", designer:"Mulliner Park Ward", engine:"6.75L V8",
+        topSpeed:"190 km/s", production:"~5.500 adet",
+        story:"Silver Shadow tabanlı bu kabriyolet, Mulliner Park Ward atölyesinde tamamen el işçiliğiyle üretildi.",
+        similar:["Silver Shadow","Silver Cloud"]}
+    ]},
+  { brand:"Alvis", era:"1950–1967 · TA21'den TF21'e", region:"İngiltere",
+    cars:[
+      {model:"TA21", year:1950, tag:"Savaş Sonrası Zarafet", designer:"Alvis Tasarım Stüdyosu", engine:"3.0L Altı Silindir",
+        power:"84–90 BG", topSpeed:"140 km/s",
+        story:"Uçak motoru üreticisi kökenli Alvis'in savaş sonrası sivil otomobil üretimine dönüşünün ilk ürünlerinden biriydi.",
+        similar:["TC108G","TF21"],
+        images:{front:"Alvis TA 21 Front.jpg"}},
+      {model:"TC108G", year:1958, tag:"Graber Tasarımı", designer:"Hermann Graber", engine:"3.0L Altı Silindir",
+        power:"104 BG", topSpeed:"170 km/s",
+        story:"İsviçreli kaportacı Graber'in tasarladığı zarif gövdesiyle, markanın en şık dönem modellerinden biri kabul edilir.",
+        similar:["TA21","TF21"],
+        images:{front:"Alvis 3 Litres TC 108G Coupe von Graber 1955 schräg.JPG"}},
+      {model:"TF21", year:1966, tag:"Son Alvis", designer:"Park Ward", engine:"3.0L Altı Silindir",
+        power:"150 BG", topSpeed:"195 km/s", production:"~106 adet",
+        story:"Markanın otomobil üretimindeki son modeliydi; 1967'de üretim durunca Alvis yalnızca askeri araç ve motor üretimine yöneldi.",
+        similar:["TC108G","TA21"],
+        images:{front:"1966 Alvis TF21 Saloon.jpg"}}
+    ]},
+  { brand:"Daimler", era:"1959–1969 · SP250'den DS420'ye", region:"İngiltere",
+    cars:[
+      {model:"SP250", year:1959, tag:"Fiberglas Roadster", designer:"Daimler Tasarım Ekibi", engine:"2.5L V8",
+        power:"140 BG", topSpeed:"195 km/s", production:"~2.654 adet",
+        story:"Markanın tek spor otomobili denemesiydi; hafif V8 motoru daha sonra Jaguar tarafından da kullanıldı.",
+        similar:["Majestic Major","DS420"],
+        images:{front:"Daimler SP250 Front.jpg"}},
+      {model:"Majestic Major", year:1960, tag:"Sessiz Güç", designer:"Daimler Tasarım Ekibi", engine:"4.5L V8",
+        power:"220 BG", topSpeed:"193 km/s",
+        story:"Dönemin en hızlı İngiliz lüks sedanlarından biriydi; sessiz ve güçlü V8 motoruyla tanınırdı.",
+        similar:["SP250","DS420"],
+        images:{front:"1964 Daimler Majestic Major DQ450 Saloon (26199655870).jpg"}},
+      {model:"DS420", year:1968, tag:"Törenlerin Limuzini", designer:"Jaguar/Daimler Tasarım Ekibi", engine:"4.2L Altı Silindir",
+        production:"~4.000 adet",
+        story:"Uzun gövdesiyle özellikle düğün ve devlet törenlerinde tercih edilen resmi limuzin haline geldi.",
+        similar:["Majestic Major","SP250"]}
+    ]},
+  { brand:"Armstrong Siddeley", era:"1949–1960 · Whitley'den Star Sapphire'a", region:"İngiltere",
+    cars:[
+      {model:"Whitley", year:1949, tag:"Havacılık Mirası", designer:"Armstrong Siddeley Tasarım Ekibi", engine:"2.3L Altı Silindir",
+        story:"Uçak motoru üreticisi kökenli markanın savaş sonrası sivil sedan üretimine örnek bir modeliydi.",
+        similar:["Sapphire 346","Star Sapphire"],
+        images:{front:"1951 Armstrong Siddeley Whitley Saloon (46520029784).jpg"}},
+      {model:"Sapphire 346", year:1953, tag:"Lüks Sedan", designer:"Armstrong Siddeley Tasarım Ekibi", engine:"3.4L Altı Silindir",
+        power:"120–150 BG", topSpeed:"163 km/s",
+        story:"Markanın en donanımlı ve hızlı modellerinden biriydi; opsiyonel otomatik şanzıman dönemine göre ileri bir teknolojiydi.",
+        similar:["Whitley","Star Sapphire"],
+        images:{front:"Armstrong Siddeley Sapphire 346 Hirschaid-20220709-RM-105902.jpg"}},
+      {model:"Star Sapphire", year:1958, tag:"Son Nesil", designer:"Armstrong Siddeley Tasarım Ekibi", engine:"4.0L Altı Silindir",
+        power:"165 BG", topSpeed:"170 km/s",
+        story:"Markanın otomobil üretimindeki son ve en güçlü modeliydi; 1960'ta şirket otomobil üretimini tamamen bıraktı.",
+        similar:["Sapphire 346","Whitley"],
+        images:{front:"1960 Armstrong Siddeley Star Sapphire 4.0 Front.jpg"}}
+    ]},
+  { brand:"Sunbeam", era:"1953–1970 · Alpine'den Rapier'a", region:"İngiltere",
+    cars:[
+      {model:"Alpine (Rootes)", year:1953, tag:"Ralli Roadster'ı", designer:"Rootes Tasarım Stüdyosu", engine:"2.3–2.6L", 
+        story:"Rally yarışlarında elde ettiği başarılarla markanın performans kimliğini pekiştirdi.",
+        similar:["Rapier","Tiger"],
+        images:{front:"1953 Sunbeam Alpine Mark I 2.3 Front.jpg", interior:"1953 Sunbeam Alpine Interior 515080821.jpg"}},
+      {model:"Rapier", year:1955, tag:"Şık Aile Coupe'u", designer:"Rootes Tasarım Stüdyosu", engine:"1.5–1.7L Dört Silindir",
+        story:"Sportif görünümü ve dengeli sürüşüyle markanın en uzun ömürlü ve sevilen modeli oldu.",
+        similar:["Alpine (Rootes)","Tiger"],
+        images:{front:"Nottuln, Oldtimermuseum, Sunbeam Rapier Series II -- 2021 -- 4522.jpg"}},
+      {model:"Tiger", year:1964, tag:"V8 Güçlendirilmiş Roadster", designer:"Carroll Shelby işbirliği", engine:"4.3–4.7L V8 (Ford)",
+        power:"164–200 BG", topSpeed:"185–200 km/s", production:"~7.083 adet",
+        story:"Carroll Shelby'nin danışmanlığıyla Alpine'in gövdesine güçlü bir Ford V8 yerleştirildi; bir casus filminde de sürülerek tanındı.",
+        similar:["Rapier","Alpine (Rootes)"],
+        images:{front:"1964 Sunbeam Tiger convertible (6106146134).jpg"}}
+    ]},
+  { brand:"Singer", era:"1951–1963 · SM1500'den Vogue'a", region:"İngiltere",
+    cars:[
+      {model:"SM1500", year:1951, tag:"Aerodinamik Sedan", designer:"Singer Tasarım Stüdyosu", engine:"1.5L Dört Silindir",
+        story:"Aerodinamik gövde çizgileriyle dönemin sedan tasarımlarına öncülük etti.",
+        similar:["Gazelle","Vogue"],
+        images:{front:"1951 Singer SM1500 (22042153866).jpg"}},
+      {model:"Gazelle", year:1956, tag:"Rootes Ortaklığı", designer:"Rootes Tasarım Stüdyosu", engine:"1.5–1.7L Dört Silindir",
+        story:"Rootes Grubu'na katılımdan sonra Hillman platformlarını paylaşarak markanın devamlılığını sağladı.",
+        similar:["SM1500","Vogue"],
+        images:{front:"1958 Singer Gazelle Series III (14116090179).jpg"}},
+      {model:"Vogue", year:1961, tag:"Son Dönem Singer", designer:"Rootes Tasarım Stüdyosu", engine:"1.6L Dört Silindir",
+        story:"Markanın son bağımsız kimlik taşıyan modellerinden biri; 1970'te Singer markası tamamen kapatıldı.",
+        similar:["Gazelle","SM1500"]}
+    ]},
+  { brand:"Standard", era:"1948–1963 · Vanguard'dan Ensign'a", region:"İngiltere",
+    cars:[
+      {model:"Vanguard", year:1948, tag:"Savaş Sonrası İhracat Yıldızı", designer:"Standard Tasarım Stüdyosu", engine:"2.1L Dört Silindir",
+        story:"Amerikan tasarım diline yaklaşan gövdesiyle özellikle ihracat pazarlarında büyük başarı yakaladı.",
+        similar:["Ensign","Vanguard Six"],
+        images:{front:"STANDARD Vanguard 1949 front.jpg"}},
+      {model:"Vanguard Six", year:1960, tag:"Altı Silindirli Güç", designer:"Standard Tasarım Stüdyosu", engine:"2.1L Altı Silindir",
+        story:"Vanguard ailesinin daha güçlü altı silindirli versiyonu, aile otomobili segmentinde konforu artırdı.",
+        similar:["Vanguard","Ensign"]},
+      {model:"Ensign", year:1957, tag:"Sadeleştirilmiş Kardeş", designer:"Standard Tasarım Stüdyosu", engine:"2.1L Dört Silindir",
+        story:"Vanguard'ın daha sade donanımlı ve ekonomik versiyonu olarak sunuldu.",
+        similar:["Vanguard","Vanguard Six"]}
+    ]},
+  { brand:"NSU", era:"1958–1973 · Prinz'den Ro80'e", region:"Almanya",
+    cars:[
+      {model:"Prinz", year:1958, tag:"Kompakt Başlangıç", designer:"NSU Tasarım Ekibi", engine:"0.6L İkiz Silindir",
+        story:"Motosiklet üreticisi kökenli NSU'nun otomobil pazarına dönüşünün ilk adımıydı.",
+        similar:["Prinz 1000","Ro80"],
+        images:{front:"NSU-Prinz-I.JPG"}},
+      {model:"Prinz 1000", year:1961, tag:"Genişletilmiş Aile", designer:"NSU Tasarım Ekibi", engine:"1.0L Dört Silindir",
+        story:"Prinz ailesinin büyütülmüş motorlu versiyonu, markanın büyüme sürecinde önemli bir adımdı.",
+        similar:["Prinz","Ro80"],
+        images:{front:"NSU Prinz 1000 1964 02.JPG"}},
+      {model:"Ro80", year:1967, tag:"Rotari Öncüsü ve Kurbanı", designer:"Claus Luthe", engine:"1.0L Wankel Rotari (İkiz)",
+        power:"115 BG", topSpeed:"180 km/s", production:"~37.204 adet",
+        story:"Aerodinamik tasarımıyla döneminin çok ötesindeydi ve 'Avrupa Yılın Otomobili' ödülünü kazandı, ancak rotari motorların güvenilirlik sorunları markanın sonunu hazırladı.",
+        story2:"Ro80'in tasarım dili, otuz yıl sonra bile modern sedan tasarımlarına ilham vermeye devam etti; garanti kapsamındaki motor değişim maliyetleri ise NSU'nun Volkswagen Grubu'na katılmasına (ve markanın Audi çatısı altında erimesine) yol açtı.",
+        similar:["Prinz 1000","Prinz"],
+        images:{front:"Nsu-ro-80-1.jpg"}}
+    ]},
+  { brand:"Auto Union / DKW", era:"1955–1966 · 1000'den F102'ye", region:"Almanya",
+    cars:[
+      {model:"1000", year:1955, tag:"İki Zamanlı Miras", designer:"Auto Union Tasarım Ekibi", engine:"1.0L Üç Silindir, İki Zamanlı",
+        story:"Savaş öncesi Auto Union mirasını taşıyan iki zamanlı motoruyla, dönemin Alman ekonomi sınıfında yer aldı.",
+        similar:["Junior","F102"],
+        images:{front:"DKW AU 1000 Coupe 1959.jpg"}},
+      {model:"Junior", year:1959, tag:"Kompakt DKW", designer:"Auto Union Tasarım Ekibi", engine:"0.7L Üç Silindir, İki Zamanlı",
+        story:"Daha kompakt ve ekonomik bir DKW modeli olarak geniş bir kitleye hitap etti.",
+        similar:["1000","F102"],
+        images:{front:"DKW Junior 1959 741cc at Schaffen-Diest Fly-Drive 2013.JPG"}},
+      {model:"F102", year:1964, tag:"Son DKW, İlk Audi Temeli", designer:"Auto Union Tasarım Ekibi", engine:"1.2L Üç Silindir, İki Zamanlı",
+        story:"DKW markasının son modeliydi; gövdesi doğrudan ilk modern Audi'nin temelini oluşturdu.",
+        similar:["Junior","1000"],
+        images:{front:"DKW F102 ( 1963–1966).jpg"}}
+    ]},
+  { brand:"Borgward", era:"1954–1961 · Isabella'dan Big Six'e", region:"Almanya",
+    cars:[
+      {model:"Isabella", year:1954, tag:"Zarafetin Almanca Yorumu", designer:"Borgward Tasarım Ekibi", engine:"1.5L Dört Silindir",
+        story:"Zarif gövdesi ve gelişmiş süspansiyonuyla döneminin en sevilen Alman orta sınıf otomobillerinden biriydi.",
+        similar:["Big Six","2400"],
+        images:{front:"Borgward Isabella combi, Bj. 1954-56, Front.JPG"}},
+      {model:"2400", year:1952, tag:"Lüks Amiral Gemisi", designer:"Borgward Tasarım Ekibi", engine:"2.4L Altı Silindir",
+        story:"Markanın lüks segmentindeki iddiasını temsil eden, hava süspansiyonlu öncü bir modeldi.",
+        similar:["Isabella","Big Six"]},
+      {model:"Big Six", year:1959, tag:"Markanın Son Amiral Gemisi", designer:"Borgward Tasarım Ekibi", engine:"2.2L Altı Silindir",
+        story:"Şirketin 1961'deki ani iflasından hemen önce piyasaya sürülen bu model, Borgward'ın son büyük iddiası oldu.",
+        similar:["2400","Isabella"]}
+    ]},
+  { brand:"Glas", era:"1955–1967 · Goggomobil'den 2600 V8'e", region:"Almanya",
+    cars:[
+      {model:"Goggomobil", year:1955, tag:"Mikro Otomobil", designer:"Glas Tasarım Ekibi", engine:"0.25–0.4L İkiz Silindir",
+        story:"Savaş sonrası Almanya'nın en popüler mikro otomobillerinden biri olarak, ehliyet kısıtlamalarından muaf küçük motor sınıfında büyük başarı yakaladı.",
+        similar:["1300 GT","2600 V8"],
+        images:{front:"1959 Glas Goggomobil 300.jpg"}},
+      {model:"1300 GT", year:1963, tag:"Zamanlama Kayışının Öncüsü", designer:"Pietro Frua", engine:"1.3L Dört Silindir",
+        story:"Seri üretimde kayış tahrikli eksantrik mili kullanan ilk otomobillerden biriydi; bugün hemen her modern motorda kullanılan bu teknolojiye öncülük etti.",
+        similar:["Goggomobil","2600 V8"],
+        images:{front:"Glas 1300 GT 85PS 1965 1.jpg"}},
+      {model:"2600 V8", year:1965, tag:"'Glaserati'", designer:"Pietro Frua", engine:"2.6L V8",
+        power:"150 BG", topSpeed:"195 km/s", production:"666 adet",
+        story:"İtalyan tasarımcı Frua'nın zarif gövdesi ve V8 motoruyla 'Glaserati' lakabını aldı; markanın son büyük iddiasıydı.",
+        similar:["1300 GT","Goggomobil"]}
+    ]},
+  { brand:"Wartburg", era:"1956–1975 · 311'den 353'e", region:"Doğu Almanya",
+    cars:[
+      {model:"311", year:1956, tag:"Doğu Bloku Klasiği", designer:"Wartburg Tasarım Ekibi", engine:"0.9L Üç Silindir, İki Zamanlı",
+        story:"Doğu Almanya'nın önde gelen ihracat otomobillerinden biriydi; Batı Avrupa ralli pistlerinde bile yarıştı.",
+        similar:["312","353"],
+        images:{front:"1966 Wartburg 311 De Luxe 1.0.jpg"}},
+      {model:"312", year:1965, tag:"Ara Nesil", designer:"Wartburg Tasarım Ekibi", engine:"0.9L Üç Silindir, İki Zamanlı",
+        story:"311'in geliştirilmiş versiyonu olarak kısa bir geçiş modeli görevi gördü.",
+        similar:["311","353"]},
+      {model:"353", year:1966, tag:"Doğu Bloku'nun Uzun Ömürlüsü", designer:"Wartburg Tasarım Ekibi", engine:"1.0L Üç Silindir, İki Zamanlı",
+        story:"Neredeyse yirmi beş yıl boyunca köklü değişiklik yapılmadan üretildi; Berlin Duvarı'nın yıkılışına kadar Doğu Almanya sokaklarında yaygın bir görüntüydü.",
+        similar:["312","311"],
+        images:{front:"Wartburg 1000-Typ353 Front-view.JPG"}}
+    ]},
+  { brand:"Škoda", era:"1957–1977 · Octavia'dan 105/120'ye", region:"Çekoslovakya",
+    cars:[
+      {model:"Octavia", year:1959, tag:"Doğu Bloku'nun Sağlamı", designer:"Škoda Tasarım Ekibi", engine:"1.1L Dört Silindir",
+        story:"Sağlam mekaniği ve dengeli sürüşüyle Avrupa ralli pistlerinde bile başarı kazandı.",
+        similar:["1000 MB","105/120"],
+        images:{front:"Skoda 440 Octavia (7522162798).jpg"}},
+      {model:"1000 MB", year:1964, tag:"Arkadan Motorlu Deney", designer:"Škoda Tasarım Ekibi", engine:"1.0L Dört Silindir",
+        story:"Motoru arkaya taşıyarak iç hacimden tasarruf sağlayan, döneminin ilgi çekici mühendislik denemelerinden biriydi.",
+        similar:["Octavia","105/120"],
+        images:{front:"Skoda 1000MB front.jpg"}},
+      {model:"105/120", year:1976, tag:"Doğu Bloku'nun Halk Otomobili", designer:"Škoda Tasarım Ekibi", engine:"1.0–1.2L Dört Silindir",
+        story:"Uygun fiyatı ve kolay bakımıyla Demir Perde ülkelerinde milyonlarca ailenin ilk otomobili oldu.",
+        similar:["1000 MB","Octavia"],
+        images:{front:"Skoda 105S - front.jpg"}}
+    ]},
+  { brand:"Tatra", era:"1947–1975 · T600'den T613'e", region:"Çekoslovakya",
+    cars:[
+      {model:"T600 Tatraplan", year:1947, tag:"Aerodinamik Öncü", designer:"Tatra Tasarım Ekibi", engine:"2.0L Dört Silindir, Arkada",
+        story:"Savaş öncesi aerodinamik tasarım geleneğini sürdüren, arkadan motorlu ve akışkan gövdeli bir sedandı.",
+        similar:["T603","T613"],
+        images:{front:"AutomobileTatra T-600 Tatraplan.JPG"}},
+      {model:"T603", year:1956, tag:"Parti Yetkilisinin Otomobili", designer:"Tatra Tasarım Ekibi", engine:"2.5L V8, Arkada",
+        story:"Üç farlı, akışkan gövdesiyle Doğu Bloku'nun en özgün tasarımlarından biriydi; genellikle üst düzey parti yetkililerine tahsis edildi.",
+        similar:["T600 Tatraplan","T613"]},
+      {model:"T613", year:1974, tag:"Modern Çağa Geçiş", designer:"Vignale (İtalyan tasarım stüdyosu)", engine:"3.5L V8, Arkada",
+        story:"İtalyan Vignale stüdyosunun köşeli tasarımıyla markanın modern döneme geçişini simgeledi.",
+        similar:["T603","T600 Tatraplan"]}
+    ]},
+  { brand:"Holden", era:"1953–1978 · FJ'den Monaro'ya", region:"Avustralya",
+    cars:[
+      {model:"FJ", year:1953, tag:"Avustralya'nın Sevgilisi", designer:"Holden Tasarım Ekibi (GM)", engine:"2.2L Altı Silindir",
+        story:"Avustralya'da o kadar sevildi ki adı bugün hâlâ 'klasik Avustralya otomobili' ile eşanlamlı kullanılır.",
+        similar:["EH","Monaro"],
+        images:{front:"1956 Holden FJ station wagon (9596107261).jpg"}},
+      {model:"EH", year:1963, tag:"Satış Rekortmeni", designer:"Holden Tasarım Ekibi (GM)", engine:"2.4–2.9L Altı Silindir",
+        story:"Avustralya otomotiv tarihinin en hızlı satan modellerinden biri oldu; bir yılda yüz binden fazla adet satıldı.",
+        similar:["FJ","Monaro"]},
+      {model:"Monaro", year:1968, tag:"Avustralya'nın Kas Arabası", designer:"Holden Tasarım Ekibi (GM)", engine:"3.3–5.7L Altı/V8",
+        story:"Bathurst 500 dayanıklılık yarışındaki zaferleriyle Avustralya kas araba tarihinin ikonlarından biri haline geldi.",
+        similar:["EH","FJ"],
+        images:{front:"1968 Holden Monaro HK GTS 327.jpg"}}
+    ]},
+  { brand:"Lincoln", era:"1956–1972 · Continental Mark II'den IV'e", region:"ABD",
+    cars:[
+      {model:"Continental Mark II", year:1956, tag:"Amerikan Lüksün Doruğu", designer:"John Reinhart", engine:"6.0L V8",
+        production:"~3.000 adet",
+        story:"Dönemin abartılı kanatçık trendine karşı çıkan sade ve zarif tasarımıyla, Amerikan lüks otomobil tasarımının klasiklerinden biri sayılır.",
+        similar:["Continental (1961)","Mark IV"]},
+      {model:"Continental (1961)", year:1961, tag:"İntihar Kapıları", designer:"Elwood Engel", engine:"7.0L V8",
+        story:"Arkaya menteşeli 'intihar kapıları' ve temiz hatlarıyla, bir devlet başkanının resmi aracı olarak da tarihe geçti.",
+        similar:["Continental Mark II","Mark IV"],
+        images:{front:"1962 Lincoln Continental (27055340280).jpg"}},
+      {model:"Mark IV", year:1972, tag:"Kişisel Lüks Zirvesi", designer:"Lincoln Tasarım Stüdyosu", engine:"7.5L V8",
+        story:"Uzun kaputu ve opera camlarıyla 70'lerin 'kişisel lüks' otomobil akımının en tanınan örneklerinden biriydi.",
+        similar:["Continental (1961)","Continental Mark II"],
+        images:{front:"Lincoln Continental Mark IV - 01.jpg"}}
+    ]},
+  { brand:"Mercury", era:"1949–1970 · Eight'ten Cougar'a", region:"ABD",
+    cars:[
+      {model:"Eight", year:1949, tag:"Özelleştirme İkonu", designer:"Mercury Tasarım Stüdyosu", engine:"4.2L V8",
+        story:"Akışkan gövdesiyle özel modifikasyon kültürünün ('kustom kültürü') en sevilen tabanlarından biri oldu.",
+        similar:["Cyclone","Cougar"],
+        images:{front:"1949 Mercury Eight (23474199381).jpg"}},
+      {model:"Cyclone", year:1964, tag:"Orta Boy Performans", designer:"Mercury Tasarım Stüdyosu", engine:"4.7–7.0L V8",
+        story:"NASCAR pistlerinde başarı kazanan bu model, Mercury'nin performans iddiasını taşıdı.",
+        similar:["Eight","Cougar"],
+        images:{front:"1966 Mercury S-55 coupe (7026528437).jpg"}},
+      {model:"Cougar", year:1967, tag:"Lüks Pony Car", designer:"Mercury Tasarım Stüdyosu", engine:"4.7–7.0L V8",
+        story:"Ford Mustang'in mekaniğini daha lüks ve donanımlı bir gövdeyle sunarak farklı bir kitleye hitap etti.",
+        similar:["Cyclone","Eight"],
+        images:{front:"1967 Cougar XR7 burgundy tl.jpg"}}
+    ]},
+  { brand:"Edsel", era:"1958–1960 · Kısa Ömürlü Deney", region:"ABD",
+    cars:[
+      {model:"Citation", year:1958, tag:"Pazarlama Efsanesi", designer:"Ford Tasarım Stüdyosu", engine:"5.9–7.0L V8",
+        story:"At nalı şeklindeki ızgarasıyla döneminin en tartışmalı tasarımlarından biriydi; markanın kısa ömürlü serüveninin başlangıcı oldu.",
+        similar:["Corsair","Ranger"],
+        images:{front:"1958 Edsel Citation (18997333986).jpg"}},
+      {model:"Corsair", year:1958, tag:"Orta Segment Denemesi", designer:"Ford Tasarım Stüdyosu", engine:"5.9L V8",
+        story:"Edsel'in orta segment modeli olarak, markanın geniş ürün yelpazesi kurma girişiminin bir parçasıydı.",
+        similar:["Citation","Ranger"],
+        images:{front:"Edsel Corsair 1958 - Falköping cruising 2014 - 6967.jpg"}},
+      {model:"Ranger", year:1958, tag:"Giriş Seviyesi Edsel", designer:"Ford Tasarım Stüdyosu", engine:"5.9L V8",
+        story:"Markanın en erişilebilir modeliydi, ancak Edsel'in genel pazarlama başarısızlığından payını aldı ve 1960'ta üretim tamamen durdu.",
+        similar:["Corsair","Citation"],
+        images:{front:"1958 Edsel Ranger (5222873248).jpg"}}
+    ]},
+  { brand:"Kaiser-Frazer", era:"1947–1955 · Special'dan Darrin'e", region:"ABD",
+    cars:[
+      {model:"Special", year:1947, tag:"Savaş Sonrası Yeni Marka", designer:"Howard Darrin", engine:"3.7L Altı Silindir",
+        story:"Savaş sonrası kurulan yeni bir otomobil markası olarak Detroit'in dev üreticilerine meydan okumaya çalıştı.",
+        similar:["Manhattan","Darrin"],
+        images:{front:"Ypsilanti Automotive Heritage Museum August 2013 08 (1948 Kaiser Special).jpg"}},
+      {model:"Manhattan", year:1951, tag:"Üst Segment İddiası", designer:"Howard Darrin", engine:"3.7L Altı Silindir",
+        story:"Markanın en donanımlı modeli olarak, büyük Detroit üreticileriyle doğrudan rekabete girmeyi hedefledi.",
+        similar:["Special","Darrin"],
+        images:{front:"1953 Kaiser Manhattan Sedan (10262938186).jpg"}},
+      {model:"Darrin", year:1954, tag:"Sürgülü Kapılı Roadster", designer:"Howard Darrin", engine:"2.6L Altı Silindir",
+        story:"Alışılmadık sürgülü kapılarıyla dikkat çeken bu spor roadster, markanın son ve en özgün modeliydi.",
+        similar:["Manhattan","Special"],
+        images:{front:"1954 Kaiser Darrin convertible.jpg"}}
+    ]},
+  { brand:"Nash", era:"1950–1957 · Rambler'dan Metropolitan'a", region:"ABD",
+    cars:[
+      {model:"Rambler (Nash)", year:1950, tag:"Kompakt Öncü", designer:"Nash Tasarım Ekibi", engine:"2.8L Altı Silindir",
+        story:"Amerikan pazarında kompakt otomobil segmentinin öncülerinden biriydi; sonradan bağımsız bir marka olan Rambler'ın da temelini attı.",
+        similar:["Metropolitan","Ambassador (Nash)"],
+        images:{front:"1950 Nash Rambler Convertible (14480500006).jpg"}},
+      {model:"Metropolitan", year:1953, tag:"Şehir İçi Mikro Otomobil", designer:"William Flajole", engine:"1.2–1.5L Dört Silindir",
+        story:"İngiltere'de üretilip Amerika'da satılan bu küçük otomobil, şehir içi ikinci araç ihtiyacına yönelik erken bir yanıttı.",
+        similar:["Rambler (Nash)","Ambassador (Nash)"],
+        images:{front:"1955 Nash Metropolitan (4153274480).jpg"}},
+      {model:"Ambassador (Nash)", year:1955, tag:"Amiral Gemisi", designer:"Pininfarina", engine:"4.1L V8",
+        story:"İtalyan Pininfarina'nın tasarım katkısıyla markanın en lüks ve güçlü modeli olarak konumlandırıldı.",
+        similar:["Metropolitan","Rambler (Nash)"],
+        images:{front:"1948 Nash Ambassador Custom convertible yellow AACA show F.jpg"}}
+    ]},
+  { brand:"Duesenberg", era:"1928–1937 · Model J'nin Efsanesi", region:"ABD",
+    cars:[
+      {model:"Model J", year:1928, tag:"Amerikan Lüksün Zirvesi", designer:"Gordon Buehrig ve çeşitli kaportacılar", engine:"6.9L Sekiz Silindir",
+        power:"265 BG", topSpeed:"192 km/s", production:"~481 şasi",
+        story:"1920'lerin sonunda dünyanın en güçlü ve en pahalı seri üretim otomobiliydi; şasiler ayrı kaportacılara gönderilip müşteriye özel gövdelerle tamamlanırdı.",
+        story2:"'O bir Duesenberg' ifadesi dönemin Amerikan argosunda 'olağanüstü kaliteli bir şey' anlamında kullanılmaya başlandı — bugün bile İngilizce'de bu deyim hâlâ yaşıyor.",
+        similar:["SJ","SSJ"],
+        images:{front:"1932 Duesenberg Model J Roadster (15964493998).jpg"}},
+      {model:"SJ", year:1932, tag:"Kompresörlü Canavar", designer:"Gordon Buehrig ve çeşitli kaportacılar", engine:"6.9L Sekiz Silindir, Kompresörlü",
+        power:"320 BG", topSpeed:"225 km/s", production:"~36 adet",
+        story:"Kompresörlü motoruyla dönemin en hızlı seri üretim otomobiliydi; Büyük Buhran'ın ortasında bile en zengin Amerikalıların hayalini süsledi.",
+        similar:["Model J","SSJ"],
+        images:{front:"1934 Duesenberg SJ Convertible Coupe (21550956279).jpg"}},
+      {model:"SSJ", year:1935, tag:"En Nadir Duesenberg", designer:"Gordon Buehrig", engine:"6.9L Sekiz Silindir, Kompresörlü",
+        production:"2 adet",
+        story:"Kısaltılmış şasili sadece iki adet üretildi; ikisi de dönemin ünlü Hollywood aktörlerine satıldı.",
+        similar:["SJ","Model J"]}
+    ]},
+  { brand:"Auburn", era:"1931–1936 · 8-98'den Speedster'a", region:"ABD",
+    cars:[
+      {model:"8-98", year:1931, tag:"Erişilebilir Lüks", designer:"Alan Leamy", engine:"4.4L Sekiz Silindir",
+        story:"Duesenberg kadar pahalı olmayan ama benzer bir zarafet sunan, Auburn'ün en dengeli modellerinden biriydi.",
+        similar:["851 Speedster","852 Speedster"],
+        images:{front:"1929 Auburn 8-120 Boattail Speedster fvr.jpg"}},
+      {model:"851 Speedster", year:1935, tag:"Kompresörlü Zarafet", designer:"Gordon Buehrig", engine:"4.6L Sekiz Silindir, Kompresörlü",
+        power:"150 BG", topSpeed:"161 km/s",
+        story:"Her aracın gösterge panelinde, o özel şasinin 100 mil/saat testini geçtiğini belgeleyen imzalı bir plaket bulunurdu.",
+        story2:"Boomerang şeklindeki egzoz boruları ve akışkan çamurluklarıyla, Art Deco döneminin en tanınan otomobil tasarımlarından biri kabul edilir.",
+        similar:["8-98","852 Speedster"],
+        images:{front:"1932 Auburn 8-100A Speedster (21737850635).jpg"}},
+      {model:"852 Speedster", year:1936, tag:"Markanın Son Şaheseri", designer:"Gordon Buehrig", engine:"4.6L Sekiz Silindir, Kompresörlü",
+        story:"Auburn'ün mali sıkıntılar nedeniyle 1937'de kapanmadan önceki son büyük tasarım iddiasıydı.",
+        similar:["851 Speedster","8-98"]}
+    ]},
+  { brand:"Cord", era:"1929–1937 · L-29'dan 812'ye", region:"ABD",
+    cars:[
+      {model:"L-29", year:1929, tag:"Önden Çekişin Öncüsü", designer:"Alan Leamy", engine:"4.9L Sekiz Silindir",
+        story:"Amerika'da seri üretime giren ilk önden çekişli otomobillerden biriydi; alçak ve uzun gövdesiyle döneminin en özgün tasarımlarından biri sayıldı.",
+        similar:["810","812"],
+        images:{front:"1929 Cord L-29 Cabriolet 4.9 litre 8 cylinder 125hp 115kmh pic4.JPG"}},
+      {model:"810", year:1936, tag:"Art Deco'nun Zirvesi", designer:"Gordon Buehrig", engine:"4.7L V8",
+        power:"125 BG", topSpeed:"140 km/s",
+        story:"Gizlenebilir far yuvaları ve 'çamaşır tahtası' ızgarasıyla, otomotiv tarihinin en ikonik Art Deco tasarımlarından biri kabul edilir; New York'taki Modern Sanatlar Müzesi'nde bile sergilendi.",
+        story2:"Önden çekiş sistemi, şanzımanı arkaya değil öne yerleştirerek arabanın alışılmadık derecede alçak ve akışkan bir siluet kazanmasını sağladı.",
+        similar:["812","L-29"],
+        images:{front:"1936 Cord 810 Westchester Sedan (21559608830).jpg"}},
+      {model:"812", year:1937, tag:"Kompresörlü Son Versiyon", designer:"Gordon Buehrig", engine:"4.7L V8, Kompresörlü",
+        power:"170 BG", topSpeed:"175 km/s",
+        story:"810'un kompresörlü versiyonu olarak markanın son ve en güçlü modeliydi; kısa süre sonra şirket kapandı.",
+        similar:["810","L-29"]}
     ]}
 ];
 
@@ -1355,8 +1783,9 @@ const eraGroups = [
   {id:"80s", label:"1980'ler", test:y=>y>=1980}
 ];
 
-function commonsUrl(filename){
-  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(filename);
+function commonsUrl(filename, width){
+  const base = "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(filename);
+  return width ? base + "?width=" + width : base;
 }
 
 function plateGradient(brand, idx){
@@ -1391,7 +1820,20 @@ function plateGradient(brand, idx){
     "Subaru":["#1E2A3A","#2E5A73"], "Mitsubishi":["#3A1414","#7C2A2A"],
     "Isuzu":["#1E2A1E","#3A5A3A"], "Checker":["#2A2A1E","#5A5A2E"],
     "Excalibur":["#3A2A0E","#7C5A1E"], "Bizzarrini":["#3A1414","#7C2A2A"],
-    "Intermeccanica":["#2A1E3A","#5A3A73"]
+    "Intermeccanica":["#2A1E3A","#5A3A73"],
+    "Lamborghini":["#3A2A0E","#7C5A1E"], "Lotus":["#1E2A1E","#2E7350"],
+    "Bentley":["#1E1E2A","#3A3A5A"], "Rolls-Royce":["#1E1E1E","#4A4A4A"],
+    "Alvis":["#2A1E1E","#5A3A2E"], "Daimler":["#1E1E2A","#3A3A5A"],
+    "Armstrong Siddeley":["#2A2A1E","#5A5A2E"], "Sunbeam":["#3A2A0E","#7C5A1E"],
+    "Singer":["#2A1E2A","#5A3A5A"], "Standard":["#1E2A2A","#3A5A5A"],
+    "NSU":["#1E2A3A","#3A5A73"], "Auto Union / DKW":["#2A1E1E","#5A3A2E"],
+    "Borgward":["#1E2A1E","#3A5A3A"], "Glas":["#2A2A1E","#5A5A2E"],
+    "Wartburg":["#3A1414","#7C2A2A"], "Škoda":["#1E3A2A","#2E7350"],
+    "Tatra":["#3A1E1E","#732E2E"], "Holden":["#1E2A3A","#3A5A73"],
+    "Lincoln":["#1E1E2A","#3A3A5A"], "Mercury":["#2A1E1E","#5A3A2E"],
+    "Edsel":["#3A2A1E","#73502E"], "Kaiser-Frazer":["#1E2A2A","#3A5A5A"],
+    "Nash":["#2A2A1E","#5A5A2E"], "Duesenberg":["#2A1E0E","#5A3A1E"],
+    "Auburn":["#1E1E1E","#4A4A4A"], "Cord":["#2A1E1E","#5A3A2E"]
   };
   const [c1,c2] = palettes[brand] || ["#232E27","#33402F"];
   const angle = 120 + (idx*17)%80;
@@ -1454,7 +1896,7 @@ function renderMain(){
       card.className = 'car-card';
       const hasPhoto = c.images && c.images.front;
       const plateInner = hasPhoto
-        ? `<img src="${commonsUrl(c.images.front)}" alt="${b.brand} ${c.model}" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.classList.add('img-failed'); this.style.display='none';">`
+        ? `<img src="${commonsUrl(c.images.front, 300)}" alt="${b.brand} ${c.model}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.classList.add('img-failed'); this.style.display='none';">`
         : `<div class="plate-year">${c.year}</div>`;
       card.innerHTML = `
         <div class="car-plate" style="background:${plateGradient(b.brand, idx)}">
@@ -1491,9 +1933,10 @@ function openModal(brand, car){
     const file = imgs[key];
     const bg = `background:${plateGradient(brand.brand, gradIdx)}`;
     if(file){
-      const url = commonsUrl(file);
-      return `<div class="slot" style="${bg}" onclick="openLightbox('${url.replace(/'/g,"\\'")}', '${(brand.brand+' '+car.model+' — '+label).replace(/'/g,"\\'")}')">
-        <img src="${url}" alt="${brand.brand} ${car.model} ${label}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';">
+      const thumbUrl = commonsUrl(file, 500);
+      const fullUrl = commonsUrl(file, 1400);
+      return `<div class="slot" style="${bg}" onclick="openLightbox('${fullUrl.replace(/'/g,"\\'")}', '${(brand.brand+' '+car.model+' — '+label).replace(/'/g,"\\'")}')">
+        <img src="${thumbUrl}" alt="${brand.brand} ${car.model} ${label}" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';">
         <span class="slot-label" style="position:relative;z-index:1;">${label}</span>
         <span class="zoom-hint">⤢</span>
       </div>`;
@@ -1520,9 +1963,13 @@ function openModal(brand, car){
         <div class="spec-item"><div class="k">Motor</div><div class="v">${car.engine}</div></div>
         <div class="spec-item"><div class="k">Üretim Yılı</div><div class="v">${car.year}</div></div>
         <div class="spec-item"><div class="k">Marka Dönemi</div><div class="v">${brand.era}</div></div>
+        ${car.topSpeed ? `<div class="spec-item"><div class="k">Maks. Hız</div><div class="v">${car.topSpeed}</div></div>` : ''}
+        ${car.power ? `<div class="spec-item"><div class="k">Beygir Gücü</div><div class="v">${car.power}</div></div>` : ''}
+        ${car.zeroToHundred ? `<div class="spec-item"><div class="k">0-100 km/s</div><div class="v">${car.zeroToHundred}</div></div>` : ''}
+        ${car.production ? `<div class="spec-item"><div class="k">Üretim Adedi</div><div class="v">${car.production}</div></div>` : ''}
       </div>
 
-      <p class="story">${car.story}</p>
+      ${car.story2 ? `<p class="story">${car.story}</p><p class="story">${car.story2}</p>` : `<p class="story">${car.story}</p>`}
 
       <div class="section-label">Benzer Modeller</div>
       <div class="similar-row">
@@ -1553,7 +2000,10 @@ function jumpTo(brandName, modelName){
 }
 
 function openLightbox(url, caption){
-  document.getElementById('lightboxImg').src = url;
+  const img = document.getElementById('lightboxImg');
+  img.style.opacity = '0.3';
+  img.src = url;
+  img.onload = ()=>{ img.style.opacity = '1'; };
   document.getElementById('lightboxCaption').textContent = caption;
   document.getElementById('lightboxOverlay').classList.add('open');
 }
