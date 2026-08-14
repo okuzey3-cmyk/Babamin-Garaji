@@ -196,6 +196,26 @@
     font-size:12.5px;
   }
 
+  .web-image-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+    padding:10px 16px 14px;
+  }
+  .web-thumb-wrap{
+    aspect-ratio:1/1;
+    border-radius:3px;
+    overflow:hidden;
+    cursor:zoom-in;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+  }
+  .web-thumb{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
   /* filters */
   .filters{
     position:sticky;top:0;z-index:5;
@@ -2461,6 +2481,31 @@ function webSearchUrl(query){
   return "https://www.google.com/search?q=" + encodeURIComponent(query + " araba klasik otomobil");
 }
 
+// Wikimedia Commons'ın herkese açık, ücretsiz arama API'si — arşivimizdeki 363 arabayla
+// sınırlı kalmadan, yazılan HERHANGİ bir şey için gerçek fotoğraf çeker.
+let commonsSearchToken = 0;
+async function fetchCommonsThumbnails(query, limit){
+  const url = "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6"
+    + "&gsrsearch=" + encodeURIComponent(query + " car")
+    + "&gsrlimit=" + limit
+    + "&prop=imageinfo&iiprop=url&iiurlwidth=300&format=json&origin=*";
+  try {
+    const res = await fetch(url);
+    if(!res.ok) return [];
+    const data = await res.json();
+    if(!data.query || !data.query.pages) return [];
+    return Object.values(data.query.pages)
+      .filter(p => p.imageinfo && p.imageinfo[0])
+      .map(p => ({
+        title: p.title.replace(/^File:/,'').replace(/\.(jpg|jpeg|png)$/i,''),
+        thumb: p.imageinfo[0].thumburl,
+        full: p.imageinfo[0].url
+      }));
+  } catch(e){
+    return [];
+  }
+}
+
 function renderSearchResults(query){
   const box = document.getElementById('searchResults');
   const clearBtn = document.getElementById('searchClear');
@@ -2476,8 +2521,8 @@ function renderSearchResults(query){
   let html = '';
 
   if(exact.length > 0){
+    html += `<div class="search-hint">📚 Garajımızdaki arabalar</div>`;
     html += exact.map(({car}, idx)=>{
-      const brandObj = DATA.find(b=>b.brand===car.brand);
       const bg = plateGradient(car.brand, idx);
       return `<div class="search-item" onclick="selectSearchResult('${car.brand.replace(/'/g,"\\'")}','${car.model.replace(/'/g,"\\'")}')">
         <div class="search-item-swatch" style="background:${bg}"></div>
@@ -2488,7 +2533,7 @@ function renderSearchResults(query){
       </div>`;
     }).join('');
   } else if(fuzzy.length > 0){
-    html += `<div class="search-hint">'<b>${query}</b>' için tam eşleşme bulunamadı. Bunlardan birini mi demek istediniz?</div>`;
+    html += `<div class="search-hint">'<b>${query}</b>' için garajımızda tam eşleşme yok. Bunlardan birini mi demek istediniz?</div>`;
     html += fuzzy.map(({car}, idx)=>{
       const bg = plateGradient(car.brand, idx);
       return `<div class="search-item" onclick="selectSearchResult('${car.brand.replace(/'/g,"\\'")}','${car.model.replace(/'/g,"\\'")}')">
@@ -2500,8 +2545,12 @@ function renderSearchResults(query){
       </div>`;
     }).join('');
   } else {
-    html += `<div class="search-empty">Arşivde '${query}' ile eşleşen bir araba bulunamadı.</div>`;
+    html += `<div class="search-empty">Garajımızda '${query}' ile eşleşen bir araba yok — aşağıda web'den bulunanlara bakabilirsin.</div>`;
   }
+
+  html += `<div id="webImagesSection">
+    <div class="search-hint">🌍 Web'den bulunan görseller — <span id="webImagesStatus">aranıyor...</span></div>
+  </div>`;
 
   html += `<div class="search-web-item" onclick="openWebSearch('${query.replace(/'/g,"\\'")}')">
     <span>🌐</span><span>'${query}' için internette geniş arama yap</span>
@@ -2509,6 +2558,24 @@ function renderSearchResults(query){
 
   box.innerHTML = html;
   box.classList.add('open');
+
+  // Wikimedia Commons'tan canlı görsel çekiyoruz (arşivde olsun olmasın, her arama için)
+  const myToken = ++commonsSearchToken;
+  fetchCommonsThumbnails(query, 6).then(images=>{
+    if(myToken !== commonsSearchToken) return; // kullanıcı arada başka bir şey aradı, bu sonuç eskidi
+    const section = document.getElementById('webImagesSection');
+    if(!section) return;
+    if(images.length === 0){
+      section.innerHTML = `<div class="search-hint">🌍 Web'den görsel bulunamadı</div>`;
+      return;
+    }
+    section.innerHTML = `<div class="search-hint">🌍 Web'den bulunan görseller</div>
+      <div class="web-image-grid">
+        ${images.map(img => `<div class="web-thumb-wrap" onclick="openLightbox('${img.full.replace(/'/g,"\\'")}','${img.title.replace(/'/g,"\\'")}')">
+          <img src="${img.thumb}" alt="${img.title}" loading="lazy" class="web-thumb">
+        </div>`).join('')}
+      </div>`;
+  });
 }
 
 function selectSearchResult(brandName, modelName){
