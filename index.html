@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Babamın Garajı">
+<meta name="theme-color" content="#141B15">
 <title>Babamın Garajı — Klasik Otomobil Arşivi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://commons.wikimedia.org">
@@ -23,6 +28,21 @@
     --chrome:#5C665C;
     --line:#33402F;
   }
+  [data-theme="light"]{
+    --bg-deep:#F4F0E6;
+    --bg-panel:#FFFFFF;
+    --bg-panel-2:#EDE7D8;
+    --brass:#9C7B2E;
+    --brass-bright:#7A5F1F;
+    --oxblood:#8C3B34;
+    --oxblood-bright:#A5453D;
+    --cream:#231F16;
+    --muted:#6B6656;
+    --chrome:#8A8470;
+    --line:#DCD4BE;
+  }
+  [data-theme="light"] body::before{opacity:0.15;}
+  [data-theme="light"] .car-plate::after{color:rgba(35,31,22,0.55);}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg-deep);color:var(--cream);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
   ::selection{background:var(--brass);color:#141B15;}
@@ -105,6 +125,141 @@
     background:var(--bg-panel);
   }
   .archive-count b{color:var(--cream);font-weight:600;}
+
+  .toolbar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  .tb-btn{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--cream);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    padding:7px 11px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:border-color .15s ease;
+  }
+  .tb-btn:hover, .tb-btn:active{border-color:var(--brass);color:var(--brass-bright);}
+  .tb-fontgroup{display:flex;gap:2px;background:var(--bg-panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .tb-fontgroup .tb-btn{border:none;border-radius:0;border-right:1px solid var(--line);}
+  .tb-fontgroup .tb-btn:last-child{border-right:none;}
+
+  #todayCarBanner{max-width:600px;margin:0 auto 14px;padding:0 16px;}
+  .today-card{
+    display:flex;align-items:center;gap:12px;
+    background:var(--bg-panel);
+    border:1px solid var(--brass);
+    border-radius:4px;
+    padding:12px 14px;
+    cursor:pointer;
+  }
+  .today-card:hover{background:var(--bg-panel-2);}
+  .today-swatch{width:44px;height:44px;border-radius:4px;flex-shrink:0;}
+  .today-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--brass-bright);letter-spacing:0.06em;text-transform:uppercase;}
+  .today-name{font-family:'Oswald',sans-serif;font-size:15px;color:var(--cream);margin-top:2px;}
+
+  #recentStrip{max-width:600px;margin:0 auto 10px;padding:0 16px;}
+  .recent-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;}
+  .recent-chip{
+    flex:0 0 auto;
+    display:flex;align-items:center;gap:6px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:5px 12px 5px 5px;
+    cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .recent-chip:hover{border-color:var(--brass);color:var(--cream);}
+  .recent-chip-swatch{width:20px;height:20px;border-radius:50%;flex-shrink:0;}
+
+  .search-mic{
+    background:none;border:none;
+    color:var(--muted);
+    font-size:16px;
+    cursor:pointer;
+    padding:2px 6px;
+    flex-shrink:0;
+  }
+  .search-mic:hover{color:var(--brass);}
+  .search-mic.listening{color:var(--oxblood-bright); animation:micPulse 1s ease-in-out infinite;}
+  @keyframes micPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  .pron-btn{
+    background:none;border:none;
+    color:var(--muted);
+    font-size:14px;
+    cursor:pointer;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+  .pron-btn:hover{color:var(--brass-bright);}
+
+  .modal-action-row{display:flex;gap:8px;margin:10px 0 16px;}
+  .modal-action-btn{
+    flex:1;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--cream);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:9px 10px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .modal-action-btn:hover{border-color:var(--brass);color:var(--brass-bright);}
+
+  .stats-overlay{
+    position:fixed;inset:0;z-index:90;
+    background:rgba(10,14,11,0.88);
+    display:none;
+    align-items:flex-start;justify-content:center;
+    overflow-y:auto;
+    padding:20px 16px;
+  }
+  .stats-overlay.open{display:flex;}
+  .stats-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    max-width:520px;width:100%;
+    padding:20px;
+  }
+  .stats-panel h2{
+    font-family:'Oswald',sans-serif;
+    font-size:22px;color:var(--cream);
+    margin:0 0 4px;text-transform:uppercase;
+  }
+  .stats-close{float:right;background:var(--bg-panel-2);border:1px solid var(--line);color:var(--cream);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:15px;}
+  .stat-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:12px 0;border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .stat-row:hover .stat-value{color:var(--brass-bright);}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
+  .stat-value{font-family:'Oswald',sans-serif;font-size:15px;color:var(--cream);margin-top:3px;}
+  .stat-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brass);}
+
+  @media print{
+    header, .search-wrap, .filters, #regionFilters, #todayCarBanner, #recentStrip, footer,
+    .modal-close, .video-link, .search-web-item, .note-box, .similar-row, .section-label:has(+ .similar-row){
+      display:none !important;
+    }
+    body{background:#fff;color:#111;}
+    .modal-overlay{position:static;background:#fff;display:block !important;}
+    .modal{max-width:100%;border:none;}
+  }
 
   .search-wrap{
     position:relative;
@@ -614,22 +769,36 @@
 <body>
 
 <header>
+  <div class="toolbar">
+    <button class="tb-btn" id="themeToggle" onclick="toggleTheme()" title="Açık/Koyu Tema" aria-label="Tema değiştir">🌗</button>
+    <div class="tb-fontgroup">
+      <button class="tb-btn" onclick="changeFontScale(-1)" title="Yazıyı küçült" aria-label="Yazıyı küçült">A−</button>
+      <button class="tb-btn" onclick="changeFontScale(0)" title="Varsayılan boyut" aria-label="Varsayılan yazı boyutu">A</button>
+      <button class="tb-btn" onclick="changeFontScale(1)" title="Yazıyı büyüt" aria-label="Yazıyı büyüt">A+</button>
+    </div>
+    <button class="tb-btn" onclick="openStats()" title="Rekorlar ve İstatistikler" aria-label="Rekorlar">🏆</button>
+  </div>
   <div class="eyebrow">Bir aile arşivi</div>
   <h1>Babamın <span>Garajı</span></h1>
   <p class="subtitle">İkonlaştığı çağın klasikleriyle, marka marka derlenen bir otomobil koleksiyonu.</p>
   <div class="archive-count" id="archiveCount"></div>
 </header>
 
+<div id="todayCarBanner"></div>
+<div id="recentStrip"></div>
+
 <div class="search-wrap">
   <div class="search-box">
     <span class="search-icon">🔍</span>
     <input type="text" id="searchInput" placeholder="Araba, marka veya model ara..." autocomplete="off">
+    <button class="search-mic" id="searchMic" onclick="startVoiceSearch()" title="Sesli ara" aria-label="Sesli arama" style="display:none;">🎤</button>
     <button class="search-clear" id="searchClear" style="display:none;" onclick="clearSearch()">✕</button>
   </div>
   <div class="search-results" id="searchResults"></div>
 </div>
 
 <div class="filters" id="filters"></div>
+<div class="filters" id="regionFilters"></div>
 
 <main id="main"></main>
 
@@ -643,6 +812,15 @@
   <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
   <div class="lightbox-caption" id="lightboxCaption"></div>
   <img id="lightboxImg" src="" alt="" style="transition:opacity .2s ease;">
+</div>
+
+<div class="stats-overlay" id="statsOverlay" onclick="if(event.target===this) closeStats()">
+  <div class="stats-panel">
+    <button class="stats-close" onclick="closeStats()">✕</button>
+    <h2>Rekorlar & İstatistikler</h2>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin:0 0 6px;">Arşivdeki tüm arabalar arasından</p>
+    <div id="statsBody"></div>
+  </div>
 </div>
 
 <script>
@@ -3054,10 +3232,14 @@ if(searchInputEl){
 
 let activeEra = "all";
 let activeBrand = "all";
+let activeRegion = "all";
 
 const eraGroups = [
   {id:"all", label:"Tümü"},
-  {id:"50s", label:"1950'ler", test:y=>y<1960},
+  {id:"10s20s", label:"1910–29", test:y=>y<1930},
+  {id:"30s", label:"1930'lar", test:y=>y>=1930&&y<1940},
+  {id:"40s", label:"1940'lar", test:y=>y>=1940&&y<1950},
+  {id:"50s", label:"1950'ler", test:y=>y>=1950&&y<1960},
   {id:"60s", label:"1960'lar", test:y=>y>=1960&&y<1970},
   {id:"70s", label:"1970'ler", test:y=>y>=1970&&y<1980},
   {id:"80s", label:"1980'ler", test:y=>y>=1980}
@@ -3201,6 +3383,29 @@ function renderFilters(){
     chip.onclick = ()=>{ activeBrand = b.brand; renderFilters(); renderMain(); };
     wrap.appendChild(chip);
   });
+
+  renderRegionFilters();
+}
+
+function renderRegionFilters(){
+  const wrap = document.getElementById('regionFilters');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const regions = Array.from(new Set(DATA.map(b=>b.region))).sort((a,b)=>a.localeCompare(b));
+
+  const allChip = document.createElement('div');
+  allChip.className = 'chip' + (activeRegion==='all' ? ' active':'');
+  allChip.textContent = '🌍 Tüm Ülkeler';
+  allChip.onclick = ()=>{ activeRegion='all'; renderRegionFilters(); renderMain(); };
+  wrap.appendChild(allChip);
+
+  regions.forEach(r=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (activeRegion===r ? ' active':'');
+    chip.textContent = r;
+    chip.onclick = ()=>{ activeRegion = r; renderRegionFilters(); renderMain(); };
+    wrap.appendChild(chip);
+  });
 }
 
 function renderMain(){
@@ -3211,6 +3416,7 @@ function renderMain(){
 
   DATA.forEach(b=>{
     if(activeBrand!=='all' && activeBrand!==b.brand) return;
+    if(activeRegion!=='all' && activeRegion!==b.region) return;
     const filteredCars = b.cars.filter(c => eraDef.id==='all' ? true : eraDef.test(c.year));
     if(filteredCars.length===0) return;
     visibleCount += filteredCars.length;
@@ -3254,7 +3460,7 @@ function renderMain(){
   });
 
   document.getElementById('archiveCount').innerHTML =
-    `<span>Markalar: <b>${new Set(DATA.filter(b=>activeBrand==='all'||activeBrand===b.brand).map(b=>b.brand)).size}</b></span>
+    `<span>Markalar: <b>${new Set(DATA.filter(b=>(activeBrand==='all'||activeBrand===b.brand)&&(activeRegion==='all'||activeRegion===b.region)).map(b=>b.brand)).size}</b></span>
      <span>Otomobiller: <b>${visibleCount}</b></span>`;
 
   if(visibleCount===0){
@@ -3301,8 +3507,14 @@ function openModal(brand, car){
     </div>
     <div class="modal-body">
       <div class="modal-eyebrow">${brand.brand} · ${car.tag}</div>
-      <div class="modal-title">${car.model}</div>
+      <div class="modal-title">${car.model}
+        <button class="pron-btn" onclick="event.stopPropagation();speakText('${brand.brand.replace(/'/g,"\\'")} ${car.model.replace(/'/g,"\\'")}')" title="Sesli oku" aria-label="Marka adını sesli oku">🔊</button>
+      </div>
       <div class="modal-sub">${car.year} · ${brand.region}</div>
+      <div class="modal-action-row">
+        <button class="modal-action-btn" onclick="shareCar('${brand.brand.replace(/'/g,"\\'")}','${car.model.replace(/'/g,"\\'")}')">📤 Paylaş</button>
+        <button class="modal-action-btn" onclick="window.print()">🖨️ Yazdır</button>
+      </div>
 
       <div class="spec-plate">
         <div class="spec-item"><div class="k">Tasarımcı</div><div class="v">${car.designer}</div></div>
@@ -3332,10 +3544,14 @@ function openModal(brand, car){
   overlay.classList.add('open');
   overlay.scrollTop = 0;
   content.querySelectorAll('.fade-img').forEach(img => armImageTimeout(img, 7000));
+
+  addToRecentlyViewed(brand.brand, car.model);
+  try{ history.replaceState(null, '', '#' + encodeURIComponent(brand.brand) + '|' + encodeURIComponent(car.model)); }catch(e){}
 }
 
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('open');
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
 }
 
 function jumpTo(brandName, modelName){
@@ -3363,8 +3579,207 @@ document.getElementById('modalOverlay').addEventListener('click', (e)=>{
   if(e.target.id === 'modalOverlay') closeModal();
 });
 
+// ---- Açık/Koyu Tema ----
+function applySavedTheme(){
+  const saved = localStorage.getItem('garaj_theme');
+  if(saved === 'light'){ document.documentElement.setAttribute('data-theme','light'); }
+}
+function toggleTheme(){
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  if(isLight){
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('garaj_theme','dark');
+  } else {
+    document.documentElement.setAttribute('data-theme','light');
+    localStorage.setItem('garaj_theme','light');
+  }
+}
+
+// ---- Yazı Boyutu ----
+let currentFontScale = parseFloat(localStorage.getItem('garaj_fontscale') || '1');
+function applySavedFontScale(){
+  document.body.style.zoom = currentFontScale;
+}
+function changeFontScale(direction){
+  if(direction === 0){ currentFontScale = 1; }
+  else { currentFontScale = Math.min(1.4, Math.max(0.85, currentFontScale + direction*0.1)); }
+  document.body.style.zoom = currentFontScale;
+  localStorage.setItem('garaj_fontscale', String(currentFontScale));
+}
+
+// ---- Marka/model sesli okuma ----
+function speakText(text){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+// ---- Sesli arama ----
+function startVoiceSearch(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return;
+  const recognition = new SR();
+  recognition.lang = 'tr-TR';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  const micBtn = document.getElementById('searchMic');
+  micBtn.classList.add('listening');
+  recognition.onresult = (event)=>{
+    const said = event.results[0][0].transcript;
+    const input = document.getElementById('searchInput');
+    input.value = said;
+    renderSearchResults(said);
+  };
+  recognition.onend = ()=>{ micBtn.classList.remove('listening'); };
+  recognition.onerror = ()=>{ micBtn.classList.remove('listening'); };
+  recognition.start();
+}
+function initVoiceSearchButton(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('searchMic');
+  if(SR && micBtn) micBtn.style.display = 'block';
+}
+
+// ---- Paylaşım ----
+function shareCar(brandName, modelName){
+  const url = location.origin + location.pathname + '#' + encodeURIComponent(brandName) + '|' + encodeURIComponent(modelName);
+  const shareData = { title: `${brandName} ${modelName} — Babamın Garajı`, url };
+  if(navigator.share){
+    navigator.share(shareData).catch(()=>{});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('Bağlantı kopyalandı — istediğin yere yapıştırabilirsin.');
+    }).catch(()=>{});
+  }
+}
+
+// ---- Derin link: sayfa hash ile açıldıysa ilgili arabayı göster ----
+function openFromHash(){
+  if(!location.hash) return;
+  const raw = location.hash.slice(1);
+  const parts = raw.split('|').map(p=>{ try{ return decodeURIComponent(p); }catch(e){ return p; } });
+  if(parts.length !== 2) return;
+  const brandObj = DATA.find(b=>b.brand===parts[0]);
+  if(!brandObj) return;
+  const carObj = brandObj.cars.find(c=>c.model===parts[1]);
+  if(!carObj) return;
+  openModal(brandObj, carObj);
+}
+
+// ---- Rekorlar & İstatistikler ----
+function parseLeadingNumber(str){
+  if(!str) return null;
+  const m = String(str).replace(/\./g,'').match(/[\d]+/);
+  return m ? parseInt(m[0], 10) : null;
+}
+function openStats(){
+  const body = document.getElementById('statsBody');
+  let fastest=null, oldest=null, newest=null, rarest=null, strongest=null;
+
+  ALL.forEach(car=>{
+    const ts = parseLeadingNumber(car.topSpeed);
+    if(ts!==null && (!fastest || ts > fastest.val)) fastest = {val:ts, car};
+    const pw = parseLeadingNumber(car.power);
+    if(pw!==null && (!strongest || pw > strongest.val)) strongest = {val:pw, car};
+    if(!oldest || car.year < oldest.car.year) oldest = {val:car.year, car};
+    if(!newest || car.year > newest.car.year) newest = {val:car.year, car};
+    const pr = parseLeadingNumber(car.production);
+    if(pr!==null && (!rarest || pr < rarest.val)) rarest = {val:pr, car};
+  });
+
+  const rows = [];
+  if(fastest) rows.push({label:'En Hızlı', val:`${fastest.car.brand} ${fastest.car.model}`, sub:`${fastest.val} km/s`, car:fastest.car});
+  if(strongest) rows.push({label:'En Güçlü Motor', val:`${strongest.car.brand} ${strongest.car.model}`, sub:`${strongest.val} BG`, car:strongest.car});
+  if(oldest) rows.push({label:'En Eski', val:`${oldest.car.brand} ${oldest.car.model}`, sub:`${oldest.car.year}`, car:oldest.car});
+  if(newest) rows.push({label:'En Yeni', val:`${newest.car.brand} ${newest.car.model}`, sub:`${newest.car.year}`, car:newest.car});
+  if(rarest) rows.push({label:'En Nadir (Üretim Adedi)', val:`${rarest.car.brand} ${rarest.car.model}`, sub:`${rarest.val} adet`, car:rarest.car});
+  rows.push({label:'Toplam Marka', val:`${DATA.length}`, sub:'', car:null});
+  rows.push({label:'Toplam Araba', val:`${ALL.length}`, sub:'', car:null});
+
+  body.innerHTML = rows.map(r=>`
+    <div class="stat-row" ${r.car ? `onclick="closeStats();selectSearchResult('${r.car.brand.replace(/'/g,"\\'")}','${r.car.model.replace(/'/g,"\\'")}')"` : ''}>
+      <div>
+        <div class="stat-label">${r.label}</div>
+        <div class="stat-value">${r.val}</div>
+      </div>
+      <div class="stat-sub">${r.sub}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('statsOverlay').classList.add('open');
+}
+function closeStats(){
+  document.getElementById('statsOverlay').classList.remove('open');
+}
+
+// ---- Son Bakılanlar ----
+function getRecentlyViewed(){
+  try{ return JSON.parse(localStorage.getItem('garaj_recent') || '[]'); }catch(e){ return []; }
+}
+function addToRecentlyViewed(brandName, modelName){
+  let list = getRecentlyViewed().filter(r => !(r.brand===brandName && r.model===modelName));
+  list.unshift({brand:brandName, model:modelName});
+  list = list.slice(0, 6);
+  localStorage.setItem('garaj_recent', JSON.stringify(list));
+  renderRecentStrip();
+}
+function renderRecentStrip(){
+  const wrap = document.getElementById('recentStrip');
+  if(!wrap) return;
+  const list = getRecentlyViewed();
+  if(list.length === 0){ wrap.innerHTML = ''; return; }
+  wrap.innerHTML = `<div class="recent-row">${list.map((r,idx)=>{
+    const bg = plateGradient(r.brand, idx);
+    return `<div class="recent-chip" onclick="selectSearchResult('${r.brand.replace(/'/g,"\\'")}','${r.model.replace(/'/g,"\\'")}')">
+      <span class="recent-chip-swatch" style="background:${bg}"></span>
+      <span>${r.model}</span>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ---- Bugün Sana Bir Araba ----
+function renderTodayCarBanner(){
+  const wrap = document.getElementById('todayCarBanner');
+  if(!wrap || ALL.length===0) return;
+  const today = new Date();
+  const seed = today.getFullYear()*372 + today.getMonth()*31 + today.getDate();
+  const idx = seed % ALL.length;
+  const car = ALL[idx];
+  const bg = plateGradient(car.brand, idx);
+  wrap.innerHTML = `<div class="today-card" onclick="selectSearchResult('${car.brand.replace(/'/g,"\\'")}','${car.model.replace(/'/g,"\\'")}')">
+    <div class="today-swatch" style="background:${bg}"></div>
+    <div>
+      <div class="today-label">Bugün Sana Bir Araba</div>
+      <div class="today-name">${car.brand} ${car.model} (${car.year})</div>
+    </div>
+  </div>`;
+}
+
+// ---- Klavye kısayolları ----
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    const lightbox = document.getElementById('lightboxOverlay');
+    if(lightbox.classList.contains('open')){ closeLightbox(); return; }
+    const modal = document.getElementById('modalOverlay');
+    if(modal.classList.contains('open')){ closeModal(); return; }
+    const stats = document.getElementById('statsOverlay');
+    if(stats.classList.contains('open')){ closeStats(); return; }
+  }
+});
+
+// ---- Başlangıç ----
+applySavedTheme();
+applySavedFontScale();
+initVoiceSearchButton();
+renderTodayCarBanner();
+renderRecentStrip();
+
 renderFilters();
 renderMain();
+openFromHash();
 </script>
 </body>
 </html>
